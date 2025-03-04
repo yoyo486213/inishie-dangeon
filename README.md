@@ -1,3 +1,3 @@
 # inishie-dangeon
 a big cookie\n
-double big cookie
+double big cookie :D
