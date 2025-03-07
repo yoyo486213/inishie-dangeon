@@ -4,8 +4,9 @@
 #include "pch.hpp" // IWYU pragma: export
 
 #include "Util/Renderer.hpp"
-#include "AnimatedCharacter.hpp"
+#include "Menu.hpp"
 #include "Character.hpp"
+#include "AnimatedCharacter.hpp"
 
 class App {
 public:
@@ -33,7 +34,7 @@ private:
     std::shared_ptr<AnimatedCharacter> m_SSslidedown;
     std::shared_ptr<AnimatedCharacter> m_SSmenu;
 
-    std::shared_ptr<Character> m_NewGameBtn;
+    std::shared_ptr<Menu> m_NewGameBtn;
     
     Util::Renderer m_Root;
 };
