@@ -49,10 +49,19 @@ void App::Start() {
     m_SSmenu->SetPivot({0, 0});
     m_Root.AddChild(m_SSmenu);
 
-    m_NewGameBtn = std::make_shared<Menu>("../Resources/Button/Menu/NewGame/NewGame-1.png");
+    std::vector<std::string> NewGameBtnImages;
+    NewGameBtnImages.reserve(3);
+    for (int i = 1; i < 4; i++) {
+        snprintf(buffer, sizeof(buffer), "../Resources/button/Menu/NewGame/NewGame-%d.png", i);
+        NewGameBtnImages.emplace_back(buffer);
+    }
+    m_NewGameBtn = std::make_shared<Menu>(NewGameBtnImages);
     m_NewGameBtn->SetZIndex(6);
+    m_NewGameBtn->SetPosition({0, -300});
     m_NewGameBtn->SetVisible(false);
     m_Root.AddChild(m_NewGameBtn);
+
+    
 
     m_CurrentState = State::UPDATE;
 }
@@ -74,10 +83,21 @@ void App::Update() {
     }
     if (m_SSslidedown->IfAnimationToIndex(208)) {
         m_NewGameBtn->SetVisible(true);
-        m_NewGameBtn->MoveMenu({0, -300}, {0 ,10}, {0, -155});
+        m_NewGameBtn->Play();
+    }
+    if (m_NewGameBtn->GetState()) {
+        m_NewGameBtn->MoveMenu({0, 10}, {0, -155});
     }
 
-
+    if (m_NewGameBtn->IfFocus()) {
+        m_NewGameBtn->ChangeImage(2);
+    }
+    else { 
+        m_NewGameBtn->ChangeImage(1); 
+    }
+    if (m_NewGameBtn->IfClick()) {
+        m_NewGameBtn->ChangeImage(3);
+    }
 
     m_Root.Update();
     /*

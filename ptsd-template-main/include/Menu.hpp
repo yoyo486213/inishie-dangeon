@@ -7,9 +7,25 @@
 
 class Menu : public Character {
 public:
-    explicit Menu(const std::string& ImagePath);
+    explicit Menu(const std::vector<std::string>& ImagePath);
 
-    void MoveMenu(glm::vec2 spawn, glm::vec2 displacement, glm::vec2 goal);
+    void MoveMenu(glm::vec2 displacement, glm::vec2 goal);
+
+    void Play() { this->state = true; }
+
+    void Stop() { this->state = false; }
+
+    bool GetState() { return this->state; }
+
+    bool IfFocus();
+
+    bool IfClick();
+
+    void ChangeImage(int index);
+
+private:
+    bool state = false;
+    std::vector<std::string> ImagePath;
 };
 
 #endif
