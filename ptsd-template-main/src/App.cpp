@@ -5,6 +5,7 @@
 #include "Util/Keycode.hpp"
 #include "Util/Logger.hpp"
 
+#include "Menu.hpp"
 #include "Character.hpp"
 #include "AnimatedCharacter.hpp"
 
@@ -48,10 +49,9 @@ void App::Start() {
     m_SSmenu->SetPivot({0, 0});
     m_Root.AddChild(m_SSmenu);
 
-    m_NewGameBtn = std::make_shared<Character>("../Resources/Button/Menu/NewGame/NewGame-1.png");
+    m_NewGameBtn = std::make_shared<Menu>("../Resources/Button/Menu/NewGame/NewGame-1.png");
     m_NewGameBtn->SetZIndex(6);
-    m_NewGameBtn->SetVisible(true);
-    m_NewGameBtn->SetPosition({0, -300});
+    m_NewGameBtn->SetVisible(false);
     m_Root.AddChild(m_NewGameBtn);
 
     m_CurrentState = State::UPDATE;
@@ -71,6 +71,10 @@ void App::Update() {
         m_SSmenu->SetVisible(true);
         m_SSmenu->Play();
         m_SSmenu->SetLooping(true);
+    }
+    if (m_SSslidedown->IfAnimationToIndex(208)) {
+        m_NewGameBtn->SetVisible(true);
+        m_NewGameBtn->MoveMenu({0, -300}, {0 ,10}, {0, -155});
     }
 
 

@@ -1,5 +1,5 @@
-#ifndef AnimatedCharacter_HPP
-#define AnimatedCharacter_HPP
+#ifndef ANIMATEDCHARACTER_HPP
+#define ANIMATEDCHARACTER_HPP
 
 #include "pch.hpp"
 
@@ -17,6 +17,8 @@ public:
     void SetLooping(bool looping) {
         std::dynamic_pointer_cast<Util::Animation>(m_Drawable)->SetLooping(looping);
     }
+
+    [[nodiscard]] bool IfAnimationToIndex(int index) const;
 
     [[nodiscard]] bool IfAnimationEnds() const;
     
