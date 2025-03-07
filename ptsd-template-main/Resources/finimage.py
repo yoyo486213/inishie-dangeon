@@ -22,7 +22,7 @@ if bmp_files:
         img = Image.open(image_path)
 
         # 確保圖片大小為479x354
-        if img.size == (479, 354):
+        if img.size == (596, 446):
             # 分割圖片為上半部和下半部
             upper_half = img.crop((0, 0, width, height//2))
 
