@@ -48,12 +48,11 @@ void App::Start() {
     m_SSmenu->SetPivot({0, 0});
     m_Root.AddChild(m_SSmenu);
 
-    m_NewGameBtn = std::make_shared<Character>("../Resources/Button/NewGame-1.bmp");
+    m_NewGameBtn = std::make_shared<Character>("../Resources/Button/Menu/NewGame/NewGame-1.png");
     m_NewGameBtn->SetZIndex(6);
     m_NewGameBtn->SetVisible(true);
-    m_NewGameBtn->SetPosition({0, 0});
+    m_NewGameBtn->SetPosition({0, -300});
     m_Root.AddChild(m_NewGameBtn);
-
 
     m_CurrentState = State::UPDATE;
 }
