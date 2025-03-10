@@ -159,7 +159,7 @@ void App::Update() {
         m_CreateCharacter->SetState(true);
         m_SkinDoor->SetPosition({-3.5, 414});
         m_SkinDoor->SetVisible(true);
-        m_SkinDoor->SetCurrentFrame(10); //先切到關門
+        m_SkinDoor->SetCurrentFrame(11); //先切到關門
 
         m_CreateCharacterOpenBGM->Play(0);
     }
