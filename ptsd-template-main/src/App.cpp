@@ -72,11 +72,25 @@ void App::Start() {
     m_CreateCharacter->SetVisible(false);
     m_Root.AddChild(m_CreateCharacter);
 
-    m_CreateCharacterBGM = std::make_shared<MyBGM>("../Resources/MenuCloseSnd.wav");
+    std::vector<std::string> m_CreateCharacter_XImages;
+    m_CreateCharacter_XImages.reserve(3);
+    for (int i = 1; i < 4; i++) {
+        snprintf(buffer, sizeof(buffer), "../Resources/CreateCharacterCloseButton-%d.bmp", i);
+        m_CreateCharacter_XImages.emplace_back(buffer);
+    }
+    m_CreateCharacter_X = std::make_shared<MoveCharacter>(m_CreateCharacter_XImages);
+    m_CreateCharacter_X->SetZIndex(8);
+    m_CreateCharacter_X->SetVisible(false);
+    m_CreateCharacter_X->SetPosition({223, 184}); 
+    m_Root.AddChild(m_CreateCharacter_X);
+
+    m_CreateCharacterOpenBGM = std::make_shared<MyBGM>("../Resources/MenuOpenSnd.wav");
+    m_CreateCharacterCloseBGM = std::make_shared<MyBGM>("../Resources/MenuCloseSnd.wav");
+    m_SkinDoorBGM = std::make_shared<MyBGM>("../Resources/SkinDoorSnd.wav");
 
     std::vector<std::string> SkinDoorImages;
-    SkinDoorImages.reserve(20);
-    for (int i = 0; i < 20; i++) {
+    SkinDoorImages.reserve(23);
+    for (int i = 0; i < 23; i++) {
         snprintf(buffer, sizeof(buffer), "../Resources/SkinDoor-%02d.png", i);
         SkinDoorImages.emplace_back(buffer);
     }
@@ -84,6 +98,18 @@ void App::Start() {
     m_SkinDoor->SetZIndex(8);
     m_SkinDoor->SetVisible(false);
     m_Root.AddChild(m_SkinDoor);
+
+    m_SkinDoorFrame = std::make_shared<MoveCharacter>("../Resources/SkinDoorFrame.png");
+    m_SkinDoorFrame->SetZIndex(9);
+    m_SkinDoorFrame->SetVisible(false);
+    m_SkinDoorFrame->SetPosition({-3.5, 114.5});
+    m_Root.AddChild(m_SkinDoorFrame);
+
+    m_SkinDoorText = std::make_shared<MoveCharacter>("../Resources/Text/SkinDoorText/SkinDoorText.png");
+    m_SkinDoorText->SetZIndex(9);
+    m_SkinDoorText->SetVisible(false);
+    m_SkinDoorText->SetPosition({-3.5, 10});
+    m_Root.AddChild(m_SkinDoorText);
     
     m_SSdoor->Play();
     m_CurrentState = State::UPDATE;
@@ -111,7 +137,7 @@ void App::Update() {
     }
     if (m_SSslidedown->IfAnimationToIndex(208)) {
         m_NewGameBtn->SetVisible(true);
-        m_NewGameBtn->Play();
+        m_NewGameBtn->SetState(true);
     }
     if (m_NewGameBtn->GetState()) {
         m_NewGameBtn->Move({0, 10}, {0, -155});
@@ -127,24 +153,52 @@ void App::Update() {
     }
     if (m_NewGameBtn->IfClick()) {
         m_NewGameBtn->ChangeImage(3);
+        m_NewGameBtn->SetVisible(false);
         m_CreateCharacter->SetPosition({0, 300});
         m_CreateCharacter->SetVisible(true);
-        m_CreateCharacter->Play();
-        m_SkinDoor->SetPosition({-4, 414});
+        m_CreateCharacter->SetState(true);
+        m_SkinDoor->SetPosition({-3.5, 414});
         m_SkinDoor->SetVisible(true);
-        
-        m_SkinDoor->SetCurrentFrame(8);
+        m_SkinDoor->SetCurrentFrame(10); //先切到關門
 
-        m_CreateCharacterBGM->Play(0);
-        
+        m_CreateCharacterOpenBGM->Play(0);
     }
     if (m_CreateCharacter->GetState()) {
         m_CreateCharacter->Move({0, -20}, {0, 0});
-        m_SkinDoor->Move({0, -20}, {-4, 115});
+        m_SkinDoor->Move({0, -20}, {-3.5, 115.5});
     }
-    // if (m_CreateCharacter->GetVisibility() && (m_SkinChooseLDoor->IfClick()) {
-        
-    // }
+    if (m_CreateCharacter->GetVisibility() && !m_CreateCharacter->GetState()) {
+        m_CreateCharacter_X->ChangeImage(1);
+        m_CreateCharacter_X->SetVisible(true);
+    }
+    if (m_CreateCharacter_X->IfFocus()) {
+        m_CreateCharacter_X->ChangeImage(2);
+    }
+    if (m_CreateCharacter_X->IfClick()) {
+        m_CreateCharacter_X->ChangeImage(3);
+        m_CreateCharacter->SetVisible(false);
+        m_CreateCharacter_X->SetVisible(false);
+        m_SkinDoor->SetVisible(false);
+        m_NewGameBtn->SetVisible(true);
+        m_CreateCharacterCloseBGM->Play(0);
+    }
+    if (m_SkinDoor->IfFocus() && !m_SkinDoorFrame->GetUsed()) {
+        m_SkinDoorFrame->SetVisible(true);
+        m_SkinDoorText->SetVisible(true);
+    }
+    else {
+        m_SkinDoorFrame->SetVisible(false);
+        m_SkinDoorText->SetVisible(false);
+    }
+    if (m_CreateCharacter->GetVisibility() && m_SkinDoor->IfClick()) {
+        if (!m_SkinDoor->IfAnimationEnds() && m_SkinDoor->GetCurrentFrameIndex() >= m_SkinDoor->GetFrameCount() / 2) {
+            m_SkinDoor->SetCurrentFrame(m_SkinDoor->GetFrameCount() - m_SkinDoor->GetCurrentFrameIndex());
+        }
+        std::dynamic_pointer_cast<AnimatedCharacter>(m_SkinDoor)->Play();
+        m_SkinDoorBGM->Play(0);
+        m_SkinDoorFrame->SetUsed(true);
+        m_SkinDoorText->SetUsed(true);
+    }
 
     m_Root.Update();
     /*

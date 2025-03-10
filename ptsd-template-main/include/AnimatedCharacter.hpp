@@ -22,7 +22,13 @@ public:
         std::dynamic_pointer_cast<Util::Animation>(m_Drawable)->SetCurrentFrame(index);
     }
 
+    std::size_t GetCurrentFrameIndex() const { return std::dynamic_pointer_cast<Util::Animation>(m_Drawable)->GetCurrentFrameIndex(); }
+
+    std::size_t GetFrameCount() const { return std::dynamic_pointer_cast<Util::Animation>(m_Drawable)->GetFrameCount(); }
+
     glm::vec2 GetPosition() { return {m_Transform.translation.x, m_Transform.translation.y}; }
+
+    [[nodiscard]] bool GetVisibility() const { return m_Visible; }
     
     void SetPosition(const glm::vec2& Position) { m_Transform.translation = Position; }
 

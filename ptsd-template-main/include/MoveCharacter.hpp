@@ -13,15 +13,15 @@ public:
 
     void Move(glm::vec2 displacement, glm::vec2 goal);
 
-    void Play() { this->state = true; }
+    void SetState(bool state) { this->state = state; }
 
-    void Stop() { this->state = false; }
+    void SetUsed(bool used) { this->used = used; }
 
     bool GetState() { return this->state; }
 
-    bool IfFocus();
+    bool GetUsed() { return this->used; }
 
-    bool IfFocus(glm::vec2 pos);
+    bool IfFocus();
 
     bool IfClick();
 
@@ -29,6 +29,7 @@ public:
 
 private:
     bool state = false;
+    bool used = false;
     std::string ImagePath;
     std::vector<std::string> ImagePaths;
 };

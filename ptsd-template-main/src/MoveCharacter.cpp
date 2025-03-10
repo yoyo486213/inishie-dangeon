@@ -23,7 +23,7 @@ bool MoveCharacter::IfFocus() {
     int Menu_Y_Range[2] = {(this->GetPosition()[1] - (this->GetScaledSize()[1] / 2)), (this->GetPosition()[1] + (this->GetScaledSize()[1] / 2))};
     if((Cursor_X > Menu_X_Range[0]) && (Cursor_X < Menu_X_Range[1])) {
         if ((Cursor_Y > Menu_Y_Range[0]) && (Cursor_Y < Menu_Y_Range[1])) {
-            return true;
+            return true && GetVisibility();
         }
     }
     return false;

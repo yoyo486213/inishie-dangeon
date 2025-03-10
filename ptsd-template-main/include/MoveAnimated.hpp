@@ -11,9 +11,7 @@ public:
 
     void Move(glm::vec2 displacement, glm::vec2 goal);
 
-    void Play() { this->state = true; }
-
-    void Stop() { this->state = false; }
+    void SetState(bool state) { this->state = state; }
 
     bool GetState() { return this->state; }
 
