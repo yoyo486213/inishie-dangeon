@@ -75,7 +75,7 @@ void App::Start() {
     std::vector<std::string> m_CreateCharacter_XImages;
     m_CreateCharacter_XImages.reserve(3);
     for (int i = 1; i < 4; i++) {
-        snprintf(buffer, sizeof(buffer), "../Resources/CreateCharacterCloseButton-%d.bmp", i);
+        snprintf(buffer, sizeof(buffer), "../Resources/Button/CreateCharacterCloseButton/CreateCharacterCloseButton-%d.bmp", i);
         m_CreateCharacter_XImages.emplace_back(buffer);
     }
     m_CreateCharacter_X = std::make_shared<MoveCharacter>(m_CreateCharacter_XImages);
@@ -84,14 +84,14 @@ void App::Start() {
     m_CreateCharacter_X->SetPosition({223, 184}); 
     m_Root.AddChild(m_CreateCharacter_X);
 
-    m_CreateCharacterOpenBGM = std::make_shared<MyBGM>("../Resources/MenuOpenSnd.wav");
-    m_CreateCharacterCloseBGM = std::make_shared<MyBGM>("../Resources/MenuCloseSnd.wav");
-    m_SkinDoorBGM = std::make_shared<MyBGM>("../Resources/SkinDoorSnd.wav");
+    m_CreateCharacterOpenBGM = std::make_shared<MyBGM>("../Resources/BGM/MenuOpenSnd.wav");
+    m_CreateCharacterCloseBGM = std::make_shared<MyBGM>("../Resources/BGM/MenuCloseSnd.wav");
+    m_SkinDoorBGM = std::make_shared<MyBGM>("../Resources/BGM/SkinDoorSnd.wav");
 
     std::vector<std::string> SkinDoorImages;
     SkinDoorImages.reserve(23);
     for (int i = 0; i < 23; i++) {
-        snprintf(buffer, sizeof(buffer), "../Resources/SkinDoor-%02d.png", i);
+        snprintf(buffer, sizeof(buffer), "../Resources/MenuAnime/SkinDoor/SkinDoor-%02d.png", i);
         SkinDoorImages.emplace_back(buffer);
     }
     m_SkinDoor = std::make_shared<MoveAnimated>(SkinDoorImages);
@@ -99,7 +99,7 @@ void App::Start() {
     m_SkinDoor->SetVisible(false);
     m_Root.AddChild(m_SkinDoor);
 
-    m_SkinDoorFrame = std::make_shared<MoveCharacter>("../Resources/SkinDoorFrame.png");
+    m_SkinDoorFrame = std::make_shared<MoveCharacter>("../Resources/Menu/SkinDoorFrame/SkinDoorFrame.png");
     m_SkinDoorFrame->SetZIndex(9);
     m_SkinDoorFrame->SetVisible(false);
     m_SkinDoorFrame->SetPosition({-3.5, 114.5});
