@@ -3,16 +3,22 @@ set(SRC_FILES
     MyBGM.cpp
     Character.cpp
     AnimatedCharacter.cpp
-    MoveCharacter.cpp
+    Menu.cpp
+    Menus/CreateCharacterMenu.cpp
+    Button.cpp
     MoveAnimated.cpp
 )
 
 set(INCLUDE_FILES
+    IClickable.hpp
+    IMoveable.hpp
     App.hpp
     MyBGM.hpp
     Character.hpp
     AnimatedCharacter.hpp
-    MoveCharacter.hpp
+    Menu.hpp
+    Menus/CreateCharacterMenu.hpp
+    Button.hpp
     MoveAnimated.hpp
 )
 

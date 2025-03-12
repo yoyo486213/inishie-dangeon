@@ -4,8 +4,10 @@
 #include "pch.hpp"
 
 #include "AnimatedCharacter.hpp"
+#include "IClickable.hpp"
+#include "IMoveable.hpp"
 
-class MoveAnimated : public AnimatedCharacter {
+class MoveAnimated : public AnimatedCharacter, public IClickable, public IMoveable {
 public:
     explicit MoveAnimated(const std::vector<std::string>& ImagePaths);
 
@@ -15,9 +17,9 @@ public:
 
     bool GetState() { return this->state; }
 
-    bool IfFocus();
+    bool IfFocus() override;
 
-    bool IfClick();
+    bool IfClick() override;
 
 private:
     bool state = false;

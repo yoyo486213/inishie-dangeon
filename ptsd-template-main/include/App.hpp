@@ -1,14 +1,18 @@
 #ifndef APP_HPP
 #define APP_HPP
 
+#include "Menus/CreateCharacterMenu.hpp"
 #include "pch.hpp" // IWYU pragma: export
 
 #include "Util/Renderer.hpp"
 #include "MyBGM.hpp"
 #include "Character.hpp"
 #include "AnimatedCharacter.hpp"
-#include "MoveCharacter.hpp"
+#include "Menu.hpp"
+#include "Menus/CreateCharacterMenu.hpp"
+#include "Button.hpp"
 #include "MoveAnimated.hpp"
+#include <memory>
 
 class App {
 public:
@@ -36,17 +40,19 @@ private:
     std::shared_ptr<AnimatedCharacter> m_SSslidedown;
     std::shared_ptr<AnimatedCharacter> m_SSmenu;
 
-    std::shared_ptr<MoveCharacter> m_NewGameBtn;
+    std::shared_ptr<Button> m_NewGameBtn;
     std::shared_ptr<MyBGM> m_CreateCharacterOpenBGM;
     std::shared_ptr<MyBGM> m_CreateCharacterCloseBGM;
     std::shared_ptr<MyBGM> m_SkinDoorBGM;
-    std::shared_ptr<MoveCharacter> m_NewGameText;
-    std::shared_ptr<MoveCharacter> m_CreateCharacter;
-    std::shared_ptr<MoveCharacter> m_CreateCharacter_X;
+    std::shared_ptr<Menu> m_NewGameText;
+    std::shared_ptr<Menu> m_CreateCharacter;
+    std::shared_ptr<Button> m_CreateCharacter_X;
     std::shared_ptr<MoveAnimated> m_SkinDoor;
-    std::shared_ptr<MoveCharacter> m_SkinDoorFrame;
-    std::shared_ptr<MoveCharacter> m_SkinDoorText;
+    std::shared_ptr<Menu> m_SkinDoorFrame;
+    std::shared_ptr<Menu> m_SkinDoorText;
     
+    std::shared_ptr<CreateCharacterMenu> m_CreateCharacterMenu = std::make_shared<CreateCharacterMenu>();
+
     Util::Renderer m_Root;
 };
 
