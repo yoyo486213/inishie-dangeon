@@ -35,6 +35,8 @@ public:
 
     void ChangeImage(int index);
 
+    virtual ~Button() = default;
+
 private:
     State state = State::Stop;
     bool used = false;

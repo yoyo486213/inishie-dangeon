@@ -40,18 +40,13 @@ private:
     std::shared_ptr<AnimatedCharacter> m_SSslidedown;
     std::shared_ptr<AnimatedCharacter> m_SSmenu;
 
-    std::shared_ptr<Button> m_NewGameBtn;
+    std::shared_ptr<Menu> m_NewGameBtn;
     std::shared_ptr<MyBGM> m_CreateCharacterOpenBGM;
     std::shared_ptr<MyBGM> m_CreateCharacterCloseBGM;
     std::shared_ptr<MyBGM> m_SkinDoorBGM;
     std::shared_ptr<Menu> m_NewGameText;
-    std::shared_ptr<Menu> m_CreateCharacter;
-    std::shared_ptr<Button> m_CreateCharacter_X;
-    std::shared_ptr<MoveAnimated> m_SkinDoor;
-    std::shared_ptr<Menu> m_SkinDoorFrame;
-    std::shared_ptr<Menu> m_SkinDoorText;
     
-    std::shared_ptr<CreateCharacterMenu> m_CreateCharacterMenu = std::make_shared<CreateCharacterMenu>();
+    std::shared_ptr<CreateCharacterMenu> m_CreateCharacterMenu;
 
     Util::Renderer m_Root;
 };

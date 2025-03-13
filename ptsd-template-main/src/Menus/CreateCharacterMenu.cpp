@@ -1,9 +1,10 @@
 #include "Menus/CreateCharacterMenu.hpp"
 
-CreateCharacterMenu::CreateCharacterMenu() {
+CreateCharacterMenu::CreateCharacterMenu(Util::Renderer *m_Root) {
     m_CreateCharacterMenu = std::make_shared<Menu>("../Resources/Menu/CreateCharacter/CreateCharacter.png");
     m_CreateCharacterMenu->SetZIndex(7);
     m_CreateCharacterMenu->SetVisible(false);
+    m_Root->AddChild(m_CreateCharacterMenu);
 
 
     char buffer[100];
@@ -17,6 +18,7 @@ CreateCharacterMenu::CreateCharacterMenu() {
     m_CreateCharacter_X->SetZIndex(8);
     m_CreateCharacter_X->SetVisible(false);
     m_CreateCharacter_X->SetPosition({223, 184}); 
+    m_Root->AddChild(m_CreateCharacter_X);
 
 
     std::vector<std::string> m_WarriorDoorImages;
@@ -28,16 +30,18 @@ CreateCharacterMenu::CreateCharacterMenu() {
     m_WarriorDoor = std::make_shared<MoveAnimated>(m_WarriorDoorImages);
     m_WarriorDoor->SetZIndex(8);
     m_WarriorDoor->SetVisible(false);
-
+    m_Root->AddChild(m_WarriorDoor);
 
     m_WarriorDoorFrame = std::make_shared<Menu>("../Resources/Menu/SkinDoorFrame/SkinDoorFrame.png");
     m_WarriorDoorFrame->SetZIndex(9);
     m_WarriorDoorFrame->SetVisible(false);
     m_WarriorDoorFrame->SetPosition({-3.5, 114.5});
+    m_Root->AddChild(m_WarriorDoorFrame);
 
 
     m_WarriorDoorText = std::make_shared<Menu>("../Resources/Text/SkinDoorText/SkinDoorText.png");
     m_WarriorDoorText->SetZIndex(9);
     m_WarriorDoorText->SetVisible(false);
     m_WarriorDoorText->SetPosition({-3.5, 10});
+    m_Root->AddChild(m_WarriorDoorText);
 }

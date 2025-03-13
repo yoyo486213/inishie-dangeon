@@ -21,6 +21,8 @@ public:
 
     bool IfClick() override;
 
+    virtual ~MoveAnimated() = default;
+
 private:
     bool state = false;
 };

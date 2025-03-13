@@ -56,7 +56,7 @@ void App::Start() {
         snprintf(buffer, sizeof(buffer), "../Resources/button/Menu/NewGame/NewGame-%d.png", i);
         NewGameBtnImages.emplace_back(buffer);
     }
-    m_NewGameBtn = std::make_shared<Button>(NewGameBtnImages);
+    m_NewGameBtn = std::make_shared<Menu>(NewGameBtnImages);
     m_NewGameBtn->SetZIndex(6);
     m_NewGameBtn->SetPosition({0, -300});
     m_NewGameBtn->SetVisible(false);
@@ -112,6 +112,7 @@ void App::Start() {
     // m_SkinDoorText->SetPosition({-3.5, 10});
     // m_Root.AddChild(m_SkinDoorText);
     
+    m_CreateCharacterMenu = std::make_shared<CreateCharacterMenu>(&m_Root);
 
     m_SSdoor->Play();
     m_CurrentState = State::UPDATE;
@@ -138,9 +139,9 @@ void App::Update() {
     }
     if (m_SSslidedown->IfAnimationToIndex(208)) {
         m_NewGameBtn->SetVisible(true);
-        m_NewGameBtn->SetState(Button::State::Open);
+        m_NewGameBtn->SetState(Menu::State::Open);
     }
-    if (m_NewGameBtn->GetState() == Button::State::Open) {
+    if (m_NewGameBtn->GetState() == Menu::State::Open) {
         m_NewGameBtn->Move({0, 10}, {0, -155});
     }
 
@@ -162,44 +163,44 @@ void App::Update() {
         m_CreateCharacterMenu->m_WarriorDoor->SetVisible(true);
         m_CreateCharacterMenu->m_WarriorDoor->SetCurrentFrame(11); //先切到關門
 
-        m_CreateCharacterOpenBGM->Play(0);
+        // m_CreateCharacterOpenBGM->Play(0);
     }
-    if (m_CreateCharacterMenu->m_CreateCharacterMenu->GetState() == Menu::State::Open) {
-        m_CreateCharacterMenu->m_CreateCharacterMenu->Move({0, -20}, {0, 0});
-        m_CreateCharacterMenu->m_WarriorDoor->Move({0, -20}, {-3.5, 115.5});
-    }
-    if (m_CreateCharacterMenu->m_CreateCharacterMenu->GetVisibility() && m_CreateCharacterMenu->m_CreateCharacterMenu->GetState() == Menu::State::Stop) {
-        m_CreateCharacterMenu->m_CreateCharacter_X->ChangeImage(1);
-        m_CreateCharacterMenu->m_CreateCharacter_X->SetVisible(true);
-    }
-    if (m_CreateCharacterMenu->m_CreateCharacter_X->IfFocus()) {
-        m_CreateCharacterMenu->m_CreateCharacter_X->ChangeImage(2);
-    }
-    if (m_CreateCharacterMenu->m_CreateCharacter_X->IfClick()) {
-        m_CreateCharacterMenu->m_CreateCharacter_X->ChangeImage(3);
-        m_CreateCharacterMenu->m_CreateCharacterMenu->SetVisible(false);
-        m_CreateCharacterMenu->m_CreateCharacter_X->SetVisible(false);
-        m_CreateCharacterMenu->m_WarriorDoor->SetVisible(false);
-        m_NewGameBtn->SetVisible(true);
-        m_CreateCharacterCloseBGM->Play(0);
-    }
-    if (m_CreateCharacterMenu->m_WarriorDoor->IfFocus() && !m_CreateCharacterMenu->m_WarriorDoorFrame->GetUsed()) {
-        m_CreateCharacterMenu->m_WarriorDoorFrame->SetVisible(true);
-        m_CreateCharacterMenu->m_WarriorDoorText->SetVisible(true);
-    }
-    else {
-        m_CreateCharacterMenu->m_WarriorDoorFrame->SetVisible(false);
-        m_CreateCharacterMenu->m_WarriorDoorText->SetVisible(false);
-    }
-    if (m_CreateCharacterMenu->m_CreateCharacterMenu->GetVisibility() && m_CreateCharacterMenu->m_WarriorDoor->IfClick()) {
-        if (!m_CreateCharacterMenu->m_WarriorDoor->IfAnimationEnds() && m_CreateCharacterMenu->m_WarriorDoor->GetCurrentFrameIndex() >= m_CreateCharacterMenu->m_WarriorDoor->GetFrameCount() / 2) {
-            m_CreateCharacterMenu->m_WarriorDoor->SetCurrentFrame(m_CreateCharacterMenu->m_WarriorDoor->GetFrameCount() - m_CreateCharacterMenu->m_WarriorDoor->GetCurrentFrameIndex());
-        }
-        std::dynamic_pointer_cast<AnimatedCharacter>(m_SkinDoor)->Play();
-        m_SkinDoorBGM->Play(0);
-        m_CreateCharacterMenu->m_WarriorDoorFrame->SetUsed(true);
-        m_SkinDoorText->SetUsed(true);
-    }
+    // if (m_CreateCharacterMenu->m_CreateCharacterMenu->GetState() == Menu::State::Open) {
+    //     m_CreateCharacterMenu->m_CreateCharacterMenu->Move({0, -20}, {0, 0});
+    //     m_CreateCharacterMenu->m_WarriorDoor->Move({0, -20}, {-3.5, 115.5});
+    // }
+    // if (m_CreateCharacterMenu->m_CreateCharacterMenu->GetVisibility() && m_CreateCharacterMenu->m_CreateCharacterMenu->GetState() == Menu::State::Stop) {
+    //     m_CreateCharacterMenu->m_CreateCharacter_X->ChangeImage(1);
+    //     m_CreateCharacterMenu->m_CreateCharacter_X->SetVisible(true);
+    // }
+    // if (m_CreateCharacterMenu->m_CreateCharacter_X->IfFocus()) {
+    //     m_CreateCharacterMenu->m_CreateCharacter_X->ChangeImage(2);
+    // }
+    // if (m_CreateCharacterMenu->m_CreateCharacter_X->IfClick()) {
+    //     m_CreateCharacterMenu->m_CreateCharacter_X->ChangeImage(3);
+    //     m_CreateCharacterMenu->m_CreateCharacterMenu->SetVisible(false);
+    //     m_CreateCharacterMenu->m_CreateCharacter_X->SetVisible(false);
+    //     m_CreateCharacterMenu->m_WarriorDoor->SetVisible(false);
+    //     m_NewGameBtn->SetVisible(true);
+    //     m_CreateCharacterCloseBGM->Play(0);
+    // }
+    // if (m_CreateCharacterMenu->m_WarriorDoor->IfFocus() && !m_CreateCharacterMenu->m_WarriorDoorFrame->GetUsed()) {
+    //     m_CreateCharacterMenu->m_WarriorDoorFrame->SetVisible(true);
+    //     m_CreateCharacterMenu->m_WarriorDoorText->SetVisible(true);
+    // }
+    // else {
+    //     m_CreateCharacterMenu->m_WarriorDoorFrame->SetVisible(false);
+    //     m_CreateCharacterMenu->m_WarriorDoorText->SetVisible(false);
+    // }
+    // if (m_CreateCharacterMenu->m_CreateCharacterMenu->GetVisibility() && m_CreateCharacterMenu->m_WarriorDoor->IfClick()) {
+    //     if (!m_CreateCharacterMenu->m_WarriorDoor->IfAnimationEnds() && m_CreateCharacterMenu->m_WarriorDoor->GetCurrentFrameIndex() >= m_CreateCharacterMenu->m_WarriorDoor->GetFrameCount() / 2) {
+    //         m_CreateCharacterMenu->m_WarriorDoor->SetCurrentFrame(m_CreateCharacterMenu->m_WarriorDoor->GetFrameCount() - m_CreateCharacterMenu->m_WarriorDoor->GetCurrentFrameIndex());
+    //     }
+    //     std::dynamic_pointer_cast<AnimatedCharacter>(m_CreateCharacterMenu->m_WarriorDoor)->Play();
+    //     m_SkinDoorBGM->Play(0);
+    //     m_CreateCharacterMenu->m_WarriorDoorFrame->SetUsed(true);
+    //     m_CreateCharacterMenu->m_WarriorDoorText->SetUsed(true);
+    // }
 
     m_Root.Update();
     /*
@@ -207,7 +208,7 @@ void App::Update() {
      * closing the window.
      */
     if (Util::Input::IsKeyUp(Util::Keycode::BACKSPACE)) {
-        m_CreateCharacterMenu->m_CreateCharacterMenu->SetVisible(false);
+        // m_CreateCharacterMenu->m_CreateCharacterMenu->SetVisible(false);
     }
     if (Util::Input::IsKeyUp(Util::Keycode::ESCAPE) ||
         Util::Input::IfExit()) {
