@@ -5,7 +5,9 @@ set(SRC_FILES
     AnimatedCharacter.cpp
     Menu.cpp
     Menus/CreateCharacterMenu.cpp
+    Menus/StartMenu.cpp
     Button.cpp
+    Buttons/NewGameButton.cpp
     MoveAnimated.cpp
 )
 
@@ -18,7 +20,9 @@ set(INCLUDE_FILES
     AnimatedCharacter.hpp
     Menu.hpp
     Menus/CreateCharacterMenu.hpp
+    Menus/StartMenu.hpp
     Button.hpp
+    Buttons/NewGameButton.hpp
     MoveAnimated.hpp
 )
 

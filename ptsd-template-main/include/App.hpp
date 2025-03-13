@@ -10,7 +10,9 @@
 #include "AnimatedCharacter.hpp"
 #include "Menu.hpp"
 #include "Menus/CreateCharacterMenu.hpp"
+#include "Menus/StartMenu.hpp"
 #include "Button.hpp"
+#include "Buttons/NewGameButton.hpp"
 #include "MoveAnimated.hpp"
 #include <memory>
 
@@ -36,16 +38,11 @@ private:
 private:
     State m_CurrentState = State::START;
     
-    std::shared_ptr<AnimatedCharacter> m_SSdoor;
-    std::shared_ptr<AnimatedCharacter> m_SSslidedown;
-    std::shared_ptr<AnimatedCharacter> m_SSmenu;
-
-    std::shared_ptr<Menu> m_NewGameBtn;
-    std::shared_ptr<MyBGM> m_CreateCharacterOpenBGM;
-    std::shared_ptr<MyBGM> m_CreateCharacterCloseBGM;
-    std::shared_ptr<MyBGM> m_SkinDoorBGM;
-    std::shared_ptr<Menu> m_NewGameText;
+    std::shared_ptr<AnimatedCharacter> m_StartAnime;
     
+    std::shared_ptr<StartMenu> m_StartMenu;
+
+    std::shared_ptr<NewGameButton> m_NewGameButton;
     std::shared_ptr<CreateCharacterMenu> m_CreateCharacterMenu;
 
     Util::Renderer m_Root;
