@@ -7,7 +7,7 @@
 #include "IClickable.hpp"
 #include "IMoveable.hpp"
 
-class Menu : public Character {
+class Menu : public Character , public IClickable, public IMoveable{
 public:
     enum class State{
         Open,
@@ -19,7 +19,7 @@ public:
 
     explicit Menu(const std::vector<std::string>& ImagePaths);
 
-    void Move(glm::vec2 displacement, glm::vec2 goal);
+    void Move(glm::vec2 displacement, glm::vec2 goal) override;
 
     void SetState(State state) { this->state = state; }
 
@@ -29,9 +29,9 @@ public:
 
     bool GetUsed() { return this->used; }
 
-    bool IfFocus();
+    bool IfFocus() override;
 
-    bool IfClick();
+    bool IfClick() override;
 
     void ChangeImage(int index);
 
