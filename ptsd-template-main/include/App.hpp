@@ -1,7 +1,6 @@
 #ifndef APP_HPP
 #define APP_HPP
 
-#include "Menus/CreateCharacterMenu.hpp"
 #include "pch.hpp" // IWYU pragma: export
 
 #include "Util/Renderer.hpp"

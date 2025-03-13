@@ -71,7 +71,7 @@ void App::Update() {
      * closing the window.
      */
     if (Util::Input::IsKeyUp(Util::Keycode::BACKSPACE)) {
-        // m_CreateCharacterMenu->m_CreateCharacterMenu->SetVisible(false);
+        m_CreateCharacterMenu->CloseMenu();
     }
     if (Util::Input::IsKeyUp(Util::Keycode::ESCAPE) ||
         Util::Input::IfExit()) {
