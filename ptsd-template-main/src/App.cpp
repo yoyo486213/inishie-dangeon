@@ -34,6 +34,7 @@ void App::Start() {
     m_StartMenu = std::make_shared<StartMenu>(&m_Root);
     m_NewGameButton = std::make_shared<NewGameButton>(&m_Root);
     m_CreateCharacterMenu = std::make_shared<CreateCharacterMenu>(&m_Root);
+    m_NameKeyBoard = std::make_shared<NameKeyBoard>(&m_Root);
     
     m_CurrentState = State::UPDATE;
 }
@@ -56,8 +57,10 @@ void App::Update() {
 
     m_NewGameButton->Update();
     if (m_NewGameButton->IfClick()) {
+        m_NewGameButton->Close();
         m_CreateCharacterMenu->OpenMenu();
     }
+    
     
     if(m_CreateCharacterMenu->GetState() != Menu::State::Close) {
         m_CreateCharacterMenu->Update();

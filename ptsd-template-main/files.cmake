@@ -8,6 +8,7 @@ set(SRC_FILES
     Menus/StartMenu.cpp
     Button.cpp
     Buttons/NewGameButton.cpp
+    Buttons/NameKeyBoard.cpp
     MoveAnimated.cpp
 )
 
@@ -23,6 +24,7 @@ set(INCLUDE_FILES
     Menus/StartMenu.hpp
     Button.hpp
     Buttons/NewGameButton.hpp
+    Buttons/NameKeyBoard.hpp
     MoveAnimated.hpp
 )
 

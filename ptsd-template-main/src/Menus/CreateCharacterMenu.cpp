@@ -56,6 +56,7 @@ CreateCharacterMenu::CreateCharacterMenu(Util::Renderer *m_Root) {
 }
 
 void CreateCharacterMenu::OpenMenu(){
+    state = State::Open;
     m_MenuBackGround->SetPosition({0, 500});
     m_MenuBackGround->SetVisible(true);
     m_MenuBackGround->SetState(Menu::State::Open);
@@ -69,6 +70,7 @@ void CreateCharacterMenu::OpenMenu(){
 }
 
 void CreateCharacterMenu::CloseMenu(){
+    state = State::Close;
     m_CreateCharacter_X->ChangeImage(3);
     m_WarriorDoorFrame->SetUsed(false);
     m_MenuBackGround->SetState(Menu::State::Close);
@@ -117,5 +119,14 @@ void CreateCharacterMenu::Update(){
         m_WarriorDoorBGM->Play(0);
         m_WarriorDoorFrame->SetUsed(true);
         m_WarriorDoorText->SetUsed(true);
+    }
+    
+    if (state == State::Close && m_MenuBackGround->GetState() == Menu::State::Stop) {
+        m_MenuBackGround->SetVisible(false);
+        m_WarriorDoor->SetVisible(false);
+        m_CreateCharacter_X->SetVisible(false);
+    }
+    else if (state == State::Open) {
+        this->SetVisible(true);
     }
 }

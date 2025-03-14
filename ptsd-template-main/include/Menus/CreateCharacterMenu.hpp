@@ -10,6 +10,11 @@
 
 class CreateCharacterMenu : public Util::GameObject{
 public:
+    enum class State {
+        Open,
+        Close,
+    };
+
     CreateCharacterMenu(Util::Renderer *m_Root);
     
     virtual ~CreateCharacterMenu() = default;
@@ -31,6 +36,8 @@ private:
     std::shared_ptr<MyBGM> m_MenuOpenBGM;
     std::shared_ptr<MyBGM> m_MenuCloseBGM;
     std::shared_ptr<MyBGM> m_WarriorDoorBGM;
+
+    State state;
 };
 
 #endif //CREATECHARACTERMENU_HPP

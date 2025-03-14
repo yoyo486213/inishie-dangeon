@@ -33,13 +33,14 @@ void NewGameButton::Skip(){
     m_NewGameBtn->SetPosition({0, -155});
 }
 
+void NewGameButton::Close() {
+    m_NewGameBtn->SetVisible(false);
+    m_NewGameText->SetVisible(false);
+}
+
 void NewGameButton::Update(){
     if (m_NewGameBtn->IfPressed()) { 
         m_NewGameBtn->ChangeImage(3); 
-        m_NewGameText->SetVisible(false);
-    }
-    else if (m_NewGameBtn->IfClick()) {
-        m_NewGameBtn->SetVisible(false);
     }
     else if (m_NewGameBtn->IfFocus()) {
         m_NewGameBtn->ChangeImage(2);
@@ -47,6 +48,7 @@ void NewGameButton::Update(){
     }
     else {
         m_NewGameBtn->ChangeImage(1);
+        m_NewGameText->SetVisible(false);
     }
     
     if (m_NewGameBtn->GetState() == Button::State::Open) {

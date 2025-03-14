@@ -13,8 +13,9 @@ public:
     virtual ~NewGameButton() = default;
 
     void Open();
-
     void Skip();
+
+    void Close();
     
     void Update();
     
