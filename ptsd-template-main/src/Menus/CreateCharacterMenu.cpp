@@ -1,4 +1,5 @@
 #include "Menus/CreateCharacterMenu.hpp"
+#include "Menu.hpp"
 
 CreateCharacterMenu::CreateCharacterMenu(Util::Renderer *m_Root) {
     //初始化創角菜單背景
@@ -54,18 +55,16 @@ CreateCharacterMenu::CreateCharacterMenu(Util::Renderer *m_Root) {
     m_WarriorDoorBGM = std::make_shared<MyBGM>("../Resources/BGM/SkinDoorSnd.wav");
 }
 
-
-Menu::State CreateCharacterMenu::GetStats(){
-    return m_MenuBackGround->GetState();
-}
-
 void CreateCharacterMenu::OpenMenu(){
-    m_MenuBackGround->SetPosition({0, 300});
+    m_MenuBackGround->SetPosition({0, 500});
     m_MenuBackGround->SetVisible(true);
     m_MenuBackGround->SetState(Menu::State::Open);
-    m_WarriorDoor->SetPosition({-3.5, 414});
+    m_WarriorDoor->SetPosition({-3.5, 614});
     m_WarriorDoor->SetVisible(true);
     m_WarriorDoor->SetCurrentFrame(11); //先切到關門
+    m_CreateCharacter_X->SetPosition({223, 684});
+    m_CreateCharacter_X->SetVisible(true);
+    m_CreateCharacter_X->ChangeImage(1);
     m_MenuOpenBGM->Play(0);
 }
 
@@ -73,9 +72,7 @@ void CreateCharacterMenu::CloseMenu(){
     m_CreateCharacter_X->ChangeImage(3);
     m_WarriorDoorFrame->SetUsed(false);
     m_MenuBackGround->SetState(Menu::State::Close);
-    m_MenuBackGround->SetVisible(false);
     m_CreateCharacter_X->SetVisible(false);
-    m_WarriorDoor->SetVisible(false);
     m_MenuCloseBGM->Play(0);
 }
 
@@ -83,15 +80,20 @@ void CreateCharacterMenu::Update(){
     if (m_MenuBackGround->GetState() == Menu::State::Open) {
         m_MenuBackGround->Move({0, -20}, {0, 0});
         m_WarriorDoor->Move({0, -20}, {-3.5, 115.5});
+        m_CreateCharacter_X->Move({0, -20}, {223, 184});
     }
-
-    if (m_MenuBackGround->GetVisibility() && m_MenuBackGround->GetState() == Menu::State::Stop) {
-        m_CreateCharacter_X->ChangeImage(1);
-        m_CreateCharacter_X->SetVisible(true);
+    if (m_MenuBackGround->GetState() == Menu::State::Close) {
+        m_MenuBackGround->Move({0, 20}, {0, 500});
+        m_WarriorDoor->Move({0, 20}, {0, 500});
+        m_CreateCharacter_X->Move({0, 20}, {0, 500});
     }
 
     if (m_CreateCharacter_X->IfFocus()) {
         m_CreateCharacter_X->ChangeImage(2);
+    }
+
+    if (m_CreateCharacter_X->IfPressed()) {
+        m_CreateCharacter_X->ChangeImage(3);
     }
 
     if (m_CreateCharacter_X->IfClick()) {

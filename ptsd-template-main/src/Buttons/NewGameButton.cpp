@@ -1,8 +1,8 @@
 #include "Buttons/NewGameButton.hpp"
+#include <memory>
 
 NewGameButton::NewGameButton(Util::Renderer *m_Root) {
     char buffer[100];
-
     //初始化按鈕
     std::vector<std::string> NewGameBtnImages;  
     NewGameBtnImages.reserve(3);
@@ -10,7 +10,7 @@ NewGameButton::NewGameButton(Util::Renderer *m_Root) {
         snprintf(buffer, sizeof(buffer), "../Resources/button/Menu/NewGame/NewGame-%d.png", i);
         NewGameBtnImages.emplace_back(buffer);
     }
-    m_NewGameBtn = std::make_shared<Menu>(NewGameBtnImages);
+    m_NewGameBtn = std::make_shared<Button>(NewGameBtnImages);
     m_NewGameBtn->SetZIndex(6);
     m_NewGameBtn->SetPosition({0, -300});
     m_NewGameBtn->SetVisible(false);
@@ -22,19 +22,11 @@ NewGameButton::NewGameButton(Util::Renderer *m_Root) {
     m_NewGameText->SetPosition({0, -75});
     m_NewGameText->SetVisible(false);
     m_Root->AddChild(m_NewGameText);
-
-}
-
-
-bool NewGameButton::GetClicked() { return m_NewGameBtn->IfClick(); }
-
-Menu::State NewGameButton::GetStats(){
-    return m_NewGameBtn->GetState();
 }
 
 void NewGameButton::Open(){
     m_NewGameBtn->SetVisible(true);
-    m_NewGameBtn->SetState(Menu::State::Open);
+    m_NewGameBtn->SetState(Button::State::Open);
 }
 void NewGameButton::Skip(){
     m_NewGameBtn->SetVisible(true);
@@ -42,21 +34,22 @@ void NewGameButton::Skip(){
 }
 
 void NewGameButton::Update(){
-    if (m_NewGameBtn->IfFocus()) {
+    if (m_NewGameBtn->IfPressed()) { 
+        m_NewGameBtn->ChangeImage(3); 
+        m_NewGameText->SetVisible(false);
+    }
+    else if (m_NewGameBtn->IfClick()) {
+        m_NewGameBtn->SetVisible(false);
+    }
+    else if (m_NewGameBtn->IfFocus()) {
         m_NewGameBtn->ChangeImage(2);
         m_NewGameText->SetVisible(true);
     }
-    else { 
-        m_NewGameBtn->ChangeImage(1); 
-        m_NewGameText->SetVisible(false);
+    else {
+        m_NewGameBtn->ChangeImage(1);
     }
-
-    if (GetClicked()){
-        m_NewGameBtn->ChangeImage(3);
-        m_NewGameBtn->SetVisible(false);
-    }
-
-    if (m_NewGameBtn->GetState() == Menu::State::Open) {
+    
+    if (m_NewGameBtn->GetState() == Button::State::Open) {
         m_NewGameBtn->Move({0, 10}, {0, -155});
     }
 }

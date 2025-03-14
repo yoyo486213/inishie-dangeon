@@ -10,8 +10,10 @@
 class MoveAnimated : public AnimatedCharacter, public IClickable, public IMoveable {
 public:
     explicit MoveAnimated(const std::vector<std::string>& ImagePaths);
+    
+    virtual ~MoveAnimated() = default;
 
-    void Move(glm::vec2 displacement, glm::vec2 goal);
+    void Move(glm::vec2 displacement, glm::vec2 goal) override;
 
     void SetState(bool state) { this->state = state; }
 
@@ -21,7 +23,7 @@ public:
 
     bool IfClick() override;
 
-    virtual ~MoveAnimated() = default;
+    bool IfPressed() override;
 
 private:
     bool state = false;

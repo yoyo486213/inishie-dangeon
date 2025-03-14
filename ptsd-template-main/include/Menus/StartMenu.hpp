@@ -22,21 +22,25 @@ public:
     };
 
     StartMenu(Util::Renderer *m_Root);
-
-    void OpenMenu();
-    bool OpenButton();
-    bool SkipButton();
-
-    State GetState();
-    void SetState(State State);
-
+    
+    virtual ~StartMenu() = default;
+    
     void Update();
 
-    virtual ~StartMenu() = default;
+    void OpenMenu();
+
+    bool OpenButton();
+
+    bool SkipButton();
+
+    State GetState() { return MenuState; }
+
+    void SetState(State State) { MenuState = State; }
+
 private:
+    State MenuState;
     std::shared_ptr<AnimatedCharacter> m_SSslidedown;
     std::shared_ptr<AnimatedCharacter> m_SSmenu;
-    State MenuState;
 };
 
 #endif //CREATECHARACTERMENU_HPP

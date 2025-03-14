@@ -30,3 +30,7 @@ bool MoveAnimated::IfFocus() {
 bool MoveAnimated::IfClick() {
     return Util::Input::IsKeyUp(Util::Keycode::MOUSE_LB) && IfFocus();
 }
+
+bool MoveAnimated::IfPressed() {
+    return Util::Input::IsKeyDown(Util::Keycode::MOUSE_LB) && IfFocus();
+}

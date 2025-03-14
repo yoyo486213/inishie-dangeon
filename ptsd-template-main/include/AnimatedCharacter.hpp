@@ -10,17 +10,11 @@ class AnimatedCharacter : public Util::GameObject {
 public:
     explicit AnimatedCharacter(const std::vector<std::string>& Imagepath);
 
-    void Play() {
-        std::dynamic_pointer_cast<Util::Animation>(m_Drawable)->Play();
-    }
+    void Play() { std::dynamic_pointer_cast<Util::Animation>(m_Drawable)->Play(); }
 
-    void SetLooping(bool looping) {
-        std::dynamic_pointer_cast<Util::Animation>(m_Drawable)->SetLooping(looping);
-    }
+    void SetLooping(bool looping) { std::dynamic_pointer_cast<Util::Animation>(m_Drawable)->SetLooping(looping); }
 
-    void SetCurrentFrame(std::size_t index) {
-        std::dynamic_pointer_cast<Util::Animation>(m_Drawable)->SetCurrentFrame(index);
-    }
+    void SetCurrentFrame(std::size_t index) { std::dynamic_pointer_cast<Util::Animation>(m_Drawable)->SetCurrentFrame(index);}
 
     std::size_t GetCurrentFrameIndex() const { return std::dynamic_pointer_cast<Util::Animation>(m_Drawable)->GetCurrentFrameIndex(); }
 

@@ -4,16 +4,11 @@
 #include "pch.hpp" // IWYU pragma: export
 
 #include "Util/Renderer.hpp"
-#include "MyBGM.hpp"
-#include "Character.hpp"
+
 #include "AnimatedCharacter.hpp"
-#include "Menu.hpp"
 #include "Menus/CreateCharacterMenu.hpp"
 #include "Menus/StartMenu.hpp"
-#include "Button.hpp"
 #include "Buttons/NewGameButton.hpp"
-#include "MoveAnimated.hpp"
-#include <memory>
 
 class App {
 public:
@@ -38,7 +33,6 @@ private:
     State m_CurrentState = State::START;
     
     std::shared_ptr<AnimatedCharacter> m_StartAnime;
-    
     std::shared_ptr<StartMenu> m_StartMenu;
 
     std::shared_ptr<NewGameButton> m_NewGameButton;

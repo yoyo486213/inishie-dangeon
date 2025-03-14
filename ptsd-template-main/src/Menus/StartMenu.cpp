@@ -28,12 +28,6 @@ StartMenu::StartMenu(Util::Renderer *m_Root) {
     m_Root->AddChild(m_SSmenu);
 }
 
-StartMenu::State StartMenu::GetState() { return MenuState; }
-
-void StartMenu::SetState(State State){
-    MenuState = State;
-}
-
 void StartMenu::OpenMenu() {
     MenuState = StartMenu::State::Open;
     m_SSslidedown->SetVisible(true);
@@ -54,7 +48,7 @@ void StartMenu::Update() {
         m_SSmenu->Play();
         m_SSmenu->SetLooping(true);
     }
-    else if (Util::Input::IsKeyUp(Util::Keycode::MOUSE_LB) && MenuState == StartMenu::State::Open) { // can del
+    else if (Util::Input::IsKeyUp(Util::Keycode::MOUSE_LB) && MenuState == StartMenu::State::Open) {
         MenuState = StartMenu::State::Skip;
         m_SSslidedown->SetCurrentFrame(400);
     }

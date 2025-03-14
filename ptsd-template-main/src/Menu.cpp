@@ -33,6 +33,10 @@ bool Menu::IfClick() {
     return Util::Input::IsKeyUp(Util::Keycode::MOUSE_LB) && IfFocus();
 }
 
+bool Menu::IfPressed() {
+    return Util::Input::IsKeyDown(Util::Keycode::MOUSE_LB) && IfFocus();
+}
+
 void Menu::ChangeImage(int index) {
     this->SetImage(this->ImagePaths[index - 1]);
 }

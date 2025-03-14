@@ -23,15 +23,13 @@ public:
 
     void SetState(State state) { this->state = state; }
 
-    void SetUsed(bool used) { this->used = used; }
-
     State GetState() { return this->state; }
-
-    bool GetUsed() { return this->used; }
 
     bool IfFocus() override;
 
     bool IfClick() override;
+
+    bool IfPressed() override;
 
     void ChangeImage(int index);
 
@@ -39,7 +37,6 @@ public:
 
 private:
     State state = State::Stop;
-    bool used = false;
     std::string ImagePath;
     std::vector<std::string> ImagePaths;
 };

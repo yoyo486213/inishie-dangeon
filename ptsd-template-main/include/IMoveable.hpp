@@ -5,7 +5,6 @@
 
 class IMoveable {
 public:
-
     virtual void Move(glm::vec2 displacement, glm::vec2 goal) = 0;
 
     virtual ~IMoveable() = default;

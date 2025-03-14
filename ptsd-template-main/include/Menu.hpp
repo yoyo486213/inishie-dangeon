@@ -33,6 +33,8 @@ public:
 
     bool IfClick() override;
 
+    bool IfPressed() override;
+
     void ChangeImage(int index);
 
     virtual ~Menu() = default;

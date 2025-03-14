@@ -16,24 +16,25 @@
 void App::Start() {
     LOG_TRACE("Start");
 
-    std::vector<std::string> SSdoorImages; //SS=StartScreen
-    SSdoorImages.reserve(63);
+    // 開門畫面
+    std::vector<std::string> StartAnimeImages; 
+    StartAnimeImages.reserve(63);
     char buffer[100];
     for (int i = 0; i < 63; i++) {
         snprintf(buffer, sizeof(buffer), "../Resources/LoadingAnime/LoadingAnime-%02d.bmp", i);
-        SSdoorImages.emplace_back(buffer);
+        StartAnimeImages.emplace_back(buffer);
     }
-    m_StartAnime = std::make_shared<AnimatedCharacter>(SSdoorImages);
+    m_StartAnime = std::make_shared<AnimatedCharacter>(StartAnimeImages);
     m_StartAnime->SetZIndex(5);
     m_StartAnime->SetVisible(true);
+    m_StartAnime->Play();
     m_Root.AddChild(m_StartAnime);
 
-    
+    // 建構開始畫面
     m_StartMenu = std::make_shared<StartMenu>(&m_Root);
     m_NewGameButton = std::make_shared<NewGameButton>(&m_Root);
     m_CreateCharacterMenu = std::make_shared<CreateCharacterMenu>(&m_Root);
-
-    m_StartAnime->Play();
+    
     m_CurrentState = State::UPDATE;
 }
 
@@ -53,15 +54,18 @@ void App::Update() {
         m_NewGameButton->Open();
     }
 
-    if (m_NewGameButton->GetClicked()) {
+    m_NewGameButton->Update();
+    if (m_NewGameButton->IfClick()) {
         m_CreateCharacterMenu->OpenMenu();
     }
     
-    m_NewGameButton->Update();
-    if(m_CreateCharacterMenu->GetStats() != Menu::State::Close)
+    if(m_CreateCharacterMenu->GetState() != Menu::State::Close) {
         m_CreateCharacterMenu->Update();
-    
-    if (m_CreateCharacterMenu->GetStats() == Menu::State::Close) {
+    }
+    if (m_CreateCharacterMenu->GetState() != Menu::State::Open) {
+        m_CreateCharacterMenu->Update();
+    }
+    if (m_CreateCharacterMenu->GetState() == Menu::State::Close) {
         m_NewGameButton->Skip();
     }
 
@@ -70,9 +74,6 @@ void App::Update() {
      * Do not touch the code below as they serve the purpose for
      * closing the window.
      */
-    if (Util::Input::IsKeyUp(Util::Keycode::BACKSPACE)) {
-        m_CreateCharacterMenu->CloseMenu();
-    }
     if (Util::Input::IsKeyUp(Util::Keycode::ESCAPE) ||
         Util::Input::IfExit()) {
         m_CurrentState = State::END;
