@@ -1,5 +1,4 @@
 #include "AnimatedCharacter.hpp"
-#include "Util/Logger.hpp"
 
 AnimatedCharacter::AnimatedCharacter(const std::vector<std::string>& Imagepath) {
     m_Drawable = std::make_shared<Util::Animation>(Imagepath, false, 10, false, 0);

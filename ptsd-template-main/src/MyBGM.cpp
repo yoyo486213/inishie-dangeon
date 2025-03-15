@@ -1,5 +1,4 @@
 #include "MyBGM.hpp"
-#include "Util/BGM.hpp"
 
 MyBGM::MyBGM(const std::string& BGMPath) {
     this->m_BGM = std::make_unique<Util::BGM>(BGMPath);

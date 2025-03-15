@@ -1,5 +1,4 @@
 #include "Menus/CreateCharacterMenu.hpp"
-#include "Menu.hpp"
 
 CreateCharacterMenu::CreateCharacterMenu(Util::Renderer *m_Root) {
     //初始化創角菜單背景

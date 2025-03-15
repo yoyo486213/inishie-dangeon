@@ -3,8 +3,8 @@
 
 #include "Util/Renderer.hpp"
 
-#include "../Menu.hpp"
-#include "../Button.hpp"
+#include "Menu.hpp"
+#include "Button.hpp"
 
 class NewGameButton : public Util::GameObject{
 public:

@@ -1,17 +1,8 @@
 #include "App.hpp"
 
-#include "Util/Image.hpp"
-#include "Util/Animation.hpp"
 #include "Util/Input.hpp"
 #include "Util/Keycode.hpp"
 #include "Util/Logger.hpp"
-
-#include "MyBGM.hpp"
-#include "Character.hpp"
-#include "AnimatedCharacter.hpp"
-#include "Menu.hpp"
-#include "Button.hpp"
-#include "MoveAnimated.hpp"
 
 void App::Start() {
     LOG_TRACE("Start");
@@ -57,8 +48,11 @@ void App::Update() {
 
     m_NewGameButton->Update();
     if (m_NewGameButton->IfClick()) {
-        m_NewGameButton->Close();
-        m_CreateCharacterMenu->OpenMenu();
+        // m_NewGameButton->Close();
+        // m_CreateCharacterMenu->OpenMenu();
+        
+
+        m_map = std::make_shared<Map>(&m_Root);
     }
     
     
@@ -77,6 +71,18 @@ void App::Update() {
      * Do not touch the code below as they serve the purpose for
      * closing the window.
      */
+    if (Util::Input::IsKeyPressed(Util::Keycode::W)) {
+        m_map->Move({0, 5});
+    }
+    if (Util::Input::IsKeyPressed(Util::Keycode::A)) {
+        m_map->Move({-5, 0});
+    }
+    if (Util::Input::IsKeyPressed(Util::Keycode::S)) {
+        m_map->Move({0, -5});
+    }
+    if (Util::Input::IsKeyPressed(Util::Keycode::D)) {
+        m_map->Move({5, 0});
+    }
     if (Util::Input::IsKeyUp(Util::Keycode::ESCAPE) ||
         Util::Input::IfExit()) {
         m_CurrentState = State::END;

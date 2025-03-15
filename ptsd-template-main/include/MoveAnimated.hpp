@@ -2,6 +2,8 @@
 #define MOVEANIMATED_HPP
 
 #include "pch.hpp"
+#include "Util/Input.hpp"
+#include "Util/Keycode.hpp"
 
 #include "AnimatedCharacter.hpp"
 #include "IClickable.hpp"

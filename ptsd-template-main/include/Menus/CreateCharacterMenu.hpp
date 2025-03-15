@@ -3,10 +3,10 @@
 
 #include "Util/Renderer.hpp"
 
-#include "../Menu.hpp"
-#include "../Button.hpp"
-#include "../MoveAnimated.hpp"
-#include "../MyBGM.hpp"
+#include "Menu.hpp"
+#include "Button.hpp"
+#include "MoveAnimated.hpp"
+#include "MyBGM.hpp"
 
 class CreateCharacterMenu : public Util::GameObject{
 public:

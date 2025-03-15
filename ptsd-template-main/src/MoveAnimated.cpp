@@ -1,7 +1,4 @@
 #include "MoveAnimated.hpp"
-#include "Util/Image.hpp"
-#include "Util/Input.hpp"
-#include "Util/Keycode.hpp"
 
 MoveAnimated::MoveAnimated(const std::vector<std::string>& ImagePaths) : AnimatedCharacter(ImagePaths) {}
 

@@ -1,7 +1,4 @@
 #include "Menu.hpp"
-#include "Util/Image.hpp"
-#include "Util/Input.hpp"
-#include "Util/Keycode.hpp"
 
 Menu::Menu(const std::string& ImagePath) : Character(ImagePath) { this->ImagePath = ImagePath; }
 

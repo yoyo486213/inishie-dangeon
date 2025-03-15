@@ -1,0 +1,54 @@
+{
+    "Map/SizeTest": {
+        "height": 4300,
+        "width": 2
+    },
+    "activeFile": "",
+    "expandedProjectPaths": [
+    ],
+    "fileStates": {
+        "Area1_1.json": {
+            "scale": 0.771875,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 448.2591093117409,
+                "y": 448.2591093117409
+            }
+        },
+        "Area1_1.tmx": {
+            "scale": 0.75,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 467.33333333333337,
+                "y": 322
+            }
+        },
+        "Area1_2.tmx": {
+            "scale": 1,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 528,
+                "y": 463
+            }
+        },
+        "Resource.tsx": {
+            "dynamicWrapping": false
+        }
+    },
+    "last.exportedFilePath": "C:/Users/yoyo/Desktop/Project/inishie-dangeon/ptsd-template-main/Resources/Map/TiledProject",
+    "last.imagePath": "C:/Users/yoyo/Desktop/Project/inishie-dangeon/ptsd-template-main/Resources/Map/TiledProject/Area1_Resources",
+    "map.height": 32,
+    "map.lastUsedExportFilter": "JSON map files (*.tmj *.json)",
+    "map.lastUsedFormat": "tmx",
+    "map.tileHeight": 28,
+    "map.tileWidth": 28,
+    "map.width": 32,
+    "openFiles": [
+    ],
+    "project": "Map.tiled-project",
+    "recentFiles": [
+        "Area1_1.json"
+    ],
+    "tileset.lastUsedFormat": "tsx",
+    "tileset.type": 1
+}

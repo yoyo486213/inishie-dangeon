@@ -1,5 +1,4 @@
 #include "Buttons/NewGameButton.hpp"
-#include <memory>
 
 NewGameButton::NewGameButton(Util::Renderer *m_Root) {
     char buffer[100];

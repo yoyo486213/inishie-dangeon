@@ -10,6 +10,7 @@
 #include "Menus/StartMenu.hpp"
 #include "Buttons/NewGameButton.hpp"
 #include "Buttons/NameKeyBoard.hpp"
+#include "Map/Map.hpp"
 
 class App {
 public:
@@ -39,6 +40,8 @@ private:
     std::shared_ptr<NewGameButton> m_NewGameButton;
     std::shared_ptr<CreateCharacterMenu> m_CreateCharacterMenu;
     std::shared_ptr<NameKeyBoard> m_NameKeyBoard;
+
+    std::shared_ptr<Map> m_map;
 
     Util::Renderer m_Root;
 };

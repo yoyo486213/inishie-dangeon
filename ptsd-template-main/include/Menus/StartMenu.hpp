@@ -2,16 +2,10 @@
 #define STARTMENU_HPP
 
 #include "Util/Renderer.hpp"
-#include "Util/Image.hpp"
-#include "Util/Animation.hpp"
 #include "Util/Input.hpp"
 #include "Util/Keycode.hpp"
-#include "Util/Logger.hpp"
 
-#include "../Menu.hpp"
-#include "../Button.hpp"
-#include "../MoveAnimated.hpp"
-#include "../MyBGM.hpp"
+#include "AnimatedCharacter.hpp"
 
 class StartMenu : public Util::GameObject{
 public:

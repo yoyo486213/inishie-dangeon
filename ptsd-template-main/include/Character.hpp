@@ -1,8 +1,8 @@
 #ifndef CHARACTER_HPP
 #define CHARACTER_HPP
 
-#include <string>
-
+#include "pch.hpp"
+#include "Util/Image.hpp"
 #include "Util/GameObject.hpp"
 
 class Character : public Util::GameObject {

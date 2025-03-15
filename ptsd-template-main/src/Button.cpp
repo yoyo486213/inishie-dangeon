@@ -1,7 +1,4 @@
 #include "Button.hpp"
-#include "Util/Image.hpp"
-#include "Util/Input.hpp"
-#include "Util/Keycode.hpp"
 
 Button::Button(const std::string& ImagePath) : Character(ImagePath) { this->ImagePath = ImagePath; }
 

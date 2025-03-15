@@ -22,6 +22,10 @@ set(INCLUDE_FILES
     Menu.hpp
     Menus/CreateCharacterMenu.hpp
     Menus/StartMenu.hpp
+    nolohmann/json_fwd.hpp
+    nolohmann/json.hpp
+    Map/Map.hpp
+    Map/InvisibleWall.hpp
     Button.hpp
     Buttons/NewGameButton.hpp
     Buttons/NameKeyBoard.hpp
