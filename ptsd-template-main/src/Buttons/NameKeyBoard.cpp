@@ -1,7 +1,8 @@
 #include "Buttons/NameKeyBoard.hpp"
 
 NameKeyBoard::NameKeyBoard(Util::Renderer *m_Root) {
-    char buffer[100];
+    (void)m_Root;
+    // char buffer[100];
     //初始化大寫字母按鈕
     // for (int i = 0; i < 26; i++) {
     //     snprintf(buffer, sizeof(buffer), "../Resources/Button/BigLetter/%c.png", 'A'+i);

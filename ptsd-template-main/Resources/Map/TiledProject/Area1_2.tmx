@@ -1,58 +1,135 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="32" height="32" tilewidth="28" tileheight="28" infinite="0" nextlayerid="3" nextobjectid="25">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="36" height="36" tilewidth="28" tileheight="28" infinite="0" nextlayerid="6" nextobjectid="135">
+ <editorsettings>
+  <export target="Area1_2.json" format="json"/>
+ </editorsettings>
  <tileset firstgid="1" source="Resource.tsx"/>
- <layer id="1" name="Map" width="32" height="32">
+ <layer id="1" name="Map" width="36" height="36" locked="1">
   <data encoding="csv">
-6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,
-6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,
-6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,5,6,6,6,6,6,6,6,6,5,6,6,6,5,6,
-6,6,6,6,5,6,6,6,6,6,6,6,5,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,
-6,6,6,6,6,6,6,6,6,6,6,6,6,6,1,2,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,
-6,6,6,6,6,6,6,6,6,6,6,6,6,6,3,4,6,6,6,6,6,6,6,6,6,6,6,1,2,6,6,6,
-6,6,6,6,6,1,2,6,6,6,6,6,6,6,6,6,6,6,6,5,6,6,6,6,6,6,6,3,4,6,6,6,
-6,6,6,6,6,3,4,6,6,6,6,6,5,6,6,6,6,6,1,2,6,6,5,6,6,6,6,6,6,6,6,6,
-6,6,6,5,6,6,6,6,6,6,6,6,6,6,6,6,6,6,3,4,6,6,6,6,6,6,6,5,6,6,6,6,
-6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,5,6,6,6,6,
-6,6,6,6,6,6,1,2,6,6,7,7,7,7,7,7,7,7,7,7,7,7,6,6,6,6,6,6,6,6,6,6,
-6,6,6,6,6,6,3,4,6,6,7,7,7,7,7,7,7,7,7,7,7,7,6,6,6,6,6,6,6,1,2,6,
-6,6,6,6,6,6,6,6,6,6,7,7,6,6,7,6,6,6,6,6,7,6,6,6,1,2,6,6,6,3,4,6,
-6,6,6,6,6,6,6,6,6,6,7,7,6,7,7,7,7,6,7,7,7,7,6,6,3,4,6,6,6,6,5,6,
-6,6,6,6,5,6,6,5,6,6,7,7,6,7,7,7,7,6,7,7,7,7,6,6,6,6,6,6,6,6,6,6,
-6,1,2,6,6,6,6,6,6,6,7,7,6,7,7,7,7,7,7,7,7,7,6,6,6,6,6,6,6,6,6,6,
-6,3,4,6,6,6,6,6,6,6,7,7,6,7,7,7,7,6,7,7,7,7,6,6,6,5,6,6,6,6,6,6,
-6,6,6,6,6,6,6,6,6,6,7,7,6,7,7,7,7,6,7,7,7,7,6,6,6,6,6,6,6,6,6,6,
-6,6,6,6,6,6,6,6,6,6,7,7,6,7,7,7,7,6,7,7,7,7,6,6,6,6,6,6,6,6,6,6,
-6,6,6,5,6,6,6,1,2,6,7,7,6,6,7,6,6,6,6,6,7,6,6,6,6,6,1,2,6,5,6,6,
-6,6,6,6,6,6,6,3,4,6,7,7,7,7,7,7,7,7,7,7,7,7,6,6,6,6,3,4,6,6,6,6,
-6,6,6,6,6,6,6,3,4,6,7,7,7,7,7,7,7,7,7,7,7,7,6,6,6,5,6,6,6,6,6,6,
-6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,5,6,6,6,6,6,6,
-6,6,1,2,6,6,6,6,6,6,6,6,6,1,2,6,6,6,6,6,6,6,6,6,6,6,6,6,1,2,6,6,
-6,6,3,4,6,6,5,6,6,6,6,6,6,3,4,6,6,6,5,6,6,6,6,6,6,6,6,6,1,2,6,6,
-6,6,6,6,6,6,6,6,6,6,6,5,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,3,4,6,6,
-6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,1,2,6,6,6,6,6,6,6,6,6,6,6,5,6,6,
-6,6,6,6,6,6,1,2,6,6,6,6,6,6,6,6,3,4,6,6,6,6,6,5,6,6,6,6,6,6,6,6,
-6,6,6,6,6,6,3,4,6,6,6,6,5,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,
-6,6,6,5,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,1,2,6,6,6,6,6,
-6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,3,4,6,6,6,6,6,
-6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6
+6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,
+6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,
+6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,
+6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,
+6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,5,6,6,6,6,6,6,6,6,5,6,6,6,5,6,6,6,
+6,6,6,6,6,6,5,6,6,6,6,6,6,6,5,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,
+6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,1,2,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,
+6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,3,4,6,6,6,6,6,6,6,6,6,6,6,1,2,6,6,6,6,6,
+6,6,6,6,6,6,6,1,2,6,6,6,6,6,6,6,6,6,6,6,6,5,6,6,6,6,6,6,6,3,4,6,6,6,6,6,
+6,6,6,6,6,6,6,3,4,6,6,6,6,6,5,6,6,6,6,6,1,2,6,6,5,6,6,6,6,6,6,6,6,6,6,6,
+6,6,6,6,6,5,6,6,6,6,6,6,6,6,6,6,6,6,6,6,3,4,6,6,6,6,6,6,6,5,6,6,6,6,6,6,
+6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,5,6,6,6,6,6,6,
+6,6,6,6,6,6,6,6,1,2,6,6,7,7,7,7,7,7,7,7,7,7,7,7,6,6,6,6,6,6,6,6,6,6,6,6,
+6,6,6,6,6,6,6,6,3,4,6,6,7,7,7,7,7,7,7,7,7,7,7,7,6,6,6,6,6,6,6,1,2,6,6,6,
+6,6,6,6,6,6,6,6,6,6,6,6,7,7,6,6,7,6,6,6,6,6,7,6,6,6,1,2,6,6,6,3,4,6,6,6,
+6,6,6,6,6,6,6,6,6,6,6,6,7,7,6,7,7,7,7,6,7,7,7,7,6,6,3,4,6,6,6,6,5,6,6,6,
+6,6,6,6,6,6,5,6,6,5,6,6,7,7,6,7,7,7,7,6,7,7,7,7,6,6,6,6,6,6,6,6,6,6,6,6,
+6,6,6,1,2,6,6,6,6,6,6,6,7,7,6,7,7,7,7,7,7,7,7,7,6,6,6,6,6,6,6,6,6,6,6,6,
+6,6,6,3,4,6,6,6,6,6,6,6,7,7,6,7,7,7,7,6,7,7,7,7,6,6,6,5,6,6,6,6,6,6,6,6,
+6,6,6,6,6,6,6,6,6,6,6,6,7,7,6,7,7,7,7,6,7,7,7,7,6,6,6,6,6,6,6,6,6,6,6,6,
+6,6,6,6,6,6,6,6,6,6,6,6,7,7,6,7,7,7,7,6,7,7,7,7,6,6,6,6,6,6,6,6,6,6,6,6,
+6,6,6,6,6,5,6,6,6,1,2,6,7,7,6,6,7,6,6,6,6,6,7,6,6,6,6,6,1,2,6,5,6,6,6,6,
+6,6,6,6,6,6,6,6,6,3,4,6,7,7,7,7,7,7,7,7,7,7,7,7,6,6,6,6,3,4,6,6,6,6,6,6,
+6,6,6,6,6,6,6,6,6,3,4,6,7,7,7,7,7,7,7,7,7,7,7,7,6,6,6,5,6,6,6,6,6,6,6,6,
+6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,5,6,6,6,6,6,6,6,6,
+6,6,6,6,1,2,6,6,6,6,6,6,6,6,6,1,2,6,6,6,6,6,6,6,6,6,6,6,6,6,1,2,6,6,6,6,
+6,6,6,6,3,4,6,6,5,6,6,6,6,6,6,3,4,6,6,6,5,6,6,6,6,6,6,6,6,6,1,2,6,6,6,6,
+6,6,6,6,6,6,6,6,6,6,6,6,6,5,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,3,4,6,6,6,6,
+6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,1,2,6,6,6,6,6,6,6,6,6,6,6,5,6,6,6,6,
+6,6,6,6,6,6,6,6,1,2,6,6,6,6,6,6,6,6,3,4,6,6,6,6,6,5,6,6,6,6,6,6,6,6,6,6,
+6,6,6,6,6,6,6,6,3,4,6,6,6,6,5,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,
+6,6,6,6,6,5,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,1,2,6,6,6,6,6,6,6,
+6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,3,4,6,6,6,6,6,6,6,
+6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,
+6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,
+6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6
 </data>
  </layer>
- <objectgroup id="2" name="Object">
-  <object id="1" gid="14" x="364" y="504" width="28" height="28"/>
-  <object id="2" gid="14" x="392" y="504" width="28" height="28"/>
-  <object id="3" gid="14" x="420" y="504" width="28" height="28"/>
-  <object id="4" gid="14" x="420" y="476" width="28" height="28"/>
-  <object id="5" gid="14" x="392" y="476" width="28" height="28"/>
-  <object id="6" gid="14" x="364" y="476" width="28" height="28"/>
-  <object id="7" gid="14" x="364" y="448" width="28" height="28"/>
-  <object id="8" gid="14" x="392" y="448" width="28" height="28"/>
-  <object id="9" gid="14" x="420" y="448" width="28" height="28"/>
-  <object id="10" gid="10" x="280" y="308" width="28" height="28"/>
-  <object id="11" gid="9" x="588" y="616" width="28" height="28"/>
-  <object id="12" gid="15" x="560" y="364" width="28" height="28"/>
-  <object id="13" gid="15" x="392" y="364" width="28" height="28"/>
-  <object id="14" gid="15" x="392" y="560" width="28" height="28"/>
-  <object id="15" gid="15" x="560" y="560" width="28" height="28"/>
-  <object id="16" gid="15" x="476" y="448" width="28" height="28"/>
+ <objectgroup id="2" name="Object" locked="1">
+  <object id="1" name="Pot" gid="14" x="420" y="560" width="28" height="28"/>
+  <object id="2" name="Pot" gid="14" x="448" y="560" width="28" height="28"/>
+  <object id="3" name="Pot" gid="14" x="476" y="560" width="28" height="28"/>
+  <object id="4" name="Pot" gid="14" x="476" y="532" width="28" height="28"/>
+  <object id="5" name="Pot" gid="14" x="448" y="532" width="28" height="28"/>
+  <object id="6" name="Pot" gid="14" x="420" y="532" width="28" height="28"/>
+  <object id="7" name="Pot" gid="14" x="420" y="504" width="28" height="28"/>
+  <object id="8" name="Pot" gid="14" x="448" y="504" width="28" height="28"/>
+  <object id="9" name="Pot" gid="14" x="476" y="504" width="28" height="28"/>
+  <object id="10" name="DownStairs" gid="10" x="336" y="364" width="28" height="28"/>
+  <object id="11" name="UpStaris" gid="9" x="644" y="672" width="28" height="28"/>
+  <object id="12" name="Door" gid="15" x="616" y="420" width="28" height="28"/>
+  <object id="13" name="Door" gid="15" x="448" y="420" width="28" height="28"/>
+  <object id="14" name="Door" gid="15" x="448" y="616" width="28" height="28"/>
+  <object id="15" name="Door" gid="15" x="616" y="616" width="28" height="28"/>
+  <object id="16" name="Door" gid="15" x="532" y="504" width="28" height="28"/>
+ </objectgroup>
+ <objectgroup id="3" name="Unexplored" locked="1">
+  <object id="73" name="Unexplored" gid="8" x="420" y="448" width="28" height="28"/>
+  <object id="74" name="Unexplored" gid="8" x="448" y="448" width="28" height="28"/>
+  <object id="75" name="Unexplored" gid="8" x="476" y="448" width="28" height="28"/>
+  <object id="76" name="Unexplored" gid="8" x="504" y="448" width="28" height="28"/>
+  <object id="77" name="Unexplored" gid="8" x="420" y="476" width="28" height="28"/>
+  <object id="78" name="Unexplored" gid="8" x="448" y="476" width="28" height="28"/>
+  <object id="79" name="Unexplored" gid="8" x="476" y="476" width="28" height="28"/>
+  <object id="80" name="Unexplored" gid="8" x="504" y="476" width="28" height="28"/>
+  <object id="81" name="Unexplored" gid="8" x="420" y="504" width="28" height="28"/>
+  <object id="82" name="Unexplored" gid="8" x="448" y="504" width="28" height="28"/>
+  <object id="83" name="Unexplored" gid="8" x="476" y="504" width="28" height="28"/>
+  <object id="84" name="Unexplored" gid="8" x="504" y="504" width="28" height="28"/>
+  <object id="85" name="Unexplored" gid="8" x="420" y="532" width="28" height="28"/>
+  <object id="86" name="Unexplored" gid="8" x="448" y="532" width="28" height="28"/>
+  <object id="87" name="Unexplored" gid="8" x="476" y="532" width="28" height="28"/>
+  <object id="88" name="Unexplored" gid="8" x="504" y="532" width="28" height="28"/>
+  <object id="89" name="Unexplored" gid="8" x="420" y="560" width="28" height="28"/>
+  <object id="90" name="Unexplored" gid="8" x="448" y="560" width="28" height="28"/>
+  <object id="91" name="Unexplored" gid="8" x="476" y="560" width="28" height="28"/>
+  <object id="92" name="Unexplored" gid="8" x="504" y="560" width="28" height="28"/>
+  <object id="93" name="Unexplored" gid="8" x="420" y="588" width="28" height="28"/>
+  <object id="94" name="Unexplored" gid="8" x="448" y="588" width="28" height="28"/>
+  <object id="95" name="Unexplored" gid="8" x="476" y="588" width="28" height="28"/>
+  <object id="96" name="Unexplored" gid="8" x="504" y="588" width="28" height="28"/>
+  <object id="97" name="Unexplored" gid="8" x="560" y="448" width="28" height="28"/>
+  <object id="98" name="Unexplored" gid="8" x="588" y="448" width="28" height="28"/>
+  <object id="99" name="Unexplored" gid="8" x="616" y="448" width="28" height="28"/>
+  <object id="100" name="Unexplored" gid="8" x="644" y="448" width="28" height="28"/>
+  <object id="101" name="Unexplored" gid="8" x="560" y="476" width="28" height="28"/>
+  <object id="102" name="Unexplored" gid="8" x="588" y="476" width="28" height="28"/>
+  <object id="103" name="Unexplored" gid="8" x="616" y="476" width="28" height="28"/>
+  <object id="104" name="Unexplored" gid="8" x="644" y="476" width="28" height="28"/>
+  <object id="105" name="Unexplored" gid="8" x="560" y="504" width="28" height="28"/>
+  <object id="106" name="Unexplored" gid="8" x="588" y="504" width="28" height="28"/>
+  <object id="107" name="Unexplored" gid="8" x="616" y="504" width="28" height="28"/>
+  <object id="108" name="Unexplored" gid="8" x="644" y="504" width="28" height="28"/>
+  <object id="109" name="Unexplored" gid="8" x="560" y="532" width="28" height="28"/>
+  <object id="110" name="Unexplored" gid="8" x="588" y="532" width="28" height="28"/>
+  <object id="111" name="Unexplored" gid="8" x="616" y="532" width="28" height="28"/>
+  <object id="112" name="Unexplored" gid="8" x="644" y="532" width="28" height="28"/>
+  <object id="113" name="Unexplored" gid="8" x="560" y="560" width="28" height="28"/>
+  <object id="114" name="Unexplored" gid="8" x="588" y="560" width="28" height="28"/>
+  <object id="115" name="Unexplored" gid="8" x="616" y="560" width="28" height="28"/>
+  <object id="116" name="Unexplored" gid="8" x="644" y="560" width="28" height="28"/>
+  <object id="117" name="Unexplored" gid="8" x="560" y="588" width="28" height="28"/>
+  <object id="118" name="Unexplored" gid="8" x="588" y="588" width="28" height="28"/>
+  <object id="119" name="Unexplored" gid="8" x="616" y="588" width="28" height="28"/>
+  <object id="120" name="Unexplored" gid="8" x="644" y="588" width="28" height="28"/>
+ </objectgroup>
+ <objectgroup id="4" name="InvisibleWall" locked="1">
+  <object id="121" x="308" y="308" width="364" height="28"/>
+  <object id="122" x="672" y="308" width="28" height="364"/>
+  <object id="123" x="336" y="672" width="364" height="28"/>
+  <object id="124" x="308" y="336" width="28" height="364"/>
+  <object id="126" x="392" y="392" width="56" height="28"/>
+  <object id="127" x="392" y="420" width="28" height="168"/>
+  <object id="128" x="392" y="588" width="56" height="28"/>
+  <object id="129" x="476" y="588" width="140" height="28"/>
+  <object id="130" x="644" y="588" width="28" height="28"/>
+  <object id="131" x="532" y="504" width="28" height="84"/>
+  <object id="132" x="476" y="392" width="140" height="28"/>
+  <object id="133" x="644" y="392" width="28" height="28"/>
+  <object id="134" x="532" y="420" width="28" height="56"/>
+ </objectgroup>
+ <objectgroup id="5" name="Respawnpoint">
+  <object id="125" x="644" y="644">
+   <point/>
+  </object>
  </objectgroup>
 </map>

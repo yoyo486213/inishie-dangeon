@@ -3,6 +3,8 @@ set(SRC_FILES
     MyBGM.cpp
     Character.cpp
     AnimatedCharacter.cpp
+    Map/Map.cpp
+    Map/InvisibleWall.cpp
     Menu.cpp
     Menus/CreateCharacterMenu.cpp
     Menus/StartMenu.cpp
@@ -19,13 +21,13 @@ set(INCLUDE_FILES
     MyBGM.hpp
     Character.hpp
     AnimatedCharacter.hpp
+    Map/Map.hpp
+    Map/InvisibleWall.hpp
     Menu.hpp
     Menus/CreateCharacterMenu.hpp
     Menus/StartMenu.hpp
     nolohmann/json_fwd.hpp
     nolohmann/json.hpp
-    Map/Map.hpp
-    Map/InvisibleWall.hpp
     Button.hpp
     Buttons/NewGameButton.hpp
     Buttons/NameKeyBoard.hpp

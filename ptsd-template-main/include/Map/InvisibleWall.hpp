@@ -4,12 +4,15 @@
 #include "pch.hpp"
 #include "Util/GameObject.hpp"
 
-class InvisibleWall : public Util::GameObject {
+class InvisibleWall {
 public:
-    InvisibleWall(glm::vec2 position, glm::vec2 size) {
-        m_Position = position;
-        m_Size = size;
-    }
+    InvisibleWall(glm::vec2 size);
+
+    void SetPosition(glm::vec2 position) { m_Position = position; }
+
+    glm::vec2 GetPosition() { return m_Position; }
+
+    bool IsCollision(glm::vec2 position);
 private:
     glm::vec2 m_Position;
     glm::vec2 m_Size;
