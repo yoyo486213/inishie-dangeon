@@ -5,6 +5,7 @@
 
 #include "Util/Animation.hpp"
 #include "Util/GameObject.hpp"
+#include <memory>
 
 class AnimatedCharacter : public Util::GameObject {
 public:
@@ -12,7 +13,11 @@ public:
 
     void Play() { std::dynamic_pointer_cast<Util::Animation>(m_Drawable)->Play(); }
 
+    void Pause() { std::dynamic_pointer_cast<Util::Animation>(m_Drawable)->Pause(); }
+
     void SetLooping(bool looping) { std::dynamic_pointer_cast<Util::Animation>(m_Drawable)->SetLooping(looping); }
+
+    void SetInterval(int interval) { std::dynamic_pointer_cast<Util::Animation>(m_Drawable)->SetInterval(interval); }
 
     void SetCurrentFrame(std::size_t index) { std::dynamic_pointer_cast<Util::Animation>(m_Drawable)->SetCurrentFrame(index);}
 

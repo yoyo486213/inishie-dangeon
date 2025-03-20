@@ -8,6 +8,7 @@
 #include "AnimatedCharacter.hpp"
 #include "IClickable.hpp"
 #include "IMoveable.hpp"
+#include <glm/fwd.hpp>
 
 class MoveAnimated : public AnimatedCharacter, public IClickable, public IMoveable {
 public:

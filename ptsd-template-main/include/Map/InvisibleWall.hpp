@@ -8,6 +8,8 @@ class InvisibleWall {
 public:
     InvisibleWall(glm::vec2 size);
 
+    virtual ~InvisibleWall() = default;
+
     void SetPosition(glm::vec2 position) { m_Position = position; }
 
     glm::vec2 GetPosition() { return m_Position; }

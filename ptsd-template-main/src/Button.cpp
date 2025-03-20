@@ -14,10 +14,10 @@ void Button::Move(glm::vec2 displacement, glm::vec2 goal) {
 }
 
 bool Button::IfFocus() {
-    int Cursor_X = Util::Input::GetCursorPosition()[0];
-    int Cursor_Y = Util::Input::GetCursorPosition()[1];
-    int Menu_X_Range[2] = {(this->GetPosition().x - (this->GetScaledSize().x / 2)), (this->GetPosition().x + (this->GetScaledSize().x / 2))};
-    int Menu_Y_Range[2] = {(this->GetPosition().y - (this->GetScaledSize().y / 2)), (this->GetPosition().y + (this->GetScaledSize().y / 2))};
+    float Cursor_X = Util::Input::GetCursorPosition()[0];
+    float Cursor_Y = Util::Input::GetCursorPosition()[1];
+    float Menu_X_Range[2] = {(this->GetPosition().x - (this->GetScaledSize().x / 2)), (this->GetPosition().x + (this->GetScaledSize().x / 2))};
+    float Menu_Y_Range[2] = {(this->GetPosition().y - (this->GetScaledSize().y / 2)), (this->GetPosition().y + (this->GetScaledSize().y / 2))};
     if((Cursor_X > Menu_X_Range[0]) && (Cursor_X < Menu_X_Range[1])) {
         if ((Cursor_Y > Menu_Y_Range[0]) && (Cursor_Y < Menu_Y_Range[1])) {
             return this->GetVisibility();

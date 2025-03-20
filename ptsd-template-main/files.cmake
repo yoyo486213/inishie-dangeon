@@ -5,6 +5,12 @@ set(SRC_FILES
     AnimatedCharacter.cpp
     Map/Map.cpp
     Map/InvisibleWall.cpp
+    Map/Unexplored.cpp
+    Map/Door.cpp
+    Map/Chest.cpp
+
+    Map/Box.cpp
+
     Menu.cpp
     Menus/CreateCharacterMenu.cpp
     Menus/StartMenu.cpp
@@ -23,6 +29,12 @@ set(INCLUDE_FILES
     AnimatedCharacter.hpp
     Map/Map.hpp
     Map/InvisibleWall.hpp
+    Map/Unecplored.hpp
+    Map/Door.hpp
+    Map/Chest.hpp
+
+    Map/Box.hpp
+
     Menu.hpp
     Menus/CreateCharacterMenu.hpp
     Menus/StartMenu.hpp

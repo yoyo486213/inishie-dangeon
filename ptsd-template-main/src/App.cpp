@@ -50,6 +50,7 @@ void App::Update() {
     if (m_NewGameButton->IfClick()) {
         // m_NewGameButton->Close();
         // m_CreateCharacterMenu->OpenMenu();
+        m_NewGameButton->SetVisible(false);
         
         m_Butterfly = std::make_shared<Character>("../Resources/Character/Butterfly.png");
         m_Butterfly->SetZIndex(15);
@@ -70,28 +71,30 @@ void App::Update() {
     if (m_CreateCharacterMenu->GetState() == Menu::State::Close) {
         m_NewGameButton->Skip();
     }
-
-    if (GetState()) {
-        m_map->Update();
-    }
  
+    
     m_Root.Update();
     /*
      * Do not touch the code below as they serve the purpose for
      * closing the window.
      */
-    if (Util::Input::IsKeyPressed(Util::Keycode::W)) {
-        m_map->Move({0, -2});
+    if (m_map) {
+        m_map->Update();
+        
+        if (Util::Input::IsKeyPressed(Util::Keycode::W)) {
+            m_map->Move({0, -2.5});
+        }
+        if (Util::Input::IsKeyPressed(Util::Keycode::A)) {
+            m_map->Move({2.5, 0});
+        }
+        if (Util::Input::IsKeyPressed(Util::Keycode::S)) {
+            m_map->Move({0, 2.5});
+        }
+        if (Util::Input::IsKeyPressed(Util::Keycode::D)) {
+            m_map->Move({-2.5, 0});
+        }
     }
-    if (Util::Input::IsKeyPressed(Util::Keycode::A)) {
-        m_map->Move({2, 0});
-    }
-    if (Util::Input::IsKeyPressed(Util::Keycode::S)) {
-        m_map->Move({0, 2});
-    }
-    if (Util::Input::IsKeyPressed(Util::Keycode::D)) {
-        m_map->Move({-2, 0});
-    }
+    
     if (Util::Input::IsKeyUp(Util::Keycode::ESCAPE) ||
         Util::Input::IfExit()) {
         m_CurrentState = State::END;
