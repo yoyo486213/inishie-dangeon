@@ -24,7 +24,7 @@ public:
 
     virtual ~Map() = default;
 
-    void Move(glm::vec2 displacement);
+    void Move(glm::vec2 displacement, std::shared_ptr<Character> &m_Butterfly);
 
     void Update();
 private:

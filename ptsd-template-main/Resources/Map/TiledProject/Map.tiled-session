@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "Area1_2.tmx",
+    "activeFile": "Area1_3.tmx",
     "expandedProjectPaths": [
         "."
     ],
@@ -19,27 +19,36 @@
         "Area1_1.tmx": {
             "expandedObjectLayers": [
                 9,
+                3,
                 7
             ],
             "scale": 1,
-            "selectedLayer": 0,
+            "selectedLayer": 2,
             "viewCenter": {
-                "x": 654,
-                "y": 424
+                "x": 504,
+                "y": 503.5
             }
         },
         "Area1_2.tmx": {
             "expandedObjectLayers": [
-                5,
-                2,
                 4,
+                2,
+                5,
                 3
             ],
             "scale": 1.5,
             "selectedLayer": 3,
             "viewCenter": {
-                "x": 560.6666666666666,
-                "y": 497.99999999999994
+                "x": 504,
+                "y": 504.3333333333333
+            }
+        },
+        "Area1_3.tmx": {
+            "scale": 0.7739955357142857,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 507.7548666186012,
+                "y": 461.88896899783697
             }
         },
         "Resource.tsx": {
@@ -59,13 +68,15 @@
     "openFiles": [
         "Resource.tsx",
         "Area1_1.tmx",
-        "Area1_2.tmx"
+        "Area1_2.tmx",
+        "Area1_3.tmx"
     ],
     "project": "Map.tiled-project",
     "recentFiles": [
         "Resource.tsx",
         "Area1_1.tmx",
         "Area1_2.tmx",
+        "Area1_3.tmx",
         "Area1_1.json"
     ],
     "tileset.lastUsedFormat": "tsx",

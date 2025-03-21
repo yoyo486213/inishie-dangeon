@@ -221,7 +221,6 @@
         {
          "draworder":"topdown",
          "id":8,
-         "locked":true,
          "name":"Unexplored",
          "objects":[
                 {
@@ -319,6 +318,30 @@
                  "width":28,
                  "x":420,
                  "y":616
+                }, 
+                {
+                 "gid":8,
+                 "height":28,
+                 "id":547,
+                 "name":"Unexplored",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":393,
+                 "x":308,
+                 "y":336
+                }, 
+                {
+                 "gid":8,
+                 "height":361,
+                 "id":548,
+                 "name":"Unexplored",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":28,
+                 "x":308,
+                 "y":697
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -517,7 +540,7 @@
          "y":0
         }],
  "nextlayerid":10,
- "nextobjectid":547,
+ "nextobjectid":549,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.11.2",

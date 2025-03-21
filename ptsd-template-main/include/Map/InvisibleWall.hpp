@@ -3,6 +3,8 @@
 
 #include "pch.hpp"
 #include "Util/GameObject.hpp"
+#include "Character.hpp"
+#include <glm/fwd.hpp>
 
 class InvisibleWall {
 public:
@@ -14,7 +16,9 @@ public:
 
     glm::vec2 GetPosition() { return m_Position; }
 
-    bool IsCollision(glm::vec2 position);
+    glm::vec2 GetSize() { return m_Size; }
+
+    bool IsCollision(std::shared_ptr<Character> &other, glm::vec2 displacement);
 private:
     glm::vec2 m_Position;
     glm::vec2 m_Size;

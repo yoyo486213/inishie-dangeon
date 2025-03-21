@@ -1,5 +1,6 @@
 #include "Map/Map.hpp"
 #include <memory>
+#include <iostream>
 
 Map::Map(Util::Renderer *m_Root) {
     std::ifstream file("../Resources/Map/TiledProject/Area1_1.json");
@@ -26,7 +27,7 @@ Map::Map(Util::Renderer *m_Root) {
         // 創建物件並設置屬性
         auto unexplored = std::make_shared<Unexplored>("../Resources/Map/TiledProject/Area1_Resources/" + object["name"].get<std::string>() + ".png");
         
-        unexplored->SetPosition({newX - respawnpointX, newY - respawnpointY + 28});
+        unexplored->SetPosition({newX - respawnpointX +28, newY - respawnpointY + 28});
         unexplored->SetVisible(true);
         unexplored->SetZIndex(12);
 
@@ -41,7 +42,7 @@ Map::Map(Util::Renderer *m_Root) {
         // 創建物件並設置屬性
         auto invisiblewall = std::make_shared<InvisibleWall>(glm::vec2(object["width"].get<float>(), object["height"].get<float>()));
         
-        invisiblewall->SetPosition({newX - respawnpointX - 14, newY - respawnpointY + 14});
+        invisiblewall->SetPosition({newX - respawnpointX + 28, newY - respawnpointY + 28});
         m_Invisiblewalls.push_back(invisiblewall);
     }
 
@@ -86,20 +87,21 @@ void Map::Update() {
     }
 }
 
-void Map::Move(glm::vec2 displacement) { 
+void Map::Move(glm::vec2 displacement, std::shared_ptr<Character> &m_Butterfly) { 
     for (const auto& invisiblewall : m_Invisiblewalls) {
-        if (invisiblewall->IsCollision({invisiblewall->GetPosition().x + displacement.x, invisiblewall->GetPosition().y + displacement.y})) {
+        if (invisiblewall->IsCollision(m_Butterfly, displacement)) {
+            std::cout << invisiblewall->GetPosition().x << "    " << invisiblewall->GetPosition().y << std::endl;
             return;
         }
     }
     for (const auto& door : m_Doors) {
-        if (door->GetVisibility() && door->IsCollision({door->GetPosition().x + displacement.x, door->GetPosition().y + displacement.y})) {
+        if (door->GetVisibility() && door->IsCollision(m_Butterfly, displacement)) {
             m_CurrentInteracting = door;
             return;
         }
     }
     for (const auto& chest : m_Chests) {
-        if (chest->IsCollision({chest->GetPosition().x + displacement.x, chest->GetPosition().y + displacement.y})) {
+        if (chest->IsCollision(m_Butterfly, displacement)) {
             m_CurrentInteracting = chest;
             return;
         }
@@ -109,28 +111,29 @@ void Map::Move(glm::vec2 displacement) {
         m_CurrentInteracting = nullptr;
     }
     
-    m_map->SetPosition({m_map->GetPosition().x + displacement.x, m_map->GetPosition().y + displacement.y});
+    m_map->SetPosition(m_map->GetPosition() + displacement);
     for (const auto& obj : m_Objects) {
-        obj->SetPosition({obj->GetPosition().x + displacement.x, obj->GetPosition().y + displacement.y});
+        obj->SetPosition(obj->GetPosition() + displacement);
     }
     for (const auto& unexplored : m_Unexploreds) {
-        unexplored->SetPosition({unexplored->GetPosition().x + displacement.x, unexplored->GetPosition().y + displacement.y});
+        unexplored->SetPosition(unexplored->GetPosition() + displacement);
     }
     for (const auto& invisiblewall : m_Invisiblewalls) {
-        invisiblewall->SetPosition({invisiblewall->GetPosition().x + displacement.x, invisiblewall->GetPosition().y + displacement.y});
+        invisiblewall->SetPosition(invisiblewall->GetPosition() + displacement);
     }
     for (const auto& door : m_Doors) {
-        door->SetPosition({door->GetPosition().x + displacement.x, door->GetPosition().y + displacement.y});
+        door->SetPosition(door->GetPosition() + displacement);
     }
     for (const auto& chest : m_Chests) {
-        chest->SetPosition({chest->GetPosition().x + displacement.x, chest->GetPosition().y + displacement.y});
+        chest->SetPosition(chest->GetPosition() + displacement);
     }
 
     //just push box
-    if (m_Box->IsCollision({m_Box->GetPosition().x + displacement.x, m_Box->GetPosition().y + displacement.y})) {
+    if (m_Box->IsCollision(m_Butterfly, displacement)) {
         return;
     }
+    
     else {
-        m_Box->SetPosition({m_Box->GetPosition().x + displacement.x, m_Box->GetPosition().y + displacement.y});
+        m_Box->SetPosition(m_Box->GetPosition() + displacement);
     }
 }

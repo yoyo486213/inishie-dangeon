@@ -4,11 +4,15 @@ InvisibleWall::InvisibleWall(glm::vec2 size) {
     m_Size = size;
 }
 
-bool InvisibleWall::IsCollision(glm::vec2 position) {
-    float width = 0;
-    float hight = 0;
-    if (position.x <= width && position.x + m_Size.x >= -width && position.y >= -hight && position.y - m_Size.y <= hight) {
-        return true;
-    }
-    return false;
+bool InvisibleWall::IsCollision(std::shared_ptr<Character> &other, glm::vec2 displacement) {
+    glm::vec2 thisPos = this->GetPosition() + displacement;
+    glm::vec2 otherPos = other->GetPosition();
+    
+    glm::vec2 thisSize = this->GetSize();
+    glm::vec2 otherSize = other->GetScaledSize();
+
+    bool xOverlap = thisPos.x + thisSize.x > otherPos.x && otherPos.x + otherSize.x > thisPos.x;
+    bool yOverlap = thisPos.y + thisSize.y > otherPos.y && otherPos.y + otherSize.y > thisPos.y;
+
+    return xOverlap && yOverlap;
 }

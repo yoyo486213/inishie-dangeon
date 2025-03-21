@@ -82,16 +82,16 @@ void App::Update() {
         m_map->Update();
         
         if (Util::Input::IsKeyPressed(Util::Keycode::W)) {
-            m_map->Move({0, -2.5});
+            m_map->Move({0, -2.5}, m_Butterfly);
         }
         if (Util::Input::IsKeyPressed(Util::Keycode::A)) {
-            m_map->Move({2.5, 0});
+            m_map->Move({2.5, 0}, m_Butterfly);
         }
         if (Util::Input::IsKeyPressed(Util::Keycode::S)) {
-            m_map->Move({0, 2.5});
+            m_map->Move({0, 2.5}, m_Butterfly);
         }
         if (Util::Input::IsKeyPressed(Util::Keycode::D)) {
-            m_map->Move({-2.5, 0});
+            m_map->Move({-2.5, 0}, m_Butterfly);
         }
     }
     

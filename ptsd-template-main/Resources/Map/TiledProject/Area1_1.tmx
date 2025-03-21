@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="36" height="36" tilewidth="28" tileheight="28" infinite="0" nextlayerid="10" nextobjectid="547">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="36" height="36" tilewidth="28" tileheight="28" infinite="0" nextlayerid="10" nextobjectid="549">
  <editorsettings>
   <export target="Area1_1.json" format="json"/>
  </editorsettings>
@@ -59,7 +59,7 @@
   <object id="13" name="Barrel" gid="13" x="532" y="588" width="28" height="28"/>
   <object id="14" name="Barrel" gid="13" x="560" y="588" width="28" height="28"/>
  </objectgroup>
- <objectgroup id="8" name="Unexplored" locked="1">
+ <objectgroup id="8" name="Unexplored">
   <object id="531" name="Unexplored" gid="8" x="560" y="420" width="28" height="28"/>
   <object id="532" name="Unexplored" gid="8" x="588" y="420" width="28" height="28"/>
   <object id="533" name="Unexplored" gid="8" x="560" y="448" width="28" height="28"/>
@@ -68,6 +68,8 @@
   <object id="536" name="Unexplored" gid="8" x="420" y="588" width="28" height="28"/>
   <object id="537" name="Unexplored" gid="8" x="392" y="616" width="28" height="28"/>
   <object id="538" name="Unexplored" gid="8" x="420" y="616" width="28" height="28"/>
+  <object id="547" name="Unexplored" gid="8" x="308" y="336" width="393" height="28"/>
+  <object id="548" name="Unexplored" gid="8" x="308" y="697" width="28" height="361"/>
  </objectgroup>
  <objectgroup id="7" name="InvisibleWall" locked="1">
   <object id="508" x="308" y="308" width="364" height="28"/>

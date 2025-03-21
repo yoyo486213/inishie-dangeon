@@ -3,19 +3,14 @@
 
 #include "pch.hpp"
 #include "Character.hpp"
-#include "Collidable.hpp"
 
-class Box : public Collidable, public Character {
+class Box : public Character {
 public:
     Box(const std::string& ImagePath);
 
     virtual ~Box() = default;
 
-    bool IsCollision(glm::vec2 position) override;
-
-    void OnCollision() override {};
-
-    void OffCollision() override {};
+    bool IsCollision(std::shared_ptr<Character> &other, glm::vec2 displacement);
 };
 
 #endif //BOX_HPP

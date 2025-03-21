@@ -2,12 +2,13 @@
 #define COLLIDABLE_HPP
 
 #include "pch.hpp"
+#include "Character.hpp"
 
 class Collidable {
 public:
     virtual ~Collidable() = default;
 
-    virtual bool IsCollision(glm::vec2 position) = 0;
+    virtual bool IsCollision(std::shared_ptr<Character> &other, glm::vec2 displacement) = 0;
 
     virtual void OnCollision() = 0;
 

@@ -27,7 +27,7 @@ public:
 
     std::shared_ptr<AnimatedCharacter> GetTrapAnimation() { return m_TrapAnimation; }
 
-    bool IsCollision(glm::vec2 position) override;
+    bool IsCollision(std::shared_ptr<Character> &other, glm::vec2 displacement) override;
 
     void OnCollision() override;
 

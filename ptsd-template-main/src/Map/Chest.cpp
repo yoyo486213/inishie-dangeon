@@ -100,15 +100,17 @@ Chest::Chest(const std::string& ImagePath, Util::Renderer *m_Root) : Character(I
     }
 }
 
-bool Chest::IsCollision(glm::vec2 position) {
-    float width = 0;
-    float height = 0;
-    float x = position.x - 14;
-    float y = position.y + 14;
-    if (x <= width && x + GetScaledSize().x >= -width && y >= -height && y - GetScaledSize().y <= height) {
-        return true;
-    }
-    return false;
+bool Chest::IsCollision(std::shared_ptr<Character> &other, glm::vec2 displacement) {
+    glm::vec2 thisPos = this->GetPosition() + displacement;
+    glm::vec2 otherPos = other->GetPosition();
+    
+    glm::vec2 thisSize = this->GetScaledSize();
+    glm::vec2 otherSize = other->GetScaledSize();
+
+    bool xOverlap = thisPos.x + thisSize.x > otherPos.x && otherPos.x + otherSize.x > thisPos.x;
+    bool yOverlap = thisPos.y + thisSize.y > otherPos.y && otherPos.y + otherSize.y > thisPos.y;
+
+    return xOverlap && yOverlap;
 }
 
 void Chest::OnCollision() {
