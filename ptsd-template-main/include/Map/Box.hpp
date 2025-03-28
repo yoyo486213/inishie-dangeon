@@ -10,7 +10,7 @@ public:
 
     virtual ~Box() = default;
 
-    bool IsCollision(std::shared_ptr<Character> &other, glm::vec2 displacement);
+    bool IsCollision(const std::shared_ptr<Character> &other, glm::vec2 displacement);
 };
 
 #endif //BOX_HPP

@@ -1,9 +1,24 @@
 #include "Map/Map.hpp"
-#include <memory>
-#include <iostream>
+#include <fstream>
+#include "Util/Renderer.hpp"
+#include "ICollidable.hpp"
+#include "Character.hpp"
+#include "Map/InvisibleWall.hpp"
+#include "Map/Unexplored.hpp"
+#include "Map/DownStairs.hpp"
+#include "Map/UpStairs.hpp"
+#include "Map/Chest.hpp"
+#include "Map/Door.hpp"
+#include "Map/DestructibleObject.hpp"
+#include "Map/Box.hpp"
+#include "Player.hpp"
+#include "Monster/Monster.hpp"
+#include "Monster/Rat.hpp"
+#include "nlohmann/json.hpp"
+
 
 Map::Map(Util::Renderer *m_Root) {
-    std::ifstream file("../Resources/Map/TiledProject/Area1_1.json");
+    std::ifstream file(RESOURCE_DIR"/Map/TiledProject/Area1_1.json");
     nlohmann::json mapData;
     file >> mapData;
 
@@ -14,10 +29,11 @@ Map::Map(Util::Renderer *m_Root) {
     float respawnpointX = mapData["layers"][4]["objects"][0]["x"].get<float>() - centerX;
     float respawnpointY = -(mapData["layers"][4]["objects"][0]["y"].get<float>() - centerY);
 
-    m_map = std::make_shared<Character>("../Resources/Map/TiledProject/Area1_1.png");
+    m_map = std::make_shared<Character>(RESOURCE_DIR"/Map/TiledProject/Area1_1.png");
     m_map->SetZIndex(10);
     m_map->SetPosition({-respawnpointX - 14, -respawnpointY + 14});
     m_map->SetVisible(true);
+    AllObjects.push_back(m_map);
     m_Root->AddChild(m_map);
 
     for (const auto& object : mapData["layers"][2]["objects"]) {
@@ -25,9 +41,10 @@ Map::Map(Util::Renderer *m_Root) {
         float newY = -(object["y"].get<float>() - centerY);
 
         // 創建物件並設置屬性
-        auto unexplored = std::make_shared<Unexplored>("../Resources/Map/TiledProject/Area1_Resources/" + object["name"].get<std::string>() + ".png");
-        
-        unexplored->SetPosition({newX - respawnpointX +28, newY - respawnpointY + 28});
+        auto unexplored = std::make_shared<Unexplored>(RESOURCE_DIR"/Map/TiledProject/Area1_Resources/" + object["name"].get<std::string>() + ".png");
+        AllObjects.push_back(unexplored);
+
+        unexplored->SetPosition({newX - respawnpointX, newY - respawnpointY + 28});
         unexplored->SetVisible(true);
         unexplored->SetZIndex(12);
 
@@ -41,8 +58,9 @@ Map::Map(Util::Renderer *m_Root) {
 
         // 創建物件並設置屬性
         auto invisiblewall = std::make_shared<InvisibleWall>(glm::vec2(object["width"].get<float>(), object["height"].get<float>()));
+        AllCollidableObjects.push_back(invisiblewall);
         
-        invisiblewall->SetPosition({newX - respawnpointX + 28, newY - respawnpointY + 28});
+        invisiblewall->SetPosition({newX - respawnpointX + object["width"].get<float>() / 2.0 - 14, newY - respawnpointY - object["height"].get<float>() / 2.0 + 14});
         m_Invisiblewalls.push_back(invisiblewall);
     }
 
@@ -54,16 +72,32 @@ Map::Map(Util::Renderer *m_Root) {
         // 創建物件並設置屬性
         std::shared_ptr<Character> obj;
         if (object["name"].get<std::string>() == "Door") {
-            obj = std::make_shared<Door>("../Resources/Map/TiledProject/Area1_Resources/" + object["name"].get<std::string>() + ".png", m_Unexploreds);
+            obj = std::make_shared<Door>(RESOURCE_DIR"/Map/TiledProject/Area1_Resources/" + object["name"].get<std::string>() + ".png", m_Unexploreds);
             m_Doors.push_back(std::dynamic_pointer_cast<Door>(obj));
+            AllObjects.push_back(std::dynamic_pointer_cast<Door>(obj));
+            AllCollidableObjects.push_back(std::dynamic_pointer_cast<Door>(obj));
         }
         else if (object["name"].get<std::string>() == "CloseChest") {
-            obj = std::make_shared<Chest>("../Resources/Map/TiledProject/Area1_Resources/" + object["name"].get<std::string>() + ".png", m_Root);
+            obj = std::make_shared<Chest>(RESOURCE_DIR"/Map/TiledProject/Area1_Resources/" + object["name"].get<std::string>() + ".png", m_Root);
             m_Chests.push_back(std::dynamic_pointer_cast<Chest>(obj));
+            AllObjects.push_back(std::dynamic_pointer_cast<Chest>(obj));
+            AllCollidableObjects.push_back(std::dynamic_pointer_cast<Chest>(obj));
+        }
+        else if (object["name"].get<std::string>() == "UpStairs") {
+            obj = std::make_shared<UpStairs>(RESOURCE_DIR"/Map/TiledProject/Area1_Resources/" + object["name"].get<std::string>() + ".png", m_Root);
+            m_UpStairs = std::dynamic_pointer_cast<UpStairs>(obj);
+            AllObjects.push_back(std::dynamic_pointer_cast<UpStairs>(obj));
+        }
+        else if (object["name"].get<std::string>() == "DownStairs") {
+            obj = std::make_shared<DownStairs>(RESOURCE_DIR"/Map/TiledProject/Area1_Resources/" + object["name"].get<std::string>() + ".png", m_Root);
+            m_DownStairs = std::dynamic_pointer_cast<DownStairs>(obj);
+            AllObjects.push_back(std::dynamic_pointer_cast<DownStairs>(obj));
         }
         else {
-            obj = std::make_shared<Character>("../Resources/Map/TiledProject/Area1_Resources/" + object["name"].get<std::string>() + ".png");
-            m_Objects.push_back(obj);
+            obj = std::make_shared<DestructibleObject>(RESOURCE_DIR"/Map/TiledProject/Area1_Resources/" + object["name"].get<std::string>() + ".png");
+            m_DestructibleObjects.push_back(std::dynamic_pointer_cast<DestructibleObject>(obj));
+            AllObjects.push_back(std::dynamic_pointer_cast<DestructibleObject>(obj));
+            AllCollidableObjects.push_back(std::dynamic_pointer_cast<DestructibleObject>(obj));
         }
 
         obj->SetPosition({newX - respawnpointX, newY - respawnpointY + 28});
@@ -74,66 +108,79 @@ Map::Map(Util::Renderer *m_Root) {
     }
 
     // just push box
-    m_Box = std::make_shared<Box>("../Resources/Map/Chest/Box.png");
+    m_Box = std::make_shared<Box>(RESOURCE_DIR"/Map/Chest/Box.png");
     m_Box->SetVisible(true);
     m_Box->SetZIndex(11);
-    m_Box->SetPosition({-28, -28});
+    m_Box->SetPosition({-56, -28});
     m_Root->AddChild(m_Box);
+
+    // Monster
+    auto obj = std::make_shared<Rat>();
+    m_Root->AddChild(obj);
+    m_Monsters.push_back(std::dynamic_pointer_cast<Monster>(obj));
+    AllCollidableObjects.push_back(obj);
 }
 
-void Map::Update() {
+void Map::Update(std::shared_ptr<Player> &m_Player) {
     if (m_CurrentInteracting) {
         m_CurrentInteracting->OnCollision();
     }
+
+    m_UpStairs->ChangeImage(m_UpStairs->IfFouse() ? 2 : 1);
+    m_DownStairs->ChangeImage(m_DownStairs->IfFouse() ? 2 : 1);
+
+    for (const auto& monster : m_Monsters) {
+        monster->Update(AllCollidableObjects, m_Player);
+    }
 }
 
-void Map::Move(glm::vec2 displacement, std::shared_ptr<Character> &m_Butterfly) { 
-    for (const auto& invisiblewall : m_Invisiblewalls) {
-        if (invisiblewall->IsCollision(m_Butterfly, displacement)) {
-            std::cout << invisiblewall->GetPosition().x << "    " << invisiblewall->GetPosition().y << std::endl;
-            return;
+void Map::Move(glm::vec2 displacement, std::shared_ptr<Player> &m_Player) {    
+    // Just Push Box
+    // 判斷角色推箱子時的碰撞
+    bool unconti = false;
+    for (const auto& item : AllCollidableObjects) {
+        if (item->IsCollision(m_Box, displacement) && m_Box->IsCollision(m_Player, displacement)) {
+            Move(displacement - glm::vec2(1, 1) * glm::normalize(displacement), m_Player);
+            unconti = true;
         }
     }
-    for (const auto& door : m_Doors) {
-        if (door->GetVisibility() && door->IsCollision(m_Butterfly, displacement)) {
-            m_CurrentInteracting = door;
-            return;
+
+    // main
+    for (const auto& item : AllCollidableObjects) {
+        if (item->IsCollision(m_Player, displacement)) {
+            std::shared_ptr<Monster> monster = std::dynamic_pointer_cast<Monster>(item);
+            if (monster) {
+                m_Player->Attack();
+                return;
+            }
+            
+            m_CurrentInteracting = item;
+            unconti = true;
         }
     }
-    for (const auto& chest : m_Chests) {
-        if (chest->IsCollision(m_Butterfly, displacement)) {
-            m_CurrentInteracting = chest;
-            return;
-        }
+    m_UpStairs->IsCollision(m_Player, displacement) ? m_UpStairs->OnCollision() : m_UpStairs->OffCollision();
+    m_DownStairs->IsCollision(m_Player, displacement) ? m_DownStairs->OnCollision() : m_DownStairs->OffCollision();
+    if (unconti) {
+        return;
     }
+
     if (m_CurrentInteracting) {
         m_CurrentInteracting->OffCollision();
         m_CurrentInteracting = nullptr;
     }
-    
-    m_map->SetPosition(m_map->GetPosition() + displacement);
-    for (const auto& obj : m_Objects) {
-        obj->SetPosition(obj->GetPosition() + displacement);
-    }
-    for (const auto& unexplored : m_Unexploreds) {
-        unexplored->SetPosition(unexplored->GetPosition() + displacement);
+    for (const auto& item : AllObjects) {
+        item->SetPosition(item->GetPosition() + displacement);
     }
     for (const auto& invisiblewall : m_Invisiblewalls) {
         invisiblewall->SetPosition(invisiblewall->GetPosition() + displacement);
     }
-    for (const auto& door : m_Doors) {
-        door->SetPosition(door->GetPosition() + displacement);
-    }
-    for (const auto& chest : m_Chests) {
-        chest->SetPosition(chest->GetPosition() + displacement);
+    for (const auto& monster : m_Monsters) {
+        monster->SetPosition(monster->GetPosition() + displacement);
     }
 
     //just push box
-    if (m_Box->IsCollision(m_Butterfly, displacement)) {
+    if (m_Box->IsCollision(m_Player, displacement)) {
         return;
     }
-    
-    else {
-        m_Box->SetPosition(m_Box->GetPosition() + displacement);
-    }
+    m_Box->SetPosition(m_Box->GetPosition() + displacement);
 }

@@ -1,11 +1,13 @@
 #ifndef STARTMENU_HPP
 #define STARTMENU_HPP
 
-#include "Util/Renderer.hpp"
-#include "Util/Input.hpp"
-#include "Util/Keycode.hpp"
+#include "pch.hpp"
+#include "Util/GameObject.hpp"
 
-#include "AnimatedCharacter.hpp"
+namespace Util {
+    class Renderer;
+}
+class AnimatedCharacter;
 
 class StartMenu : public Util::GameObject{
 public:

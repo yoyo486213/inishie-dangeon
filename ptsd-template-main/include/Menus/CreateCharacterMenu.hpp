@@ -1,12 +1,17 @@
 #ifndef CREATECHARACTERMENU_HPP
 #define CREATECHARACTERMENU_HPP
 
+#include "pch.hpp"
+#include "Util/GameObject.hpp"
 #include "Util/Renderer.hpp"
-
 #include "Menu.hpp"
-#include "Button.hpp"
-#include "MoveAnimated.hpp"
-#include "MyBGM.hpp"
+
+namespace Util {
+    class Renderer;
+}
+class Button;
+class MoveAnimated;
+class MyBGM;
 
 class CreateCharacterMenu : public Util::GameObject{
 public:

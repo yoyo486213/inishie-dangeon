@@ -26,7 +26,7 @@
   <image source="Area1_Resources/Wall.png" width="28" height="28"/>
  </tile>
  <tile id="8">
-  <image source="Area1_Resources/UpStaris.png" width="28" height="28"/>
+  <image source="Area1_Resources/UpStairs.png" width="28" height="28"/>
  </tile>
  <tile id="9">
   <image source="Area1_Resources/DownStairs.png" width="28" height="28"/>

@@ -1,6 +1,7 @@
 #include "Map/Chest.hpp"
-#include "Character.hpp"
-#include <memory>
+#include <random>
+#include "Util/Renderer.hpp"
+#include "AnimatedCharacter.hpp"
 
 Chest::Chest(const std::string& ImagePath, Util::Renderer *m_Root) : Character(ImagePath) {
     std::random_device rd;
@@ -9,7 +10,7 @@ Chest::Chest(const std::string& ImagePath, Util::Renderer *m_Root) : Character(I
     
     m_TrapType = TrapType::Fire;
 
-    m_BoxProgressBox = std::make_shared<Character>("../Resources/Map/Chest/Boxprogressbox.png");
+    m_BoxProgressBox = std::make_shared<Character>(RESOURCE_DIR"/Map/Chest/Boxprogressbox.png");
     m_BoxProgressBox->SetVisible(false);
     m_BoxProgressBox->SetZIndex(16);
     m_Root->AddChild(m_BoxProgressBox);
@@ -17,8 +18,8 @@ Chest::Chest(const std::string& ImagePath, Util::Renderer *m_Root) : Character(I
     std::vector<std::string> BoxprogressImages;
     BoxprogressImages.reserve(26);
     for (int i = 1; i < 51; i++) {
-        char buffer[100];
-        snprintf(buffer, sizeof(buffer), "../Resources/Map/Chest/Boxprogress/Boxprogress-%02d.png", i);
+        char buffer[200];
+        snprintf(buffer, sizeof(buffer), RESOURCE_DIR"/Map/Chest/Boxprogress/Boxprogress-%02d.png", i);
         BoxprogressImages.emplace_back(buffer);
     }
     m_BoxProgress = std::make_shared<AnimatedCharacter>(BoxprogressImages);
@@ -34,49 +35,49 @@ Chest::Chest(const std::string& ImagePath, Util::Renderer *m_Root) : Character(I
     switch (m_TrapType) {
         case TrapType::Fire:
             for (int i = 1; i < 27; i++) {
-                char buffer[100];
-                snprintf(buffer, sizeof(buffer), "../Resources/Map/Chest/Fire/Fire-%02d.png", i);
+                char buffer[200];
+                snprintf(buffer, sizeof(buffer), RESOURCE_DIR"/Map/Chest/Fire/Fire-%02d.png", i);
                 TrapImages.emplace_back(buffer);
             }
             m_TrapAnimation = std::make_shared<AnimatedCharacter>(TrapImages);
-            m_TrapBox = std::make_shared<Character>("../Resources/Map/Chest/FireBox.png");
+            m_TrapBox = std::make_shared<Character>(RESOURCE_DIR"/Map/Chest/FireBox.png");
             break;
         case TrapType::Ice:
             for (int i = 0; i < 30; i++) {
-                char buffer[100];
-                snprintf(buffer, sizeof(buffer), "../Resources/Trap/Map/Chest/Ice/Ice-%02d.png", i);
+                char buffer[200];
+                snprintf(buffer, sizeof(buffer), RESOURCE_DIR"/Trap/Map/Chest/Ice/Ice-%02d.png", i);
                 TrapImages.emplace_back(buffer);
             }
             m_TrapAnimation = std::make_shared<AnimatedCharacter>(TrapImages);
             break;
         case TrapType::Lightning:
             for (int i = 0; i < 30; i++) {
-                char buffer[100];
-                snprintf(buffer, sizeof(buffer), "../Resources/Trap/Map/Chest/Lightning/Lightning-%02d.png", i);
+                char buffer[200];
+                snprintf(buffer, sizeof(buffer), RESOURCE_DIR"/Trap/Map/Chest/Lightning/Lightning-%02d.png", i);
                 TrapImages.emplace_back(buffer);
             }
             m_TrapAnimation = std::make_shared<AnimatedCharacter>(TrapImages);
             break;
         case TrapType::Explode:
             for (int i = 0; i < 30; i++) {
-                char buffer[100];
-                snprintf(buffer, sizeof(buffer), "../Resources/Trap/Map/Chest/Explode/Explode-%02d.png", i);
+                char buffer[200];
+                snprintf(buffer, sizeof(buffer), RESOURCE_DIR"/Trap/Map/Chest/Explode/Explode-%02d.png", i);
                 TrapImages.emplace_back(buffer);
             }
             m_TrapAnimation = std::make_shared<AnimatedCharacter>(TrapImages);
             break;
         case TrapType::Charm:
             for (int i = 0; i < 30; i++) {
-                char buffer[100];
-                snprintf(buffer, sizeof(buffer), "../Resources/Trap/Map/Chest/Charm/Charm-%02d.png", i);
+                char buffer[200];
+                snprintf(buffer, sizeof(buffer), RESOURCE_DIR"/Trap/Map/Chest/Charm/Charm-%02d.png", i);
                 TrapImages.emplace_back(buffer);
             }
             m_TrapAnimation = std::make_shared<AnimatedCharacter>(TrapImages);
             break;
         case TrapType::Poison:
             for (int i = 0; i < 30; i++) {
-                char buffer[100];
-                snprintf(buffer, sizeof(buffer), "../Resources/Trap/Map/Chest/Poison/Poison-%02d.png", i);
+                char buffer[200];
+                snprintf(buffer, sizeof(buffer), RESOURCE_DIR"/Trap/Map/Chest/Poison/Poison-%02d.png", i);
                 TrapImages.emplace_back(buffer);
             }
             m_TrapAnimation = std::make_shared<AnimatedCharacter>(TrapImages);
@@ -100,17 +101,17 @@ Chest::Chest(const std::string& ImagePath, Util::Renderer *m_Root) : Character(I
     }
 }
 
-bool Chest::IsCollision(std::shared_ptr<Character> &other, glm::vec2 displacement) {
-    glm::vec2 thisPos = this->GetPosition() + displacement;
-    glm::vec2 otherPos = other->GetPosition();
-    
+bool Chest::IsCollision(const std::shared_ptr<Character> &other, glm::vec2 displacement) {
     glm::vec2 thisSize = this->GetScaledSize();
     glm::vec2 otherSize = other->GetScaledSize();
+
+    glm::vec2 thisPos = this->GetPosition() + displacement - glm::vec2({thisSize.x / 2.0, thisSize.y / 2.0});
+    glm::vec2 otherPos = other->GetPosition() - glm::vec2({otherSize.x / 2.0, otherSize.y / 2.0});
 
     bool xOverlap = thisPos.x + thisSize.x > otherPos.x && otherPos.x + otherSize.x > thisPos.x;
     bool yOverlap = thisPos.y + thisSize.y > otherPos.y && otherPos.y + otherSize.y > thisPos.y;
 
-    return xOverlap && yOverlap;
+    return xOverlap && yOverlap && this->GetVisibility();
 }
 
 void Chest::OnCollision() {
@@ -143,7 +144,7 @@ void Chest::OnCollision() {
         }
         m_BoxProgressBox->SetVisible(false);
         m_BoxProgress->SetVisible(false);
-        SetImage("../Resources/Map/TiledProject/Area1_Resources/OpenChest.png");
+        SetImage(RESOURCE_DIR"/Map/TiledProject/Area1_Resources/OpenChest.png");
         // 噴裝備
     }
     if (m_TrapAnimation && m_TrapAnimation->IfAnimationEnds()) {
@@ -154,7 +155,7 @@ void Chest::OnCollision() {
         }
         m_BoxProgressBox->SetVisible(false);
         m_BoxProgress->SetVisible(false);
-        SetImage("../Resources/Map/TiledProject/Area1_Resources/OpenChest.png");
+        SetImage(RESOURCE_DIR"/Map/TiledProject/Area1_Resources/OpenChest.png");
     }
 }
 

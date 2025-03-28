@@ -2,9 +2,8 @@
 #define MYBGM_HPP
 
 #include "pch.hpp"
-
-#include "Util/BGM.hpp"
 #include "Util/GameObject.hpp"
+#include "Util/BGM.hpp"
 
 class MyBGM : public Util::GameObject {
 public:

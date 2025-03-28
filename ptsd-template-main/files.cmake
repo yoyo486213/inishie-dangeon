@@ -8,8 +8,16 @@ set(SRC_FILES
     Map/Unexplored.cpp
     Map/Door.cpp
     Map/Chest.cpp
+    Map/UpStairs.cpp
+    Map/DownStairs.cpp
+    Map/DestructibleObject.cpp
 
     Map/Box.cpp
+
+    Monster/Monster.cpp
+    Monster/Rat.cpp
+
+    Player.cpp
 
     Menu.cpp
     Menus/CreateCharacterMenu.cpp
@@ -32,8 +40,16 @@ set(INCLUDE_FILES
     Map/Unecplored.hpp
     Map/Door.hpp
     Map/Chest.hpp
+    Map/UpStairs.hpp
+    Map/DownStairs.hpp
+    Map/DestructibleObject.hpp
 
     Map/Box.hpp
+
+    Monster/Monster.hpp
+    Monster/Rat.hpp
+
+    Player.hpp
 
     Menu.hpp
     Menus/CreateCharacterMenu.hpp

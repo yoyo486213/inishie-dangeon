@@ -1,13 +1,17 @@
 #include "Menus/StartMenu.hpp"
+#include "Util/Renderer.hpp"
+#include "Util/Input.hpp"
+#include "Util/Keycode.hpp"
+#include "AnimatedCharacter.hpp"
 
 StartMenu::StartMenu(Util::Renderer *m_Root) {
-    char buffer[100];
+    char buffer[200];
 
     //初始化下滑動畫
     std::vector<std::string> SSslidedownImages;
     SSslidedownImages.reserve(402);
     for (int i = 0; i < 402; i++) {
-        snprintf(buffer, sizeof(buffer), "../Resources/MenuAnime/Slidedown/Slidedown-%03d.bmp", i);
+        snprintf(buffer, sizeof(buffer), RESOURCE_DIR"/MenuAnime/Slidedown/Slidedown-%03d.bmp", i);
         SSslidedownImages.emplace_back(buffer);
     }
     m_SSslidedown = std::make_shared<AnimatedCharacter>(SSslidedownImages);
@@ -19,7 +23,7 @@ StartMenu::StartMenu(Util::Renderer *m_Root) {
     std::vector<std::string> SSmenuImages;
     SSmenuImages.reserve(120);
     for (int i = 0; i < 120; i++) {
-        snprintf(buffer, sizeof(buffer), "../Resources/MenuAnime/Looping/Looping-%03d.bmp", i);
+        snprintf(buffer, sizeof(buffer), RESOURCE_DIR"/MenuAnime/Looping/Looping-%03d.bmp", i);
         SSmenuImages.emplace_back(buffer);
     }
     m_SSmenu = std::make_shared<AnimatedCharacter>(SSmenuImages);

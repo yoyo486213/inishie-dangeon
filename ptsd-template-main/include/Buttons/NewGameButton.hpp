@@ -1,12 +1,16 @@
 #ifndef NEWGAMEBUTTON_HPP
 #define NEWGAMEBUTTON_HPP
 
-#include "Util/Renderer.hpp"
+#include "pch.hpp"
 
-#include "Menu.hpp"
+#include "Util/GameObject.hpp"
 #include "Button.hpp"
+namespace Util {
+    class Renderer;
+}
+class Menu;
 
-class NewGameButton : public Util::GameObject{
+class NewGameButton : public Util::GameObject {
 public:
     NewGameButton(Util::Renderer *m_Root);
     

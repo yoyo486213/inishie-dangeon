@@ -1,8 +1,8 @@
 #ifndef UNEXPLORED_HPP
 #define UNEXPLORED_HPP
 
+#include "pch.hpp"
 #include "Character.hpp"
-#include <glm/fwd.hpp>
 
 class Unexplored : public Character {
 public:

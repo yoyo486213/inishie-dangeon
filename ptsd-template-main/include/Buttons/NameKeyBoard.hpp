@@ -1,12 +1,16 @@
 #ifndef NAMEKEYBOARD_HPP
 #define NAMEKEYBOARD_HPP
 
-#include "Util/Renderer.hpp"
+#include "pch.hpp"
 
-#include "Menu.hpp"
-#include "Button.hpp"
+#include "Util/GameObject.hpp"
 
-class NameKeyBoard : public Util::GameObject{
+namespace Util {
+    class Renderer;
+}
+class Button;
+
+class NameKeyBoard : public Util::GameObject {
 public:
     NameKeyBoard(Util::Renderer *m_Root);
     

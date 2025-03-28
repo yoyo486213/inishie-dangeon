@@ -1,18 +1,17 @@
 #ifndef APP_HPP
 #define APP_HPP
 
-#include "Character.hpp"
-#include "pch.hpp" // IWYU pragma: export
 
+#include "pch.hpp" // IWYU pragma: export
 #include "Util/Renderer.hpp"
 
-#include "AnimatedCharacter.hpp"
-#include "Menus/CreateCharacterMenu.hpp"
-#include "Menus/StartMenu.hpp"
-#include "Buttons/NewGameButton.hpp"
-#include "Buttons/NameKeyBoard.hpp"
-#include "Map/Map.hpp"
-#include <memory>
+class AnimatedCharacter;
+class CreateCharacterMenu;
+class StartMenu;
+class NewGameButton;
+class NameKeyBoard;
+class Map;
+class Player;
 
 class App {
 public:
@@ -23,10 +22,6 @@ public:
     };
 
     State GetCurrentState() const { return m_CurrentState; }
-
-    void SetState(bool state) { this->state = state; }
-
-    bool GetState() { return this->state; }
 
     void Start();
 
@@ -48,9 +43,8 @@ private:
     std::shared_ptr<NameKeyBoard> m_NameKeyBoard;
 
     std::shared_ptr<Map> m_map;
-    bool state = false;
 
-    std::shared_ptr<Character> m_Butterfly;
+    std::shared_ptr<Player> m_Player;
 
     Util::Renderer m_Root;
 };

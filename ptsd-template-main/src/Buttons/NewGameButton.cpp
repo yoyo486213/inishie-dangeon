@@ -1,12 +1,14 @@
 #include "Buttons/NewGameButton.hpp"
+#include "Util/Renderer.hpp"
+#include "Menu.hpp"
 
 NewGameButton::NewGameButton(Util::Renderer *m_Root) {
-    char buffer[100];
+    char buffer[200];
     //初始化按鈕
     std::vector<std::string> NewGameBtnImages;  
     NewGameBtnImages.reserve(3);
     for (int i = 1; i < 4; i++) {
-        snprintf(buffer, sizeof(buffer), "../Resources/button/Menu/NewGame/NewGame-%d.png", i);
+        snprintf(buffer, sizeof(buffer), RESOURCE_DIR"/button/Menu/NewGame/NewGame-%d.png", i);
         NewGameBtnImages.emplace_back(buffer);
     }
     m_NewGameBtn = std::make_shared<Button>(NewGameBtnImages);
@@ -16,7 +18,7 @@ NewGameButton::NewGameButton(Util::Renderer *m_Root) {
     m_Root->AddChild(m_NewGameBtn);
 
     //初始化文字
-    m_NewGameText = std::make_shared<Menu>("../Resources/Text/NewGameText/NewGameText.png");
+    m_NewGameText = std::make_shared<Menu>(RESOURCE_DIR"/Text/NewGameText/NewGameText.png");
     m_NewGameText->SetZIndex(6);
     m_NewGameText->SetPosition({0, -75});
     m_NewGameText->SetVisible(false);

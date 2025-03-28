@@ -3,16 +3,17 @@
 
 #include "pch.hpp"
 #include "Character.hpp"
-#include "Collidable.hpp"
-#include "Map/Unexplored.hpp"
+#include "ICollidable.hpp"
 
-class Door : public Collidable, public Character, public std::enable_shared_from_this<Door> {
+class Unexplored;
+
+class Door : public ICollidable, public Character, public std::enable_shared_from_this<Door> {
 public:
     Door(const std::string& ImagePath, std::vector<std::shared_ptr<Unexplored>>& unexploreds);
 
     virtual ~Door() = default;
 
-    bool IsCollision(std::shared_ptr<Character> &other, glm::vec2 displacement) override;
+    bool IsCollision(const std::shared_ptr<Character> &other, glm::vec2 displacement) override;
 
     void OnCollision() override;
 

@@ -4,15 +4,24 @@
 #include "Util/Keycode.hpp"
 #include "Util/Logger.hpp"
 
+#include "AnimatedCharacter.hpp"
+#include "Menus/CreateCharacterMenu.hpp"
+#include "Menus/StartMenu.hpp"
+#include "Buttons/NewGameButton.hpp"
+#include "Buttons/NameKeyBoard.hpp"
+#include "Map/Map.hpp"
+#include "Player.hpp"
+#include "Character.hpp"
+
 void App::Start() {
     LOG_TRACE("Start");
 
     // 開門畫面
     std::vector<std::string> StartAnimeImages; 
     StartAnimeImages.reserve(63);
-    char buffer[100];
+    char buffer[200];
     for (int i = 0; i < 63; i++) {
-        snprintf(buffer, sizeof(buffer), "../Resources/LoadingAnime/LoadingAnime-%02d.bmp", i);
+        snprintf(buffer, sizeof(buffer), RESOURCE_DIR"/LoadingAnime/LoadingAnime-%02d.bmp", i);
         StartAnimeImages.emplace_back(buffer);
     }
     m_StartAnime = std::make_shared<AnimatedCharacter>(StartAnimeImages);
@@ -52,14 +61,10 @@ void App::Update() {
         // m_CreateCharacterMenu->OpenMenu();
         m_NewGameButton->SetVisible(false);
         
-        m_Butterfly = std::make_shared<Character>("../Resources/Character/Butterfly.png");
-        m_Butterfly->SetZIndex(15);
-        m_Butterfly->SetPosition({0, 0});
-        m_Butterfly->SetVisible(true);
-        m_Root.AddChild(m_Butterfly);
+        m_Player = std::make_shared<Player>(RESOURCE_DIR"/Character/Butterfly.png", 4, 0, std::vector<int>{1, 4}, 0, 105, 5, std::vector<int>{0, 0, 0, 0, 0}, 1, 6);
+        m_Root.AddChild(m_Player);
         
         m_map = std::make_shared<Map>(&m_Root);
-        SetState(true);
     }
     
     if(m_CreateCharacterMenu->GetState() != Menu::State::Close) {
@@ -79,19 +84,20 @@ void App::Update() {
      * closing the window.
      */
     if (m_map) {
-        m_map->Update();
+        m_map->Update(m_Player);
         
+        float displacement = 2;
         if (Util::Input::IsKeyPressed(Util::Keycode::W)) {
-            m_map->Move({0, -2.5}, m_Butterfly);
+            m_map->Move({0, -displacement}, m_Player);
         }
         if (Util::Input::IsKeyPressed(Util::Keycode::A)) {
-            m_map->Move({2.5, 0}, m_Butterfly);
+            m_map->Move({displacement, 0}, m_Player);
         }
         if (Util::Input::IsKeyPressed(Util::Keycode::S)) {
-            m_map->Move({0, 2.5}, m_Butterfly);
+            m_map->Move({0, displacement}, m_Player);
         }
         if (Util::Input::IsKeyPressed(Util::Keycode::D)) {
-            m_map->Move({-2.5, 0}, m_Butterfly);
+            m_map->Move({-displacement, 0}, m_Player);
         }
     }
     

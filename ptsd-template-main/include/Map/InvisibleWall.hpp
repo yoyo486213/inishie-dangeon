@@ -2,11 +2,11 @@
 #define INVISIBLEWALL_HPP
 
 #include "pch.hpp"
-#include "Util/GameObject.hpp"
-#include "Character.hpp"
-#include <glm/fwd.hpp>
+#include "ICollidable.hpp"
 
-class InvisibleWall {
+class Character;
+
+class InvisibleWall : public ICollidable {
 public:
     InvisibleWall(glm::vec2 size);
 
@@ -18,7 +18,11 @@ public:
 
     glm::vec2 GetSize() { return m_Size; }
 
-    bool IsCollision(std::shared_ptr<Character> &other, glm::vec2 displacement);
+    bool IsCollision(const std::shared_ptr<Character> &other, glm::vec2 displacement) override;
+
+    void OnCollision() override {};
+
+    void OffCollision() override {};
 private:
     glm::vec2 m_Position;
     glm::vec2 m_Size;

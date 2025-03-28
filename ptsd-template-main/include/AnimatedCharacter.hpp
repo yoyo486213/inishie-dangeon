@@ -5,7 +5,6 @@
 
 #include "Util/Animation.hpp"
 #include "Util/GameObject.hpp"
-#include <memory>
 
 class AnimatedCharacter : public Util::GameObject {
 public:

@@ -2,14 +2,16 @@
 #define CHEST_HPP
 
 #include "pch.hpp"
-#include "Util/Renderer.hpp"
 #include "Character.hpp"
-#include "Collidable.hpp"
-#include "AnimatedCharacter.hpp"
-#include <random>
-#include <memory>
+#include "ICollidable.hpp"
 
-class Chest : public Collidable, public Character{
+namespace Util {
+    class Renderer;
+}
+class AnimatedCharacter;
+
+
+class Chest : public ICollidable, public Character {
 public:
     enum class TrapType {
         Fire,
@@ -27,7 +29,7 @@ public:
 
     std::shared_ptr<AnimatedCharacter> GetTrapAnimation() { return m_TrapAnimation; }
 
-    bool IsCollision(std::shared_ptr<Character> &other, glm::vec2 displacement) override;
+    bool IsCollision(const std::shared_ptr<Character> &other, glm::vec2 displacement) override;
 
     void OnCollision() override;
 
