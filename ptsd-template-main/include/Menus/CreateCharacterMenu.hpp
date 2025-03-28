@@ -12,6 +12,7 @@ namespace Util {
 class Button;
 class MoveAnimated;
 class MyBGM;
+class NameKeyBoard;
 
 class CreateCharacterMenu : public Util::GameObject{
 public:
@@ -41,6 +42,8 @@ private:
     std::shared_ptr<MyBGM> m_MenuOpenBGM;
     std::shared_ptr<MyBGM> m_MenuCloseBGM;
     std::shared_ptr<MyBGM> m_WarriorDoorBGM;
+    
+    std::shared_ptr<NameKeyBoard> m_NameKeyBoard;
 
     State state;
 };

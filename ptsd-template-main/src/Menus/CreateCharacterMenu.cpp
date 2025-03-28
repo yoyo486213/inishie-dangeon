@@ -2,6 +2,7 @@
 #include "Button.hpp"
 #include "MoveAnimated.hpp"
 #include "MyBGM.hpp"
+#include "Buttons/NameKeyBoard.hpp"
 
 CreateCharacterMenu::CreateCharacterMenu(Util::Renderer *m_Root) {
     //初始化創角菜單背景
@@ -55,6 +56,8 @@ CreateCharacterMenu::CreateCharacterMenu(Util::Renderer *m_Root) {
     m_MenuOpenBGM = std::make_shared<MyBGM>(RESOURCE_DIR"/BGM/MenuOpenSnd.wav");     
     m_MenuCloseBGM = std::make_shared<MyBGM>(RESOURCE_DIR"/BGM/MenuCloseSnd.wav");
     m_WarriorDoorBGM = std::make_shared<MyBGM>(RESOURCE_DIR"/BGM/SkinDoorSnd.wav");
+
+    m_NameKeyBoard = std::make_shared<NameKeyBoard>(m_Root);
 }
 
 void CreateCharacterMenu::OpenMenu(){
@@ -69,6 +72,7 @@ void CreateCharacterMenu::OpenMenu(){
     m_CreateCharacter_X->SetVisible(true);
     m_CreateCharacter_X->ChangeImage(1);
     m_MenuOpenBGM->Play(0);
+    m_NameKeyBoard->Open();
 }
 
 void CreateCharacterMenu::CloseMenu(){
@@ -78,9 +82,12 @@ void CreateCharacterMenu::CloseMenu(){
     m_MenuBackGround->SetState(Menu::State::Close);
     m_CreateCharacter_X->SetVisible(false);
     m_MenuCloseBGM->Play(0);
+    m_NameKeyBoard->Closing();
 }
 
 void CreateCharacterMenu::Update(){
+    m_NameKeyBoard->Update();
+
     if (m_MenuBackGround->GetState() == Menu::State::Open) {
         m_MenuBackGround->Move({0, -20}, {0, 0});
         m_WarriorDoor->Move({0, -20}, {-3.5, 115.5});
@@ -127,6 +134,7 @@ void CreateCharacterMenu::Update(){
         m_MenuBackGround->SetVisible(false);
         m_WarriorDoor->SetVisible(false);
         m_CreateCharacter_X->SetVisible(false);
+        m_NameKeyBoard->Close();
     }
     else if (state == State::Open) {
         this->SetVisible(true);

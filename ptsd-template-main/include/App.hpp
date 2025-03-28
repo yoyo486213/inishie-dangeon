@@ -40,7 +40,6 @@ private:
 
     std::shared_ptr<NewGameButton> m_NewGameButton;
     std::shared_ptr<CreateCharacterMenu> m_CreateCharacterMenu;
-    std::shared_ptr<NameKeyBoard> m_NameKeyBoard;
 
     std::shared_ptr<Map> m_map;
 

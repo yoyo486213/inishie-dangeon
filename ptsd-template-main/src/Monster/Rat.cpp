@@ -66,6 +66,7 @@ void Rat::Update(std::vector<std::shared_ptr<ICollidable>> AllCollidableObjects,
         for (const auto& dir : directions) {
             if (this->IsCollision(m_Player, dir * m_TrackRange)) {
                 m_Player->TakeDamage(Calculation::CalcuAttack(m_Attack, 0));
+
                 return;
             }
         }

@@ -12,11 +12,19 @@ class Button;
 
 class NameKeyBoard : public Util::GameObject {
 public:
+    enum class State{
+        Open,
+        Close,
+        Closing,
+        Stop
+    };
     NameKeyBoard(Util::Renderer *m_Root);
     
     virtual ~NameKeyBoard() = default;
 
     void Open();
+
+    void Closing();
 
     void Close();
     
@@ -24,6 +32,8 @@ public:
 private:
     std::vector<std::shared_ptr<Button>> m_BigLetterBtn;
     std::vector<std::shared_ptr<Button>> m_SmallLetterBtn;
+    State state;
+
 };
 
 #endif //NAMEKEYBOARD_HPP
