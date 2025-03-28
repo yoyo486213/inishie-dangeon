@@ -11,11 +11,11 @@ class ICollidable;
 class Player : public Character {
 public:
     Player(const std::string &ImagePath,
-        int hp, int mp, std::vector<int> attack, int defense, int hitrate, int dodgerate, std::vector<int> resistance, int gold, int exp);
+        int hp, int mp, glm::vec2 attack, int defense, int hitrate, int dodgerate, std::vector<int> resistance, int gold, int exp);
 
     virtual ~Player() = default;
 
-    void Attack();
+    int Attack();
 
     void Update(std::shared_ptr<Character> &m_map);
 
@@ -35,7 +35,7 @@ public:
 private:
     int m_HP;
     int m_MP;
-    std::vector<int> m_Attack;
+    glm::vec2 m_Attack;
     int m_Defense;
     int m_Hitrate;
     int m_Dodgerate;

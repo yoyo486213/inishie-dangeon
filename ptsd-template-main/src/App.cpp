@@ -61,7 +61,7 @@ void App::Update() {
         // m_CreateCharacterMenu->OpenMenu();
         m_NewGameButton->SetVisible(false);
         
-        m_Player = std::make_shared<Player>(RESOURCE_DIR"/Character/Butterfly.png", 4, 0, std::vector<int>{1, 4}, 0, 105, 5, std::vector<int>{0, 0, 0, 0, 0}, 1, 6);
+        m_Player = std::make_shared<Player>(RESOURCE_DIR"/Character/Butterfly.png", 4, 0, glm::vec2{1, 4}, 0, 105, 5, std::vector<int>{0, 0, 0, 0, 0}, 1, 6);
         m_Root.AddChild(m_Player);
         
         m_map = std::make_shared<Map>(&m_Root);

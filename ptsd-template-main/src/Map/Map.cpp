@@ -150,7 +150,7 @@ void Map::Move(glm::vec2 displacement, std::shared_ptr<Player> &m_Player) {
         if (item->IsCollision(m_Player, displacement)) {
             std::shared_ptr<Monster> monster = std::dynamic_pointer_cast<Monster>(item);
             if (monster) {
-                m_Player->Attack();
+                // m_Player->Attack();
                 return;
             }
             

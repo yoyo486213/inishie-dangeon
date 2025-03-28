@@ -1,8 +1,9 @@
 #include "Monster/Rat.hpp"
 #include <random>
 #include "Player.hpp"
+#include "Calculation.hpp"
 
-Rat::Rat() : Monster(RESOURCE_DIR"/Monster/Rat.png", 4, 0, std::vector<int>{1, 4}, 0, 105, 5, std::vector<int>{-50, 0, 0, 0, 0}, 1, 6, 2.0) {}
+Rat::Rat() : Monster(RESOURCE_DIR"/Monster/Rat.png", 4, 0, glm::vec2{1, 4}, 0, 105, 5, std::vector<int>{-50, 0, 0, 0, 0}, 1, 6, 2.0) {}
 
 bool Rat::IsCollision(const std::shared_ptr<Character> &other, glm::vec2 displacement) {
     glm::vec2 thisSize = this->GetScaledSize();
@@ -26,9 +27,9 @@ void Rat::Move(glm::vec2 displacement, glm::vec2 goal) {
     }
 }
 
-void Rat::Attack() {
+int Rat::Attack() {
     // 變成攻擊狀態
-    
+    return 0;
     SetState(State::Move);
 }
 
@@ -63,8 +64,8 @@ void Rat::Update(std::vector<std::shared_ptr<ICollidable>> AllCollidableObjects,
         };
         
         for (const auto& dir : directions) {
-            if (this->IsCollision(m_Player, dir * m_AttackRange)) {
-                m_Player->TakeDamage(Attack());
+            if (this->IsCollision(m_Player, dir * m_TrackRange)) {
+                m_Player->TakeDamage(Calculation::CalcuAttack(m_Attack, 0));
                 return;
             }
         }

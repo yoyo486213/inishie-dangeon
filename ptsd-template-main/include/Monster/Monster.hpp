@@ -10,11 +10,14 @@ class Player;
 class Monster : public Character {
 public:
     Monster(const std::string &ImagePath,
-        int hp, int mp, std::vector<int> attack, int defense, int hitrate, int dodgerate, std::vector<int> resistance, int gold, int exp, float attackrange);
+        int hp, int mp, glm::vec2 attack, int defense, int hitrate, int dodgerate, std::vector<int> resistance, int gold, int exp, float TrackRange);
 
     virtual ~Monster() = default;
 
-    virtual void Attack() = 0;
+    virtual int Attack() = 0;
+    // int AttackerDmg(int baseDmg, int CriticalRate, ) {
+
+    // };
      
     virtual void Update(std::vector<std::shared_ptr<ICollidable>> AllCollidableObjects, std::shared_ptr<Player> &m_Player) = 0;
 
@@ -35,16 +38,16 @@ private:
     int m_HP;
     int m_MP;
 public:
-    std::vector<int> m_Attack;
-    int m_Defense;
-    int m_Hitrate;
-    int m_Dodgerate;
-    std::vector<int> m_Resistance; // 火 冰 雷 毒 物理
+    const glm::vec2 m_Attack;
+    const int m_Defense;
+    const int m_Hitrate;
+    const int m_Dodgerate;
+    const std::vector<int> m_Resistance; // 火 冰 雷 毒 物理
 
-    int m_Gold;
-    int m_Exp;
+    const int m_Gold;
+    const int m_Exp;
 
-    const float m_AttackRange;
+    const float m_TrackRange;
 };
 
 #endif //MONSTER_HPP

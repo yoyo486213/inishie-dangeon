@@ -20,7 +20,7 @@ public:
 
     void Move(glm::vec2 displacement, glm::vec2 goal) override;
 
-    void Attack() override;
+    int Attack() override;
 
     void Update(std::vector<std::shared_ptr<ICollidable>> AllCollidableObjects, std::shared_ptr<Player> &m_Player) override;
 
