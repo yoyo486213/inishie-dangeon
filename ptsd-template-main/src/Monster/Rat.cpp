@@ -1,5 +1,6 @@
 #include "Monster/Rat.hpp"
 #include <random>
+#include "Map/InvisibleWall.hpp"
 #include "Player.hpp"
 #include "Calculation.hpp"
 #include "Character.hpp"
@@ -40,14 +41,14 @@ int Rat::Attack() {
     SetState(State::Move);
 }
 
-void Rat::Update(std::vector<std::shared_ptr<Character>> AllObjects, std::vector<std::shared_ptr<ICollidable>> AllCollidableObjects, std::shared_ptr<Player> &m_Player) {
+void Rat::Update( std::shared_ptr<Player> &m_Player, std::vector<std::shared_ptr<Character>> AllObjects, std::vector<std::shared_ptr<ICollidable>> AllCollidableObjects, std::vector<std::shared_ptr<InvisibleWall>> m_Invisiblewalls) {
     // 初始化隨機數生成器
     std::random_device rd;                   // 真實隨機數生成器
     std::mt19937 engine(rd());               // Mersenne Twister 引擎
     std::uniform_int_distribution<int> distIndex(0, 3);  // 生成 0~3 之間的隨機索引
-    std::uniform_int_distribution<int> distValue(4, 4); // 生成 1~11 之間的隨機步長
+    std::uniform_int_distribution<int> distValue(1, 11); // 生成 1~11 之間的隨機步長
     std::uniform_int_distribution<int> walkRate(1, 100); // 移動機率
-    if (GetState() == State::Stop || glm::distance(pos, goalpos) == 28) {
+    if (m_Player->GetHP() > 0 && (GetState() == State::Stop || glm::distance(pos, goalpos) == 28)) {
         // 往旁邊走攻擊距離看有沒有碰到玩家
         const std::vector<glm::vec2> directions = {
             {0, 1}, {0, -1}, {-1, 0}, {1, 0}, {1, 1}, {1, -1}, {-1, 1}, {-1, -1}
@@ -74,11 +75,9 @@ void Rat::Update(std::vector<std::shared_ptr<Character>> AllObjects, std::vector
             glm::vec2(0, 1), glm::vec2(0, -1), glm::vec2(1, 0), glm::vec2(-1, 0)
         };
         // 隨機選擇一個 displacement
-        randomDisplacement = displacements[2];
-        grids = 1;
-        now_grids = 0;
+        randomDisplacement = displacements[distIndex(engine)];
+        grids = 0;
         pos = this->GetPosition();
-        std::cout<< "pos: " << pos.x << " " << pos.y << std::endl;
         goalpos = pos + randomDisplacement * 28.f;
         goalgrids = distValue(engine);
         SetState(State::Move);
@@ -104,6 +103,9 @@ void Rat::Update(std::vector<std::shared_ptr<Character>> AllObjects, std::vector
     if (GetState() == State::MoveMap) {
         for (const auto& obj : AllObjects) {
             obj->SetPosition(obj->GetPosition() - randomDisplacement);
+        }
+        for (const auto& invisiblewall : m_Invisiblewalls) {
+            invisiblewall->SetPosition(invisiblewall->GetPosition() - randomDisplacement);
         }
         pos += randomDisplacement;
         if (pos == goalpos) {

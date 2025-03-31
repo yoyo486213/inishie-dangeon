@@ -6,6 +6,7 @@
 
 class ICollidable;
 class Player;
+class InvisibleWall;
 
 class Monster : public Character {
 public:
@@ -15,25 +16,14 @@ public:
     virtual ~Monster() = default;
 
     virtual int Attack() = 0;
-    // int AttackerDmg(int baseDmg, int CriticalRate, ) {
-
-    // };
      
-    virtual void Update(std::vector<std::shared_ptr<Character>> AllObjects, std::vector<std::shared_ptr<ICollidable>> AllCollidableObjects, std::shared_ptr<Player> &m_Player) = 0;
+    virtual void Update( std::shared_ptr<Player> &m_Player, std::vector<std::shared_ptr<Character>> AllObjects, std::vector<std::shared_ptr<ICollidable>> AllCollidableObjects, std::vector<std::shared_ptr<InvisibleWall>> m_Invisiblewalls) = 0;
 
     virtual void TakeDamage(int damage);
 
-    int GetDefense() { return m_Defense; }
-
-    int GetHitrate() { return m_Hitrate; }
-
-    int GetDodgerate() { return m_Dodgerate;}
-
-    std::vector<int> GetResistance() { return m_Resistance; }
-
-    int GetGold() { return m_Gold; }
-
-    int GetExp() { return m_Exp; }
+    int GetHP() const { return m_HP; }
+    
+    int GetMP() const { return m_MP; }
 private:
     int m_HP;
     int m_MP;

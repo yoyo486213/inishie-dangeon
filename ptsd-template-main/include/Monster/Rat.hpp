@@ -24,7 +24,7 @@ public:
 
     int Attack() override;
 
-    void Update(std::vector<std::shared_ptr<Character>> AllObjects, std::vector<std::shared_ptr<ICollidable>> AllCollidableObjects, std::shared_ptr<Player> &m_Player) override;
+    void Update( std::shared_ptr<Player> &m_Player, std::vector<std::shared_ptr<Character>> AllObjects, std::vector<std::shared_ptr<ICollidable>> AllCollidableObjects, std::vector<std::shared_ptr<InvisibleWall>> m_Invisiblewalls) override;
 
     void SetState(State state) { this->state = state; }
 
@@ -41,7 +41,6 @@ private:
     glm::vec2 pos;
     glm::vec2 goalpos;
     int grids;
-    int now_grids;
     int goalgrids;
 };
 

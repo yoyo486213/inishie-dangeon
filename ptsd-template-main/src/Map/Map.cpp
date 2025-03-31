@@ -2,6 +2,7 @@
 #include <fstream>
 #include "Util/Renderer.hpp"
 #include "ICollidable.hpp"
+#include "Calculation.hpp"
 #include "Character.hpp"
 #include "Map/InvisibleWall.hpp"
 #include "Map/Unexplored.hpp"
@@ -133,7 +134,7 @@ void Map::Update(std::shared_ptr<Player> &m_Player) {
     m_DownStairs->ChangeImage(m_DownStairs->IfFouse() ? 2 : 1);
 
     for (const auto& monster : m_Monsters) {
-        monster->Update(AllObjects, AllCollidableObjects, m_Player);
+        monster->Update(m_Player, AllObjects, AllCollidableObjects, m_Invisiblewalls);
     }
 }
 
@@ -153,7 +154,7 @@ void Map::Move(glm::vec2 displacement, std::shared_ptr<Player> &m_Player) {
         if (item->IsCollision(m_Player, displacement)) {
             std::shared_ptr<Monster> monster = std::dynamic_pointer_cast<Monster>(item);
             if (monster) {
-                // m_Player->Attack();
+                monster->TakeDamage(Calculation::CalcuAttack(m_Player->GetAttack(), m_Player->GetCriticalrate()));
                 return;
             }
             

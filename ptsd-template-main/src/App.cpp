@@ -60,7 +60,7 @@ void App::Update() {
         m_NewGameButton->Close();
         // m_CreateCharacterMenu->OpenMenu();
         
-        m_Player = std::make_shared<Player>(RESOURCE_DIR"/Character/Butterfly.png", 50, 20, glm::vec2{1, 4}, 0, 100, 0, 0, std::vector<int>{0, 0, 0, 0, 0}, 0, 0);
+        m_Player = std::make_shared<Player>(RESOURCE_DIR"/Character/Butterfly.png", 50, 20, glm::vec2{1, 4}, 0, 100, 0, 0, 0, std::vector<int>{0, 0, 0, 0, 0}, 0, 0);
         m_Root.AddChild(m_Player);
 
         m_map = std::make_shared<Map>(&m_Root);
@@ -82,7 +82,7 @@ void App::Update() {
      * Do not touch the code below as they serve the purpose for
      * closing the window.
      */
-    if (m_map) {
+    if (m_map && m_Player->GetVisibility()) {
         m_map->Update(m_Player);
         
         float displacement = 2;
