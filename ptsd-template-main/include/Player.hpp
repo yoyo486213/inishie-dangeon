@@ -11,7 +11,7 @@ class ICollidable;
 class Player : public Character {
 public:
     Player(const std::string &ImagePath,
-        int hp, int mp, glm::vec2 attack, int defense, int hitrate, int dodgerate, std::vector<int> resistance, int gold, int exp);
+        int hp, int mp, glm::vec2 attack, int defense, int hitrate, int dodgerate, int blockrate, std::vector<int> resistance, int gold, int exp);
 
     virtual ~Player() = default;
 
@@ -27,6 +27,8 @@ public:
 
     int GetDodgerate() { return m_Dodgerate;}
 
+    int GetBlockrate() { return m_Blockrate; }
+
     std::vector<int> GetResistance() { return m_Resistance; }
 
     int GetGold() { return m_Gold; }
@@ -39,6 +41,7 @@ private:
     int m_Defense;
     int m_Hitrate;
     int m_Dodgerate;
+    int m_Blockrate;
     std::vector<int> m_Resistance; // 火 冰 雷 毒 物
 
     int m_Gold;

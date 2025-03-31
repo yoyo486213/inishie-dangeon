@@ -117,6 +117,9 @@ Map::Map(Util::Renderer *m_Root) {
     // Monster
     auto obj = std::make_shared<Rat>();
     m_Root->AddChild(obj);
+    obj->SetPosition({-112, 0});
+    obj->SetVisible(true);
+    obj->SetZIndex(19);
     m_Monsters.push_back(std::dynamic_pointer_cast<Monster>(obj));
     AllCollidableObjects.push_back(obj);
 }
@@ -130,7 +133,7 @@ void Map::Update(std::shared_ptr<Player> &m_Player) {
     m_DownStairs->ChangeImage(m_DownStairs->IfFouse() ? 2 : 1);
 
     for (const auto& monster : m_Monsters) {
-        monster->Update(AllCollidableObjects, m_Player);
+        monster->Update(AllObjects, AllCollidableObjects, m_Player);
     }
 }
 

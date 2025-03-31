@@ -2,8 +2,10 @@
 #include <random>
 #include "Player.hpp"
 #include "Calculation.hpp"
+#include "Character.hpp"
+#include <iostream>
 
-Rat::Rat() : Monster(RESOURCE_DIR"/Monster/Rat.png", 4, 0, glm::vec2{1, 4}, 0, 105, 5, std::vector<int>{-50, 0, 0, 0, 0}, 1, 6, 2.0) {}
+Rat::Rat() : Monster(RESOURCE_DIR"/Monster/Rat.png", 4, 0, glm::vec2{1, 4}, 0, 105, 5, std::vector<int>{-50, 0, 0, 0, 0}, 1, 6, 28.0) {}
 
 bool Rat::IsCollision(const std::shared_ptr<Character> &other, glm::vec2 displacement) {
     glm::vec2 thisSize = this->GetScaledSize();
@@ -19,11 +21,16 @@ bool Rat::IsCollision(const std::shared_ptr<Character> &other, glm::vec2 displac
 }
 
 void Rat::Move(glm::vec2 displacement, glm::vec2 goal) {
-    if (((goal[0] - this->GetPosition().x) * displacement[0] + (goal[1] - this->GetPosition().y) * displacement[1]) > 0) {
+    if (((goal[0] - pos.x) * displacement[0] + (goal[1] - pos.y) * displacement[1]) > 0) {
+        pos += displacement;
         this->SetPosition(this->GetPosition() + displacement);
     }
     else {
-        SetState(State::Stop);
+        grids++;
+        goalpos = pos + randomDisplacement * 28.f;
+        if (grids >= goalgrids) {
+            SetState(State::Stop);
+        }
     }
 }
 
@@ -33,22 +40,47 @@ int Rat::Attack() {
     SetState(State::Move);
 }
 
-void Rat::Update(std::vector<std::shared_ptr<ICollidable>> AllCollidableObjects, std::shared_ptr<Player> &m_Player) {
-    // 定義四個位移方向，使用 glm::vec2
-    glm::vec2 displacements[4] = {
-        glm::vec2(0, 1), glm::vec2(0, -1), glm::vec2(1, 0), glm::vec2(-1, 0)
-    };
+void Rat::Update(std::vector<std::shared_ptr<Character>> AllObjects, std::vector<std::shared_ptr<ICollidable>> AllCollidableObjects, std::shared_ptr<Player> &m_Player) {
     // 初始化隨機數生成器
     std::random_device rd;                   // 真實隨機數生成器
     std::mt19937 engine(rd());               // Mersenne Twister 引擎
     std::uniform_int_distribution<int> distIndex(0, 3);  // 生成 0~3 之間的隨機索引
-    std::uniform_int_distribution<int> distValue(0, 4); // 生成 1~11 之間的隨機步長
-    std::uniform_int_distribution<int> walkRate(1, 200); // 移動機率
+    std::uniform_int_distribution<int> distValue(4, 4); // 生成 1~11 之間的隨機步長
+    std::uniform_int_distribution<int> walkRate(1, 100); // 移動機率
+    if (GetState() == State::Stop || glm::distance(pos, goalpos) == 28) {
+        // 往旁邊走攻擊距離看有沒有碰到玩家
+        const std::vector<glm::vec2> directions = {
+            {0, 1}, {0, -1}, {-1, 0}, {1, 0}, {1, 1}, {1, -1}, {-1, 1}, {-1, -1}
+        };
+        for (const auto& dir : directions) {
+            if (this->IsCollision(m_Player, dir * m_TrackRange)) {
+                std::uniform_real_distribution<double> hitrate(0, 100.0);
+                if (hitrate(engine) < m_Player->GetBlockrate()) {
+                    std::cout << "Block!" << std::endl;
+                    break;
+                }
+                std::cout <<  m_Hitrate / ((m_Player->GetDodgerate() + 100) / 100.0) << std::endl;
+                if (hitrate(engine) > m_Hitrate / ((m_Player->GetDodgerate() + 100) / 100.0)) {
+                    std::cout << "Miss!" << std::endl;
+                    break;
+                }
+                m_Player->TakeDamage(Calculation::CalcuAttack(m_Attack, 0));
+            }
+        }
+    }
     if (GetState() == State::Stop && walkRate(engine) == 1) {
+        // 定義四個位移方向，使用 glm::vec2
+        glm::vec2 displacements[4] = {
+            glm::vec2(0, 1), glm::vec2(0, -1), glm::vec2(1, 0), glm::vec2(-1, 0)
+        };
         // 隨機選擇一個 displacement
-        randomDisplacement = displacements[distIndex(engine)];
-        pos = GetPosition();
-        value = static_cast<float>(distValue(engine)) * 28.0f;
+        randomDisplacement = displacements[2];
+        grids = 1;
+        now_grids = 0;
+        pos = this->GetPosition();
+        std::cout<< "pos: " << pos.x << " " << pos.y << std::endl;
+        goalpos = pos + randomDisplacement * 28.f;
+        goalgrids = distValue(engine);
         SetState(State::Move);
     }
     if (GetState() == State::Move) {
@@ -58,22 +90,24 @@ void Rat::Update(std::vector<std::shared_ptr<ICollidable>> AllCollidableObjects,
                 return;
             }
         }
-        // 往旁邊走攻擊距離看有沒有碰到玩家
-        const std::vector<glm::vec2> directions = {
-            {0, 1}, {0, -1}, {-1, 0}, {1, 0}
-        };
-        
-        for (const auto& dir : directions) {
-            if (this->IsCollision(m_Player, dir * m_TrackRange)) {
-                m_Player->TakeDamage(Calculation::CalcuAttack(m_Attack, 0));
-
-                return;
-            }
+        if (this->IsCollision(m_Player, randomDisplacement) && glm::distance(pos, goalpos) == 28) {
+            SetState(State::Stop);
+            return;
         }
-        
-        Move(randomDisplacement, pos + randomDisplacement * value);
+        if (this->IsCollision(m_Player, randomDisplacement) && static_cast<int>(glm::distance(pos, goalpos)) % 28 != 0) {
+            SetState(State::MoveMap);
+            return;
+        }
+
+        Move(randomDisplacement, goalpos);
     }
-    if (GetState() == State::Attack) {
-        Attack();
+    if (GetState() == State::MoveMap) {
+        for (const auto& obj : AllObjects) {
+            obj->SetPosition(obj->GetPosition() - randomDisplacement);
+        }
+        pos += randomDisplacement;
+        if (pos == goalpos) {
+            SetState(State::Stop);
+        }
     }
 }

@@ -17,6 +17,7 @@ StartMenu::StartMenu(Util::Renderer *m_Root) {
     m_SSslidedown = std::make_shared<AnimatedCharacter>(SSslidedownImages);
     m_SSslidedown->SetZIndex(5);
     m_SSslidedown->SetVisible(false);
+    m_SSslidedown->SetLooping(false);
     m_Root->AddChild(m_SSslidedown);
 
     //初始化循環動畫

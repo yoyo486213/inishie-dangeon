@@ -19,7 +19,7 @@ public:
 
     // };
      
-    virtual void Update(std::vector<std::shared_ptr<ICollidable>> AllCollidableObjects, std::shared_ptr<Player> &m_Player) = 0;
+    virtual void Update(std::vector<std::shared_ptr<Character>> AllObjects, std::vector<std::shared_ptr<ICollidable>> AllCollidableObjects, std::shared_ptr<Player> &m_Player) = 0;
 
     virtual void TakeDamage(int damage);
 

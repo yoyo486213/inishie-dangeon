@@ -7,11 +7,13 @@
 #include "Monster/Monster.hpp"
 
 class Player;
+class Character;
 
 class Rat : public IMoveable, public ICollidable, public Monster, public std::enable_shared_from_this<Rat> {
 public:
     enum class State {
         Move,
+        MoveMap,
         Attack,
         Stop
     };
@@ -22,7 +24,7 @@ public:
 
     int Attack() override;
 
-    void Update(std::vector<std::shared_ptr<ICollidable>> AllCollidableObjects, std::shared_ptr<Player> &m_Player) override;
+    void Update(std::vector<std::shared_ptr<Character>> AllObjects, std::vector<std::shared_ptr<ICollidable>> AllCollidableObjects, std::shared_ptr<Player> &m_Player) override;
 
     void SetState(State state) { this->state = state; }
 
@@ -37,7 +39,10 @@ private:
     State state = State::Stop;
     glm::vec2 randomDisplacement;
     glm::vec2 pos;
-    float value;
+    glm::vec2 goalpos;
+    int grids;
+    int now_grids;
+    int goalgrids;
 };
 
 #endif //RAT_HPP
