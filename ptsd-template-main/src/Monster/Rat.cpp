@@ -36,12 +36,6 @@ void Rat::Move(glm::vec2 displacement, glm::vec2 goal) {
     }
 }
 
-int Rat::Attack() {
-    // 變成攻擊狀態
-    return 0;
-    SetState(State::Move);
-}
-
 void Rat::Update( std::shared_ptr<Player> &m_Player, std::vector<std::shared_ptr<Character>> AllObjects, std::vector<std::shared_ptr<ICollidable>> AllCollidableObjects, std::vector<std::shared_ptr<InvisibleWall>> m_Invisiblewalls) {
     // 初始化隨機數生成器
     std::random_device rd;                   // 真實隨機數生成器

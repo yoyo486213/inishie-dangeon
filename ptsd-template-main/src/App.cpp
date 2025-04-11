@@ -58,13 +58,17 @@ void App::Update() {
     m_NewGameButton->Update();
     if (m_NewGameButton->IfClick()) {
         m_NewGameButton->Close();
-        // m_CreateCharacterMenu->OpenMenu();
-        
-        m_Player = std::make_shared<Player>(RESOURCE_DIR"/Character/Butterfly.png");
-        m_Root.AddChild(m_Player);
-
-        m_map = std::make_shared<Map>(&m_Root);
+        m_CreateCharacterMenu->OpenMenu();
     }
+    if (m_CreateCharacterMenu->IfEnter())
+        {
+            m_CreateCharacterMenu->Enter();
+            m_GameState = GameState::ENTER_MAP;
+            m_Player = std::make_shared<Player>(RESOURCE_DIR"/Character/Butterfly.png");
+            m_Root.AddChild(m_Player);
+
+            m_map = std::make_shared<Map>(&m_Root);
+        }
     
     if(m_CreateCharacterMenu->GetState() != Menu::State::Close) {
         m_CreateCharacterMenu->Update();
@@ -72,7 +76,7 @@ void App::Update() {
     if (m_CreateCharacterMenu->GetState() != Menu::State::Open) {
         m_CreateCharacterMenu->Update();
     }
-    if (m_CreateCharacterMenu->GetState() == Menu::State::Close) {
+    if (m_CreateCharacterMenu->GetState() == Menu::State::Close && m_GameState == GameState::START_MENU) {
         m_NewGameButton->Skip();
     }
  

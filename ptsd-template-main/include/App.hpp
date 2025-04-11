@@ -20,6 +20,10 @@ public:
         UPDATE,
         END,
     };
+    enum class GameState{
+        START_MENU,
+        ENTER_MAP,
+    };
 
     State GetCurrentState() const { return m_CurrentState; }
 
@@ -33,6 +37,7 @@ private:
     void ValidTask();
 
 private:
+    GameState m_GameState = GameState::START_MENU;
     State m_CurrentState = State::START;
     
     std::shared_ptr<AnimatedCharacter> m_StartAnime;

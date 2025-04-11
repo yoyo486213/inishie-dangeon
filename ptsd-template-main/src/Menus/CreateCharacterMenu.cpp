@@ -85,8 +85,31 @@ void CreateCharacterMenu::CloseMenu(){
     m_NameKeyBoard->Closing();
 }
 
+void CreateCharacterMenu::Enter() {
+    state = State::Close;
+    m_NameKeyBoard->Close();
+    m_NameKeyBoard->Closing();
+    m_WarriorDoorFrame->SetUsed(false);
+    m_MenuBackGround->SetState(Menu::State::Close);
+    m_CreateCharacter_X->SetVisible(false);
+}
+
+bool CreateCharacterMenu::IfEnter() {
+    return (m_NameKeyBoard->ClickContorlBtn() == 2);
+}
+
 void CreateCharacterMenu::Update(){
     m_NameKeyBoard->Update();
+    int Contorl = m_NameKeyBoard->ClickContorlBtn();
+    switch (Contorl)
+    {
+    case 3:
+        CloseMenu();
+        break;
+    default:
+        break;
+    }
+    
 
     if (m_MenuBackGround->GetState() == Menu::State::Open) {
         m_MenuBackGround->Move({0, -20}, {0, 0});

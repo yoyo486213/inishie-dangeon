@@ -19,6 +19,7 @@ public:
     enum class State {
         Open,
         Close,
+        Enter
     };
 
     CreateCharacterMenu(Util::Renderer *m_Root);
@@ -28,6 +29,9 @@ public:
     void OpenMenu();
 
     void CloseMenu();
+
+    bool IfEnter();
+    void Enter();
 
     void Update();
 
