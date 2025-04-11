@@ -14,16 +14,18 @@ public:
         int hp, int mp, glm::vec2 attack, int defense, int hitrate, int dodgerate, std::vector<int> resistance, int gold, int exp, float TrackRange);
 
     virtual ~Monster() = default;
-
-    virtual int Attack() = 0;
      
     virtual void Update( std::shared_ptr<Player> &m_Player, std::vector<std::shared_ptr<Character>> AllObjects, std::vector<std::shared_ptr<ICollidable>> AllCollidableObjects, std::vector<std::shared_ptr<InvisibleWall>> m_Invisiblewalls) = 0;
 
     virtual void TakeDamage(int damage);
 
     int GetHP() const { return m_HP; }
-    
+
     int GetMP() const { return m_MP; }
+
+    void SetAttackCD(float cd) { m_AttackCD = cd; }
+
+    float GetAttackCD() const { return m_AttackCD; }
 private:
     int m_HP;
     int m_MP;
@@ -38,6 +40,7 @@ public:
     const int m_Exp;
 
     const float m_TrackRange;
+    float m_AttackCD = 1.f;
 };
 
 #endif //MONSTER_HPP

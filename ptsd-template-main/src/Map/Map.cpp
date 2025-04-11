@@ -1,5 +1,6 @@
 #include "Map/Map.hpp"
 #include <fstream>
+#include "Util/Time.hpp"
 #include "Util/Renderer.hpp"
 #include "ICollidable.hpp"
 #include "Calculation.hpp"
@@ -15,8 +16,10 @@
 #include "Player.hpp"
 #include "Monster/Monster.hpp"
 #include "Monster/Rat.hpp"
+#include "Monster/Snake.hpp"
+#include "Monster/Bat.hpp"
 #include "nlohmann/json.hpp"
-
+#include <iostream>
 
 Map::Map(Util::Renderer *m_Root) {
     std::ifstream file(RESOURCE_DIR"/Map/TiledProject/Area1_1.json");
@@ -119,10 +122,26 @@ Map::Map(Util::Renderer *m_Root) {
     auto obj = std::make_shared<Rat>();
     m_Root->AddChild(obj);
     obj->SetPosition({-112, 0});
-    obj->SetVisible(true);
-    obj->SetZIndex(19);
+    obj->SetVisible(false);
+    obj->SetZIndex(15);
     m_Monsters.push_back(std::dynamic_pointer_cast<Monster>(obj));
     AllCollidableObjects.push_back(obj);
+
+    auto obj1 = std::make_shared<Snake>();
+    m_Root->AddChild(obj1);
+    obj1->SetPosition({-112, -28});
+    obj1->SetVisible(true);
+    obj1->SetZIndex(15);
+    m_Monsters.push_back(std::dynamic_pointer_cast<Monster>(obj1));
+    AllCollidableObjects.push_back(obj1);
+
+    auto obj2 = std::make_shared<Bat>();
+    m_Root->AddChild(obj2);
+    obj2->SetPosition({-112, -28});
+    obj2->SetVisible(false);
+    obj2->SetZIndex(15);
+    m_Monsters.push_back(std::dynamic_pointer_cast<Monster>(obj2));
+    AllCollidableObjects.push_back(obj2);
 }
 
 void Map::Update(std::shared_ptr<Player> &m_Player) {
@@ -136,6 +155,8 @@ void Map::Update(std::shared_ptr<Player> &m_Player) {
     for (const auto& monster : m_Monsters) {
         monster->Update(m_Player, AllObjects, AllCollidableObjects, m_Invisiblewalls);
     }
+
+    m_Player->SetAttackCD(m_Player->GetAttackCD() - Util::Time::GetDeltaTimeMs() / 1000.0f);
 }
 
 void Map::Move(glm::vec2 displacement, std::shared_ptr<Player> &m_Player) {    
@@ -153,9 +174,9 @@ void Map::Move(glm::vec2 displacement, std::shared_ptr<Player> &m_Player) {
     for (const auto& item : AllCollidableObjects) {
         if (item->IsCollision(m_Player, displacement)) {
             std::shared_ptr<Monster> monster = std::dynamic_pointer_cast<Monster>(item);
-            if (monster) {
+            if (monster && m_Player->GetAttackCD() <= 0) {
                 monster->TakeDamage(Calculation::CalcuAttack(m_Player->GetAttack(), m_Player->GetCriticalrate()));
-                return;
+                m_Player->SetAttackCD(1.f);
             }
             
             m_CurrentInteracting = item;
