@@ -5,7 +5,7 @@
 MoveAnimated::MoveAnimated(const std::vector<std::string>& ImagePaths) : AnimatedCharacter(ImagePaths) {}
 
 void MoveAnimated::Move(glm::vec2 displacement, glm::vec2 goal) {
-    if (((goal[0] - this->GetPosition().x) * displacement[0] + (goal[1] - this->GetPosition().y) * displacement[1]) > 0) {
+    if (((goal.x - this->GetPosition().x) * displacement.x + (goal.y - this->GetPosition().y) * displacement.y) > 0) {
         this->SetPosition(this->GetPosition() + displacement);
     }
     else {

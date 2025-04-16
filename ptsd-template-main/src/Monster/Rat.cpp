@@ -36,7 +36,7 @@ void Rat::Move(glm::vec2 displacement, glm::vec2 goal) {
     }
 }
 
-void Rat::Update( std::shared_ptr<Player> &m_Player, std::vector<std::shared_ptr<Character>> AllObjects, std::vector<std::shared_ptr<ICollidable>> AllCollidableObjects, std::vector<std::shared_ptr<InvisibleWall>> m_Invisiblewalls) {
+void Rat::Update(std::shared_ptr<Player> &m_Player, std::vector<std::shared_ptr<Character>> AllObjects, std::vector<std::shared_ptr<ICollidable>> AllCollidableObjects, std::vector<std::shared_ptr<InvisibleWall>> m_Invisiblewalls, std::vector<std::shared_ptr<Monster>> m_Monsters) {
     // 初始化隨機數生成器
     std::random_device rd;                   // 真實隨機數生成器
     std::mt19937 engine(rd());               // Mersenne Twister 引擎
@@ -110,6 +110,11 @@ void Rat::Update( std::shared_ptr<Player> &m_Player, std::vector<std::shared_ptr
         }
         for (const auto& invisiblewall : m_Invisiblewalls) {
             invisiblewall->SetPosition(invisiblewall->GetPosition() - randomDisplacement);
+        }
+        for (const auto& monster : m_Monsters) {
+            if (monster != shared_from_this()) {
+                monster->SetPosition(monster->GetPosition() - randomDisplacement);
+            }
         }
         pos += randomDisplacement;
         if (pos == goalpos) {

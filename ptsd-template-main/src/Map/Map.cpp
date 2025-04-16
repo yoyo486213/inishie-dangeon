@@ -18,6 +18,7 @@
 #include "Monster/Rat.hpp"
 #include "Monster/Snake.hpp"
 #include "Monster/Bat.hpp"
+#include "Monster/Worm.hpp"
 #include "nlohmann/json.hpp"
 #include <iostream>
 
@@ -130,7 +131,7 @@ Map::Map(Util::Renderer *m_Root) {
     auto obj1 = std::make_shared<Snake>();
     m_Root->AddChild(obj1);
     obj1->SetPosition({-112, -28});
-    obj1->SetVisible(true);
+    obj1->SetVisible(false);
     obj1->SetZIndex(15);
     m_Monsters.push_back(std::dynamic_pointer_cast<Monster>(obj1));
     AllCollidableObjects.push_back(obj1);
@@ -138,10 +139,18 @@ Map::Map(Util::Renderer *m_Root) {
     auto obj2 = std::make_shared<Bat>();
     m_Root->AddChild(obj2);
     obj2->SetPosition({-112, -28});
-    obj2->SetVisible(false);
+    obj2->SetVisible(true);
     obj2->SetZIndex(15);
     m_Monsters.push_back(std::dynamic_pointer_cast<Monster>(obj2));
     AllCollidableObjects.push_back(obj2);
+
+    auto obj3 = std::make_shared<Worm>();
+    m_Root->AddChild(obj3);
+    obj3->SetPosition({-140, -28});
+    obj3->SetVisible(true);
+    obj3->SetZIndex(15);
+    m_Monsters.push_back(std::dynamic_pointer_cast<Monster>(obj3));
+    AllCollidableObjects.push_back(obj3);
 }
 
 void Map::Update(std::shared_ptr<Player> &m_Player) {
@@ -153,7 +162,7 @@ void Map::Update(std::shared_ptr<Player> &m_Player) {
     m_DownStairs->ChangeImage(m_DownStairs->IfFouse() ? 2 : 1);
 
     for (const auto& monster : m_Monsters) {
-        monster->Update(m_Player, AllObjects, AllCollidableObjects, m_Invisiblewalls);
+        monster->Update(m_Player, AllObjects, AllCollidableObjects, m_Invisiblewalls, m_Monsters);
     }
 
     m_Player->SetAttackCD(m_Player->GetAttackCD() - Util::Time::GetDeltaTimeMs() / 1000.0f);

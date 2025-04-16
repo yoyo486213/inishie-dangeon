@@ -21,7 +21,7 @@ public:
 
     void Move(glm::vec2 displacement, glm::vec2 goal) override;
 
-    void Update( std::shared_ptr<Player> &m_Player, std::vector<std::shared_ptr<Character>> AllObjects, std::vector<std::shared_ptr<ICollidable>> AllCollidableObjects, std::vector<std::shared_ptr<InvisibleWall>> m_Invisiblewalls) override;
+    void Update( std::shared_ptr<Player> &m_Player, std::vector<std::shared_ptr<Character>> AllObjects, std::vector<std::shared_ptr<ICollidable>> AllCollidableObjects, std::vector<std::shared_ptr<InvisibleWall>> m_Invisiblewalls, std::vector<std::shared_ptr<Monster>> m_Monsters) override;
 
     bool IsCollision(const std::shared_ptr<Character> &other, glm::vec2 displacement) override;
 
@@ -35,6 +35,8 @@ private:
     glm::vec2 goalpos;
     int grids;
     int goalgrids;
+    
+    bool following = false;
 };
 
 #endif //Bat_HPP

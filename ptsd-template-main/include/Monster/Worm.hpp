@@ -1,5 +1,5 @@
-#ifndef RAT_HPP
-#define RAT_HPP
+#ifndef WORM_HPP
+#define WORM_HPP
 
 #include "pch.hpp"
 #include "IMoveable.hpp"
@@ -9,7 +9,7 @@
 class Player;
 class Character;
 
-class Rat : public IMoveable, public ICollidable, public Monster, public std::enable_shared_from_this<Rat> {
+class Worm : public IMoveable, public ICollidable, public Monster, public std::enable_shared_from_this<Worm> {
 public:
     enum class State {
         Move,
@@ -17,15 +17,11 @@ public:
         Stop
     };
 
-    Rat();
+    Worm();
 
     void Move(glm::vec2 displacement, glm::vec2 goal) override;
 
     void Update(std::shared_ptr<Player> &m_Player, std::vector<std::shared_ptr<Character>> AllObjects, std::vector<std::shared_ptr<ICollidable>> AllCollidableObjects, std::vector<std::shared_ptr<InvisibleWall>> m_Invisiblewalls, std::vector<std::shared_ptr<Monster>> m_Monsters) override;
-
-    void SetState(State state) { this->state = state; }
-
-    State GetState() { return state; }
 
     bool IsCollision(const std::shared_ptr<Character> &other, glm::vec2 displacement) override;
 
@@ -39,6 +35,8 @@ private:
     glm::vec2 goalpos;
     int grids;
     int goalgrids;
+
+    bool following = false;
 };
 
-#endif //RAT_HPP
+#endif //WORM_HPP

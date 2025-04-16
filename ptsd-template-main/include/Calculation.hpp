@@ -25,31 +25,30 @@ public:
         return glm::max(1, finalDmg);
     }
 
+    static float Round4(float x) {
+        return glm::round(x * 1e4f) / 1e4f;
+    }
+    
+    static glm::vec2 RoundVec2(glm::vec2 v) {
+        return { Round4(v.x), Round4(v.y) };
+    }
+    
     static glm::vec2 AddPosition(glm::vec2 pos1, glm::vec2 pos2) {
-        return {
-            static_cast<float>(static_cast<int>(pos1.x) + static_cast<int>(pos2.x)),
-            static_cast<float>(static_cast<int>(pos1.y) + static_cast<int>(pos2.y))
-        };
+        return RoundVec2(pos1 + pos2);
     }
-
+    
     static glm::vec2 SubPosition(glm::vec2 pos1, glm::vec2 pos2) {
-        return {
-            static_cast<float>(static_cast<int>(pos1.x) - static_cast<int>(pos2.x)),
-            static_cast<float>(static_cast<int>(pos1.y) - static_cast<int>(pos2.y))
-        };
+        return RoundVec2(pos1 - pos2);
     }
-
-    static glm::vec2 MulPosition(glm::vec2 pos1, int number) {
-        return {
-            static_cast<float>(static_cast<int>(pos1.x) * number),
-            static_cast<float>(static_cast<int>(pos1.y) * number)
-        };
+    
+    static glm::vec2 MulPosition(glm::vec2 pos1, float number) {
+        return RoundVec2(pos1 * number);
     }
-
+    
     static glm::vec2 ModPosition(glm::vec2 pos1, int number) {
         return {
-            static_cast<float>(static_cast<int>(pos1.x) % number),
-            static_cast<float>(static_cast<int>(pos1.y) % number)
+            Round4(fmod(pos1.x, static_cast<float>(number))),
+            Round4(fmod(pos1.y, static_cast<float>(number)))
         };
     }
 

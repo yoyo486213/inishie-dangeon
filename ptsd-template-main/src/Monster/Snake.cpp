@@ -25,14 +25,16 @@ bool Snake::IsCollision(const std::shared_ptr<Character> &other, glm::vec2 displ
 }
 
 void Snake::Move(glm::vec2 displacement, glm::vec2 goal) {
-    if (((goal[0] - pos.x) * displacement[0] + (goal[1] - pos.y) * displacement[1]) > 0) {
-        if ((pos.x < 0 && pos.x + displacement.x > 0) || pos.x == 0){
+    if (((goal.x - pos.x) * displacement.x + (goal.y - pos.y) * displacement.y) > 0) {
+        if ((pos.x < 0 && pos.x + displacement.x > 0) || (pos.x > 0 && pos.x + displacement.x < 0) || static_cast<int>(pos.x + displacement.x) == 0){
             throughzero = true;
+            goalgrids += 1;
             this->trackdisplacement = Calculation::GetDirection(glm::round(-this->GetPosition()));
             this->trackpos = {0, this->GetPosition().y};
         }
-        if ((pos.y < 0 && pos.y + displacement.y > 0) || pos.y == 0) {
+        if ((pos.y < 0 && pos.y + displacement.y > 0) || (pos.y > 0 && pos.y + displacement.y < 0) || static_cast<int>(pos.y + displacement.y) == 0) {
             throughzero = true;
+            goalgrids += 1;
             this->trackdisplacement = Calculation::GetDirection(glm::round(-this->GetPosition()));
             this->trackpos = {this->GetPosition().x, 0};
         }
@@ -49,7 +51,7 @@ void Snake::Move(glm::vec2 displacement, glm::vec2 goal) {
     }
 }
 
-void Snake::Update( std::shared_ptr<Player> &m_Player, std::vector<std::shared_ptr<Character>> AllObjects, std::vector<std::shared_ptr<ICollidable>> AllCollidableObjects, std::vector<std::shared_ptr<InvisibleWall>> m_Invisiblewalls) {
+void Snake::Update(std::shared_ptr<Player> &m_Player, std::vector<std::shared_ptr<Character>> AllObjects, std::vector<std::shared_ptr<ICollidable>> AllCollidableObjects, std::vector<std::shared_ptr<InvisibleWall>> m_Invisiblewalls, std::vector<std::shared_ptr<Monster>> m_Monsters) {
     // 初始化隨機數生成器
     std::random_device rd;                   // 真實隨機數生成器
     std::mt19937 engine(rd());               // Mersenne Twister 引擎
@@ -78,17 +80,16 @@ void Snake::Update( std::shared_ptr<Player> &m_Player, std::vector<std::shared_p
                     this->SetAttackCD(1.f);
                 }
             }
-            
-            if (this->IsCollision(m_Player, randomDisplacement)) {
-                return;
-            }
+        }
+        if (this->IsCollision(m_Player, randomDisplacement)) {
+            return;
         }
     }
     if (this->state == State::Stop) {
         this->goalchange = true;
         throughzero = false;
 
-        if (this->GetPosition().x == 0 || this->GetPosition().y == 0) {
+        if (static_cast<int>(this->GetPosition().x) == 0 || static_cast<int>(this->GetPosition().y) == 0) {
             bool conti = true;
             for (int dis=1; dis <= static_cast<int>(std::abs(glm::distance(this->GetPosition(), m_Player->GetPosition()))) / 28; dis++) {
                 for (const auto& obj : AllCollidableObjects) {

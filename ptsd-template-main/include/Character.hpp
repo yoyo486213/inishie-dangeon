@@ -4,6 +4,8 @@
 #include "pch.hpp"
 #include "Util/Image.hpp"
 #include "Util/GameObject.hpp"
+#include "Calculation.hpp"
+#include <iostream>
 
 class Character : public Util::GameObject {
 public:
