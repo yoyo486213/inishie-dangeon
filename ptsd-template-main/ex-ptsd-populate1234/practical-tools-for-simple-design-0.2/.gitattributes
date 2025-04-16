@@ -1,9 +1,0 @@
-* text=auto
-
-*.vert text
-*.frag text
-
-*.png binary
-*.jpg binary
-*.jpeg binary
-*.bmp binary

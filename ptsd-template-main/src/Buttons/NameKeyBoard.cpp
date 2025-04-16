@@ -84,7 +84,6 @@ NameKeyBoard::NameKeyBoard(Util::Renderer *m_Root) {
 
 }
 
-
 void NameKeyBoard::Open(){
     state = State::Open;
     if (Type == KeyBoardType::Eng) {
