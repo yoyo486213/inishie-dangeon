@@ -191,6 +191,10 @@ void NameKeyBoard::Update() {
                     Click_time = std::chrono::high_resolution_clock::now();
                     if (output.size()<11)
                         output.push_back('A'+i);
+                    else {
+                        output.pop_back();
+                        output.push_back('0'+i);
+                    }
                     std::string outputString(output.begin(), output.end());
                     ImageGenerator::GenImage(outputString, outputIndex);
                     m_Name->SetImage(RESOURCE_DIR"/TextGenerator/output" + std::to_string(outputIndex) + ".png");
@@ -216,6 +220,10 @@ void NameKeyBoard::Update() {
                     Click_time = std::chrono::high_resolution_clock::now();
                     if (output.size()<11)
                         output.push_back('a'+i);
+                    else {
+                        output.pop_back();
+                        output.push_back('0'+i);
+                    }
                     std::string outputString(output.begin(), output.end());
                     ImageGenerator::GenImage(outputString, outputIndex);
                     m_Name->SetImage(RESOURCE_DIR"/TextGenerator/output" + std::to_string(outputIndex) + ".png");
@@ -240,6 +248,10 @@ void NameKeyBoard::Update() {
                     Click_time = std::chrono::high_resolution_clock::now();
                     if (output.size()<11)
                         output.push_back('0'+i);
+                    else {
+                        output.pop_back();
+                        output.push_back('0'+i);
+                    }
                     std::string outputString(output.begin(), output.end());
                     ImageGenerator::GenImage(outputString, outputIndex);
                     m_Name->SetImage(RESOURCE_DIR"/TextGenerator/output" + std::to_string(outputIndex) + ".png");
