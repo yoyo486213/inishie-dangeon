@@ -120,10 +120,12 @@ void NameKeyBoard::Closing() {
     state = State::Closing;
 }
 void NameKeyBoard::Close() {
-    for (int i = 0; i < 26; i++)
-    {
+    for (int i = 0; i < 26; i++) {
         m_BigLetterBtn[i]->SetVisible(false);
         m_SmallLetterBtn[i]->SetVisible(false);
+    }
+    for (int i = 0; i < 10; i++) {
+        m_NumberBtn[i]->SetVisible(false);
     }
     if (Type == KeyBoardType::Eng)
         ToNum->SetVisible(false);
@@ -133,6 +135,7 @@ void NameKeyBoard::Close() {
     Cancel->SetVisible(false);
     Enter->SetVisible(false);
     m_Name->SetVisible(false);
+    Type = KeyBoardType::Eng;
 }
 
 
@@ -193,7 +196,7 @@ void NameKeyBoard::Update() {
                         output.push_back('A'+i);
                     else {
                         output.pop_back();
-                        output.push_back('0'+i);
+                        output.push_back('A'+i);
                     }
                     std::string outputString(output.begin(), output.end());
                     ImageGenerator::GenImage(outputString, outputIndex);
@@ -222,7 +225,7 @@ void NameKeyBoard::Update() {
                         output.push_back('a'+i);
                     else {
                         output.pop_back();
-                        output.push_back('0'+i);
+                        output.push_back('a'+i);
                     }
                     std::string outputString(output.begin(), output.end());
                     ImageGenerator::GenImage(outputString, outputIndex);
@@ -281,6 +284,14 @@ void NameKeyBoard::Update() {
                 if (output.size()>0)
                     output.pop_back();
                 
+                std::string outputString(output.begin(), output.end());
+                ImageGenerator::GenImage(outputString, outputIndex);
+                m_Name->SetImage(RESOURCE_DIR"/TextGenerator/output" + std::to_string(outputIndex) + ".png");
+                outputIndex+=1;
+            }
+            if (m_ControlBtn[2]->IfClick()) {
+                Click_time = std::chrono::high_resolution_clock::now();
+                output.clear();
                 std::string outputString(output.begin(), output.end());
                 ImageGenerator::GenImage(outputString, outputIndex);
                 m_Name->SetImage(RESOURCE_DIR"/TextGenerator/output" + std::to_string(outputIndex) + ".png");

@@ -33,12 +33,15 @@ public:
             std::cerr << "Failed to load image: " << filename << std::endl;
             exit(1);
         }
-        std::cout << "Loading image: " << filename << std::endl;
-
         return img;
     }
 
     static unsigned char* concatenateImages(const std::vector<unsigned char*>& images, const std::vector<int>& widths, const std::vector<int>& heights, int totalWidth, int maxHeight, int overlap) {
+        if (totalWidth <= 0 || maxHeight <= 0) {
+            std::cerr << "Invalid image size: totalWidth=" << totalWidth << ", maxHeight=" << maxHeight << std::endl;
+            return nullptr;
+        }
+
         unsigned char* result = (unsigned char*)malloc(totalWidth * maxHeight * 4);
         memset(result, 0, totalWidth * maxHeight * 4);
 
@@ -46,12 +49,16 @@ public:
         for (size_t i = 0; i < images.size(); ++i) {
             int width = widths[i];
             int height = heights[i];
-            int yOffset = maxHeight - height;
 
             for (int y = 0; y < height; ++y) {
                 for (int x = 0; x < width; ++x) {
+                    if (currentX + x >= totalWidth) {
+                        std::cerr << "Memory overflow risk at x=" << x << ", y=" << y << ", currentX=" << currentX << ", totalWidth=" << totalWidth << std::endl;
+                        continue;
+                    }
+
                     unsigned char* src = &images[i][(y * width + x) * 4];
-                    unsigned char* dst = &result[((y + yOffset) * totalWidth + currentX + x) * 4];
+                    unsigned char* dst = &result[((y) * totalWidth + currentX + x) * 4];
 
                     dst[0] = src[0];
                     dst[1] = src[1];
@@ -60,10 +67,10 @@ public:
                 }
             }
 
-            if (currentX != 0)
-                currentX += (width - overlap);
-            else
+            if (i == 0)
                 currentX += width - (2 * overlap);
+            else
+                currentX += width - overlap;
         }
         return result;
     }
@@ -71,11 +78,11 @@ public:
     static void GenImage(const std::string& inputString, const int index) {
         std::vector<unsigned char*> images;
         std::vector<int> widths, heights;
-    
+
         int totalWidth = 0;
         int maxHeight = 0;
         int overlap = 1;
-    
+
         if (inputString.empty()) {
             std::string filename = RESOURCE_DIR"/Text/space.png";
             int width, height, channels;
@@ -89,31 +96,39 @@ public:
             for (char c : inputString) {
                 std::string filename = resolvePath(c);
                 if (filename.empty()) continue;
-    
+
                 int width, height, channels;
                 unsigned char* img = loadImage(filename, width, height, channels);
                 images.push_back(img);
                 widths.push_back(width);
                 heights.push_back(height);
-    
-                totalWidth += (width - overlap);
-                if (height > maxHeight) {
+
+                if (height > maxHeight)
                     maxHeight = height;
+            }
+
+            if (!widths.empty()) {
+                totalWidth = widths[0];
+                for (size_t i = 1; i < widths.size(); ++i) {
+                    totalWidth += (widths[i] - overlap);
                 }
             }
         }
-    
+
         if (images.empty()) {
             std::cerr << "No valid images loaded!" << std::endl;
             return;
         }
-    
+
         unsigned char* result = concatenateImages(images, widths, heights, totalWidth, maxHeight, overlap);
-    
+        if (!result) {
+            std::cerr << "Image generation failed due to invalid memory allocation." << std::endl;
+            return;
+        }
+
         std::string outputDir = RESOURCE_DIR"/TextGenerator";
         std::filesystem::create_directories(outputDir);
-    
-        // 刪除前一個圖檔
+
         if (index > 0) {
             std::string prevFile = outputDir + "/output" + std::to_string(index - 1) + ".png";
             if (std::filesystem::exists(prevFile)) {
@@ -121,22 +136,20 @@ public:
                 std::cout << "Deleted previous image: " << prevFile << std::endl;
             }
         }
-    
-        // 儲存當前圖檔
+
         std::string outputFile = outputDir + "/output" + std::to_string(index) + ".png";
         int success = stbi_write_png(outputFile.c_str(), totalWidth, maxHeight, 4, result, totalWidth * 4);
-    
+
         if (success)
             std::cout << "Image generated at: " << outputFile << std::endl;
         else
             std::cerr << "Failed to save image!" << std::endl;
-    
+
         for (auto img : images) {
             stbi_image_free(img);
         }
         free(result);
     }
 };
-
 
 #endif
