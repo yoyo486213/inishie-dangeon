@@ -2,6 +2,8 @@
 #include "Util/Renderer.hpp"
 #include "TextGenerator/imageGenerator.hpp"
 #include "Button.hpp"
+#include "Text.hpp"
+#include "MyBGM.hpp"
 #include <iostream>
 #include <time.h>
 
@@ -82,6 +84,14 @@ NameKeyBoard::NameKeyBoard(Util::Renderer *m_Root) {
     m_ControlBtn.emplace_back(Cancel);
     m_Root->AddChild(Cancel);
 
+    //初始化BGM
+    m_ButtonBGM = std::make_shared<MyBGM>(RESOURCE_DIR"/BGM/MenuOpenSnd.wav");
+
+    m_Name = std::make_shared<Text>(RESOURCE_DIR"/Text/space.png");
+    m_Name->SetZIndex(8);
+    m_Name->SetPosition({-3.5, 50});
+    m_Name->SetVisible(false);
+    m_Root->AddChild(m_Name);
 }
 
 void NameKeyBoard::Open(){
@@ -104,6 +114,7 @@ void NameKeyBoard::Open(){
     Back->SetVisible(true);
     Cancel->SetVisible(true);
     Enter->SetVisible(true);
+    m_Name->SetVisible(true);
 }
 void NameKeyBoard::Closing() {
     state = State::Closing;
@@ -121,6 +132,7 @@ void NameKeyBoard::Close() {
     Back->SetVisible(false);
     Cancel->SetVisible(false);
     Enter->SetVisible(false);
+    m_Name->SetVisible(false);
 }
 
 
@@ -157,8 +169,10 @@ void NameKeyBoard::ToEnglishType() {
 
 int NameKeyBoard::ClickContorlBtn() {
     for (int i = 1; i < 3; i++) {
-        if (m_ControlBtn[i]->IfClick())
+        if (m_ControlBtn[i]->IfClick()) {
+            m_ButtonBGM->Play(0);
             return i+1;
+        }
     }
     return 0;
 }
@@ -171,15 +185,16 @@ void NameKeyBoard::Update() {
             m_BigLetterBtn[i]->ChangeImage(2);
             m_BigLetterBtn[i]->SetVisible(true);
             auto duration = (std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - Click_time));
-            if (duration.count() > 10) {
-                if (m_BigLetterBtn[i]->IfClick())
-                {
+            if (duration.count() > 50) {
+                if (m_BigLetterBtn[i]->IfClick()) {
+                    m_ButtonBGM->Play(0);
                     Click_time = std::chrono::high_resolution_clock::now();
-                    if (output.size()<8)
+                    if (output.size()<11)
                         output.push_back('A'+i);
                     std::string outputString(output.begin(), output.end());
-                    ImageGenerator::setBasePath("../Resources");
-                    ImageGenerator::GenImage(outputString);
+                    ImageGenerator::GenImage(outputString, outputIndex);
+                    m_Name->SetImage(RESOURCE_DIR"/TextGenerator/output" + std::to_string(outputIndex) + ".png");
+                    outputIndex+=1;
                 }
             }
         }
@@ -195,15 +210,16 @@ void NameKeyBoard::Update() {
             m_SmallLetterBtn[i]->ChangeImage(2);
             m_SmallLetterBtn[i]->SetVisible(true);
             auto duration = (std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - Click_time));
-            if (duration.count() > 10) {
-                if (m_SmallLetterBtn[i]->IfClick())
-                {
+            if (duration.count() > 50) {
+                if (m_SmallLetterBtn[i]->IfClick()) {
+                    m_ButtonBGM->Play(0);
                     Click_time = std::chrono::high_resolution_clock::now();
-                    if (output.size()<8)
+                    if (output.size()<11)
                         output.push_back('a'+i);
                     std::string outputString(output.begin(), output.end());
-                    ImageGenerator::setBasePath("../Resources");
-                    ImageGenerator::GenImage(outputString);
+                    ImageGenerator::GenImage(outputString, outputIndex);
+                    m_Name->SetImage(RESOURCE_DIR"/TextGenerator/output" + std::to_string(outputIndex) + ".png");
+                    outputIndex+=1;
                 }
             }
         }
@@ -218,15 +234,16 @@ void NameKeyBoard::Update() {
             m_NumberBtn[i]->ChangeImage(2);
             m_NumberBtn[i]->SetVisible(true);
             auto duration = (std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - Click_time));
-            if (duration.count() > 10) {
-                if (m_NumberBtn[i]->IfClick())
-                {
+            if (duration.count() > 50) {
+                if (m_NumberBtn[i]->IfClick()) {
+                    m_ButtonBGM->Play(0);
                     Click_time = std::chrono::high_resolution_clock::now();
-                    if (output.size()<8)
+                    if (output.size()<11)
                         output.push_back('0'+i);
                     std::string outputString(output.begin(), output.end());
-                    ImageGenerator::setBasePath("../Resources");
-                    ImageGenerator::GenImage(outputString);
+                    ImageGenerator::GenImage(outputString, outputIndex);
+                    m_Name->SetImage(RESOURCE_DIR"/TextGenerator/output" + std::to_string(outputIndex) + ".png");
+                    outputIndex+=1;
                 }
             }
         }
@@ -245,14 +262,17 @@ void NameKeyBoard::Update() {
             m_ControlBtn[i]->ChangeImage(1);
         }
         auto duration = (std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - Click_time));
-        if (duration.count() > 10) {
+        if (duration.count() > 50) {
             if (m_ControlBtn[0]->IfClick()) {
+                m_ButtonBGM->Play(0);
                 Click_time = std::chrono::high_resolution_clock::now();
                 if (output.size()>0)
                     output.pop_back();
                 
                 std::string outputString(output.begin(), output.end());
-                ImageGenerator::GenImage(outputString);
+                ImageGenerator::GenImage(outputString, outputIndex);
+                m_Name->SetImage(RESOURCE_DIR"/TextGenerator/output" + std::to_string(outputIndex) + ".png");
+                outputIndex+=1;
             }
         }
         
@@ -266,8 +286,9 @@ void NameKeyBoard::Update() {
         else {
             ToNum->ChangeImage(1);
         }auto duration = (std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - Click_time));
-        if (duration.count() > 10) {
+        if (duration.count() > 50) {
             if (ToNum->IfClick()) {
+                m_ButtonBGM->Play(0);
                 Click_time = std::chrono::high_resolution_clock::now();
                 this->ToNumberType();
             }
@@ -283,8 +304,9 @@ void NameKeyBoard::Update() {
             ToEng->ChangeImage(1);
         }
         if (ToEng->IfClick()) {
+            m_ButtonBGM->Play(0);
             auto duration = (std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - Click_time));
-            if (duration.count() > 10) {
+            if (duration.count() > 50) {
                 Click_time = std::chrono::high_resolution_clock::now();;
                 this->ToEnglishType();
             }
@@ -305,6 +327,7 @@ void NameKeyBoard::Update() {
         
         ToNum->Move({0, -20}, {122+ToNum->GetScaledSize().x/2, -38});
         ToEng->Move({0, -20}, {122+ToEng->GetScaledSize().x/2, -38});
+        m_Name->Move({0, -20}, {-3.5, 50});
     }
 
     if (state == State::Closing) {
@@ -319,6 +342,7 @@ void NameKeyBoard::Update() {
 
         ToNum->Move({0, 20}, {122+ToNum->GetScaledSize().x/2, -38+500});
         ToEng->Move({0, 20}, {122+ToEng->GetScaledSize().x/2, -38+500});
+        m_Name->Move({0, 20}, {-3.5, 50+500});
     }
     
 }

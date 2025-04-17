@@ -9,6 +9,8 @@ namespace Util {
     class Renderer;
 }
 class Button;
+class Text;
+class MyBGM;
 
 class NameKeyBoard : public Util::GameObject {
 public:
@@ -51,7 +53,11 @@ private:
     State state;
     KeyBoardType Type = KeyBoardType::Eng;
     std::vector<char> output;
+    int outputIndex = 0;
+    std::shared_ptr<Text> m_Name;
     std::chrono::time_point<std::chrono::high_resolution_clock> Click_time;
+
+    std::shared_ptr<MyBGM> m_ButtonBGM;
 };
 
 #endif //NAMEKEYBOARD_HPP

@@ -23,6 +23,7 @@ set(SRC_FILES
     Player.cpp
 
     Menu.cpp
+    Text.cpp
     Menus/CreateCharacterMenu.cpp
     Menus/StartMenu.cpp
     Button.cpp
@@ -58,6 +59,7 @@ set(INCLUDE_FILES
     Player.hpp
 
     Menu.hpp
+    Text.hpp
     Menus/CreateCharacterMenu.hpp
     Menus/StartMenu.hpp
     nolohmann/json_fwd.hpp

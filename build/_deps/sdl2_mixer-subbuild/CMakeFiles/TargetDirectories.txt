@@ -1,0 +1,3 @@
+C:/Users/USER/Desktop/for_git/OOPLab_113-2/inishie-dangeon/build/_deps/sdl2_mixer-subbuild/CMakeFiles/sdl2_mixer-populate.dir
+C:/Users/USER/Desktop/for_git/OOPLab_113-2/inishie-dangeon/build/_deps/sdl2_mixer-subbuild/CMakeFiles/edit_cache.dir
+C:/Users/USER/Desktop/for_git/OOPLab_113-2/inishie-dangeon/build/_deps/sdl2_mixer-subbuild/CMakeFiles/rebuild_cache.dir

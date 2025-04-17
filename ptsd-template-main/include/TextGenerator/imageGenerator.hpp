@@ -13,19 +13,14 @@
 class ImageGenerator
 {
 public:
-    static std::string basePath;
-
-    static void setBasePath(const std::string& path) {
-        basePath = path;
-    }
 
     static std::string resolvePath(char c) {
         if (c >= 'a' && c <= 'z') {
-            return basePath + "/Text/SmallLetter/" + std::string(1, c) + ".png";
+            return RESOURCE_DIR"/Text/SmallLetter/" + std::string(1, c) + ".png";
         } else if (c >= 'A' && c <= 'Z') {
-            return basePath + "/Text/BigLetter/" + std::string(1, c) + ".png";
+            return RESOURCE_DIR"/Text/BigLetter/" + std::string(1, c) + ".png";
         } else if (c >= '0' && c <= '9') {
-            return basePath + "/Text/Number/" + std::string(1, c) + ".png";
+            return RESOURCE_DIR"/Text/Number/" + std::string(1, c) + ".png";
         } else {
             std::cerr << "Unsupported character: " << c << std::endl;
             return "";
@@ -38,6 +33,8 @@ public:
             std::cerr << "Failed to load image: " << filename << std::endl;
             exit(1);
         }
+        std::cout << "Loading image: " << filename << std::endl;
+
         return img;
     }
 
@@ -71,48 +68,69 @@ public:
         return result;
     }
 
-    static void GenImage(const std::string& inputString) {
+    static void GenImage(const std::string& inputString, const int index) {
         std::vector<unsigned char*> images;
         std::vector<int> widths, heights;
-
+    
         int totalWidth = 0;
         int maxHeight = 0;
-        int overlap = 2;
-
-        for (char c : inputString) {
-            std::string filename = resolvePath(c);
-            if (filename.empty()) continue;
-
+        int overlap = 1;
+    
+        if (inputString.empty()) {
+            std::string filename = RESOURCE_DIR"/Text/space.png";
             int width, height, channels;
             unsigned char* img = loadImage(filename, width, height, channels);
             images.push_back(img);
             widths.push_back(width);
             heights.push_back(height);
-
-            totalWidth += (width - overlap);
-            if (height > maxHeight) {
-                maxHeight = height;
+            totalWidth = width;
+            maxHeight = height;
+        } else {
+            for (char c : inputString) {
+                std::string filename = resolvePath(c);
+                if (filename.empty()) continue;
+    
+                int width, height, channels;
+                unsigned char* img = loadImage(filename, width, height, channels);
+                images.push_back(img);
+                widths.push_back(width);
+                heights.push_back(height);
+    
+                totalWidth += (width - overlap);
+                if (height > maxHeight) {
+                    maxHeight = height;
+                }
             }
         }
-
+    
         if (images.empty()) {
             std::cerr << "No valid images loaded!" << std::endl;
             return;
         }
-
+    
         unsigned char* result = concatenateImages(images, widths, heights, totalWidth, maxHeight, overlap);
-
-        std::string outputDir = basePath + "/TextGenerator";
+    
+        std::string outputDir = RESOURCE_DIR"/TextGenerator";
         std::filesystem::create_directories(outputDir);
-
-        std::string outputFile = outputDir + "/output.png";
+    
+        // 刪除前一個圖檔
+        if (index > 0) {
+            std::string prevFile = outputDir + "/output" + std::to_string(index - 1) + ".png";
+            if (std::filesystem::exists(prevFile)) {
+                std::filesystem::remove(prevFile);
+                std::cout << "Deleted previous image: " << prevFile << std::endl;
+            }
+        }
+    
+        // 儲存當前圖檔
+        std::string outputFile = outputDir + "/output" + std::to_string(index) + ".png";
         int success = stbi_write_png(outputFile.c_str(), totalWidth, maxHeight, 4, result, totalWidth * 4);
-
+    
         if (success)
-            std::cout << "✅ Image generated at: " << outputFile << std::endl;
+            std::cout << "Image generated at: " << outputFile << std::endl;
         else
-            std::cerr << "❌ Failed to save image!" << std::endl;
-
+            std::cerr << "Failed to save image!" << std::endl;
+    
         for (auto img : images) {
             stbi_image_free(img);
         }
@@ -120,6 +138,5 @@ public:
     }
 };
 
-std::string ImageGenerator::basePath = "../../Resources";
 
 #endif
