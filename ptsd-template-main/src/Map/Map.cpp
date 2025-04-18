@@ -19,6 +19,7 @@
 #include "Monster/Snake.hpp"
 #include "Monster/Bat.hpp"
 #include "Monster/Worm.hpp"
+#include "Monster/Slime.hpp"
 #include "nlohmann/json.hpp"
 #include <iostream>
 
@@ -113,32 +114,32 @@ Map::Map(Util::Renderer *m_Root) {
     }
 
     // just push box
-    m_Box = std::make_shared<Box>(RESOURCE_DIR"/Map/Chest/Box.png");
-    m_Box->SetVisible(true);
-    m_Box->SetZIndex(11);
-    m_Box->SetPosition({-56, -28});
-    m_Root->AddChild(m_Box);
+    // m_Box = std::make_shared<Box>(RESOURCE_DIR"/Map/Chest/Box.png");
+    // m_Box->SetVisible(true);
+    // m_Box->SetZIndex(11);
+    // m_Box->SetPosition({-56, -28});
+    // m_Root->AddChild(m_Box);
 
     // Monster
     auto obj = std::make_shared<Rat>();
     m_Root->AddChild(obj);
-    obj->SetPosition({-112, 0});
-    obj->SetVisible(false);
+    obj->SetPosition({-196, -56});
+    obj->SetVisible(true);
     obj->SetZIndex(15);
     m_Monsters.push_back(std::dynamic_pointer_cast<Monster>(obj));
     AllCollidableObjects.push_back(obj);
 
     auto obj1 = std::make_shared<Snake>();
     m_Root->AddChild(obj1);
-    obj1->SetPosition({-112, -28});
-    obj1->SetVisible(false);
+    obj1->SetPosition({-168, -56});
+    obj1->SetVisible(true);
     obj1->SetZIndex(15);
     m_Monsters.push_back(std::dynamic_pointer_cast<Monster>(obj1));
     AllCollidableObjects.push_back(obj1);
 
     auto obj2 = std::make_shared<Bat>();
     m_Root->AddChild(obj2);
-    obj2->SetPosition({-112, -28});
+    obj2->SetPosition({-196, -28});
     obj2->SetVisible(true);
     obj2->SetZIndex(15);
     m_Monsters.push_back(std::dynamic_pointer_cast<Monster>(obj2));
@@ -146,11 +147,19 @@ Map::Map(Util::Renderer *m_Root) {
 
     auto obj3 = std::make_shared<Worm>();
     m_Root->AddChild(obj3);
-    obj3->SetPosition({-140, -28});
+    obj3->SetPosition({-168, -28});
     obj3->SetVisible(true);
     obj3->SetZIndex(15);
     m_Monsters.push_back(std::dynamic_pointer_cast<Monster>(obj3));
     AllCollidableObjects.push_back(obj3);
+
+    auto obj4 = std::make_shared<Slime>();
+    m_Root->AddChild(obj4);
+    obj4->SetPosition({-140, -28});
+    obj4->SetVisible(true);
+    obj4->SetZIndex(15);
+    m_Monsters.push_back(std::dynamic_pointer_cast<Monster>(obj4));
+    AllCollidableObjects.push_back(obj4);
 }
 
 void Map::Update(std::shared_ptr<Player> &m_Player) {
@@ -172,12 +181,12 @@ void Map::Move(glm::vec2 displacement, std::shared_ptr<Player> &m_Player) {
     // Just Push Box
     // 判斷角色推箱子時的碰撞
     bool unconti = false;
-    for (const auto& item : AllCollidableObjects) {
-        if (item->IsCollision(m_Box, displacement) && m_Box->IsCollision(m_Player, displacement)) {
-            Move(displacement - glm::vec2(1, 1) * glm::normalize(displacement), m_Player);
-            unconti = true;
-        }
-    }
+    // for (const auto& item : AllCollidableObjects) {
+    //     if (item->IsCollision(m_Box, displacement) && m_Box->IsCollision(m_Player, displacement)) {
+    //         Move(displacement - glm::vec2(1, 1) * glm::normalize(displacement), m_Player);
+    //         unconti = true;
+    //     }
+    // }
 
     // main
     for (const auto& item : AllCollidableObjects) {
@@ -213,8 +222,8 @@ void Map::Move(glm::vec2 displacement, std::shared_ptr<Player> &m_Player) {
     }
 
     //just push box
-    if (m_Box->IsCollision(m_Player, displacement)) {
-        return;
-    }
-    m_Box->SetPosition(m_Box->GetPosition() + displacement);
+    // if (m_Box->IsCollision(m_Player, displacement)) {
+    //     return;
+    // }
+    // m_Box->SetPosition(m_Box->GetPosition() + displacement);
 }

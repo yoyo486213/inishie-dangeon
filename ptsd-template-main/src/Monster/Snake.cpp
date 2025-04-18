@@ -216,6 +216,11 @@ void Snake::Update(std::shared_ptr<Player> &m_Player, std::vector<std::shared_pt
         for (const auto& invisiblewall : m_Invisiblewalls) {
             invisiblewall->SetPosition(invisiblewall->GetPosition() - randomDisplacement);
         }
+        for (const auto& monster : m_Monsters) {
+            if (monster != shared_from_this()) {
+                monster->SetPosition(monster->GetPosition() - randomDisplacement);
+            }
+        }
         pos += randomDisplacement;
         if (std::abs(pos.x - goalpos.x) < 0.0001f && std::abs(pos.y - goalpos.y) < 0.0001f) {
             this->state = State::Stop;

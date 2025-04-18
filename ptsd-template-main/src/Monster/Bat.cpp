@@ -83,6 +83,9 @@ void Bat::Update(std::shared_ptr<Player> &m_Player, std::vector<std::shared_ptr<
             int mindis = 99999;
             for (const auto& dir : directions) {
                 bool collidable = false;
+                if (this->IsCollision(m_Player, Calculation::MulPosition(dir, 14))) {
+                    collidable = true;
+                }
                 for (const auto& obj : AllCollidableObjects) {
                     auto destructibleobject = std::dynamic_pointer_cast<DestructibleObject>(obj);
                     auto chest = std::dynamic_pointer_cast<Chest>(obj);
@@ -125,24 +128,24 @@ void Bat::Update(std::shared_ptr<Player> &m_Player, std::vector<std::shared_ptr<
     }
     if (this->state == State::MoveMap) {
         for (const auto& obj : AllCollidableObjects) {
-            if (obj->IsCollision(m_Player, -Calculation::MulPosition(randomDisplacement, 2))) {
+            if (obj->IsCollision(m_Player, -randomDisplacement)) {
                 this->state = State::Move;
                 return;
             }   
         }
         
         for (const auto& obj : AllObjects) {
-            obj->SetPosition(obj->GetPosition() - Calculation::MulPosition(randomDisplacement, 2));
+            obj->SetPosition(obj->GetPosition() - randomDisplacement);
         }
         for (const auto& invisiblewall : m_Invisiblewalls) {
-            invisiblewall->SetPosition(invisiblewall->GetPosition() - Calculation::MulPosition(randomDisplacement, 2));
+            invisiblewall->SetPosition(invisiblewall->GetPosition() - randomDisplacement);
         }
         for (const auto& monster : m_Monsters) {
             if (monster != shared_from_this()) {
-                monster->SetPosition(monster->GetPosition() - Calculation::MulPosition(randomDisplacement, 2));
+                monster->SetPosition(monster->GetPosition() - randomDisplacement);
             }
         }
-        pos += Calculation::MulPosition(randomDisplacement, 2);
+        pos += randomDisplacement;
         if (std::abs(pos.x - goalpos.x) < 0.0001f && std::abs(pos.y - goalpos.y) < 0.0001f) {
             this->state = State::Stop;
         }

@@ -19,6 +19,7 @@ set(SRC_FILES
     Monster/Snake.cpp
     Monster/Bat.cpp
     Monster/Worm.cpp
+    Monster/Slime.cpp
 
     Player.cpp
 
@@ -55,6 +56,7 @@ set(INCLUDE_FILES
     Monster/Snake.hpp
     Monster/Bat.hpp
     Monster/Worm.hpp
+    Monster/Slime.hpp
 
     Player.hpp
 

@@ -102,6 +102,13 @@ void App::Update() {
         if (Util::Input::IsKeyPressed(Util::Keycode::D)) {
             m_map->Move({-displacement, 0}, m_Player);
         }
+
+        if (Util::Input::IsKeyPressed(Util::Keycode::P)) {
+            m_Player->SetAttack({100, 100});
+        }
+        if (Util::Input::IsKeyPressed(Util::Keycode::O)) {
+            m_Player->SetAttack({1, 4});
+        }
     }
     
     if (Util::Input::IsKeyUp(Util::Keycode::ESCAPE) ||

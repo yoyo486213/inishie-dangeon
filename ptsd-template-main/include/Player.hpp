@@ -38,6 +38,8 @@ public:
 
     std::vector<int> GetResistance() { return m_Resistance; }
 
+    void SetAttack(const glm::vec2 &attack) { m_Attack = attack; }
+
     void SetAttackCD(float cd) { m_AttackCD = cd; }
 
     float GetAttackCD() const { return m_AttackCD; }
