@@ -7,19 +7,8 @@
 #include "Character.hpp"
 #include <iostream>
 
-Slime::Slime() : Monster(RESOURCE_DIR"/Monster/Slime.png", 40, 0, glm::vec2{2, 5}, 0, 102, 2, std::vector<int>{0, 0, -50, 0, 0}, 10, 20, 28.0) {}
-
-bool Slime::IsCollision(const std::shared_ptr<Character> &other, glm::vec2 displacement) {
-    glm::vec2 thisSize = this->GetScaledSize();
-    glm::vec2 otherSize = other->GetScaledSize();
-
-    glm::vec2 thisPos = this->GetPosition() + displacement - glm::vec2({thisSize.x / 2.0, thisSize.y / 2.0});
-    glm::vec2 otherPos = other->GetPosition() - glm::vec2({otherSize.x / 2.0, otherSize.y / 2.0});
-
-    bool xOverlap = thisPos.x + thisSize.x > otherPos.x && otherPos.x + otherSize.x > thisPos.x;
-    bool yOverlap = thisPos.y + thisSize.y > otherPos.y && otherPos.y + otherSize.y > thisPos.y;
-
-    return xOverlap && yOverlap && this->GetVisibility();
+Slime::Slime() : Monster(RESOURCE_DIR"/Monster/Slime.png", 40, 0, glm::vec2{2, 5}, 0, 102, 2, std::vector<int>{0, 0, -50, 0, 0}, 10, 20, 28.0) {
+    this->goalpos = this->GetPosition();
 }
 
 void Slime::Move(glm::vec2 displacement, glm::vec2 goal) {
@@ -47,7 +36,7 @@ void Slime::Update(std::shared_ptr<Player> &m_Player, std::vector<std::shared_pt
     this->SetAttackCD(this->GetAttackCD() - Util::Time::GetDeltaTimeMs() / 1000.0f);
     if (m_Player->GetHP() > 0 && this->GetAttackCD() <= 0 && GetState() == State::Stop) {
         // 往旁邊走攻擊距離看有沒有碰到玩家
-        this->walkRateValue = 5;
+        this->walkRateValue = 50;
         const std::vector<glm::vec2> directions = {
             {0, 1}, {0, -1}, {-1, 0}, {1, 0}, {1, 1}, {1, -1}, {-1, 1}, {-1, -1}
         };
@@ -58,7 +47,6 @@ void Slime::Update(std::shared_ptr<Player> &m_Player, std::vector<std::shared_pt
                     std::cout << "Block!" << std::endl;
                     break;
                 }
-                std::cout <<  m_Hitrate / ((m_Player->GetDodgerate() + 100) / 100.0) << std::endl;
                 if (hitrate(engine) > m_Hitrate / ((m_Player->GetDodgerate() + 100) / 100.0)) {
                     std::cout << "Miss!" << std::endl;
                     break;
@@ -75,7 +63,7 @@ void Slime::Update(std::shared_ptr<Player> &m_Player, std::vector<std::shared_pt
             glm::vec2(0, 1), glm::vec2(0, -1), glm::vec2(1, 0), glm::vec2(-1, 0), glm::vec2(1, 1), glm::vec2(1, -1), glm::vec2(-1, 1), glm::vec2(-1, -1)
         };
 
-        if (glm::distance(m_Player->GetPosition(), this->GetPosition()) <= 84 && followRate(engine) <= 80) {
+        if (glm::distance(m_Player->GetPosition(), this->GetPosition()) <= 84 && followRate(engine) <= 90) {
             int mindis = 99999;
             for (const auto& dir : displacements) {
                 bool collidable = false;
@@ -87,7 +75,13 @@ void Slime::Update(std::shared_ptr<Player> &m_Player, std::vector<std::shared_pt
                         collidable = true;
                     }
                 }
-                if (!collidable && static_cast<int>(glm::distance(m_Player->GetPosition(), this->GetPosition() + Calculation::MulPosition(dir, 28))) < mindis) {
+                bool conti = true;
+                for (const auto& monster : m_Monsters) {
+                    if (Calculation::AddPosition(pos, Calculation::MulPosition(dir, 28)) == monster->GetGoalPosition()) {
+                        conti = false;
+                    }
+                }
+                if (!collidable && conti && static_cast<int>(glm::distance(m_Player->GetPosition(), this->GetPosition() + Calculation::MulPosition(dir, 28))) < mindis) {
                     mindis = static_cast<int>(glm::distance(m_Player->GetPosition(), this->GetPosition() + Calculation::MulPosition(dir, 28)));
                     pos = this->GetPosition();
                     randomDisplacement = dir * 0.5f;

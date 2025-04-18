@@ -7,19 +7,8 @@
 #include "Character.hpp"
 #include <iostream>
 
-Rat::Rat() : Monster(RESOURCE_DIR"/Monster/Rat.png", 4, 0, glm::vec2{1, 4}, 0, 105, 5, std::vector<int>{-50, 0, 0, 0, 0}, 1, 6, 28.0) {}
-
-bool Rat::IsCollision(const std::shared_ptr<Character> &other, glm::vec2 displacement) {
-    glm::vec2 thisSize = this->GetScaledSize();
-    glm::vec2 otherSize = other->GetScaledSize();
-
-    glm::vec2 thisPos = this->GetPosition() + displacement - glm::vec2({thisSize.x / 2.0, thisSize.y / 2.0});
-    glm::vec2 otherPos = other->GetPosition() - glm::vec2({otherSize.x / 2.0, otherSize.y / 2.0});
-
-    bool xOverlap = thisPos.x + thisSize.x > otherPos.x && otherPos.x + otherSize.x > thisPos.x;
-    bool yOverlap = thisPos.y + thisSize.y > otherPos.y && otherPos.y + otherSize.y > thisPos.y;
-
-    return xOverlap && yOverlap && this->GetVisibility();
+Rat::Rat() : Monster(RESOURCE_DIR"/Monster/Rat.png", 4, 0, glm::vec2{1, 4}, 0, 105, 5, std::vector<int>{-50, 0, 0, 0, 0}, 1, 6, 28.0) {
+    this->goalpos = this->GetPosition();
 }
 
 void Rat::Move(glm::vec2 displacement, glm::vec2 goal) {
@@ -56,7 +45,6 @@ void Rat::Update(std::shared_ptr<Player> &m_Player, std::vector<std::shared_ptr<
                     std::cout << "Block!" << std::endl;
                     break;
                 }
-                std::cout <<  m_Hitrate / ((m_Player->GetDodgerate() + 100) / 100.0) << std::endl;
                 if (hitrate(engine) > m_Hitrate / ((m_Player->GetDodgerate() + 100) / 100.0)) {
                     std::cout << "Miss!" << std::endl;
                     break;
@@ -71,8 +59,17 @@ void Rat::Update(std::shared_ptr<Player> &m_Player, std::vector<std::shared_ptr<
         glm::vec2 displacements[4] = {
             glm::vec2(0, 1), glm::vec2(0, -1), glm::vec2(1, 0), glm::vec2(-1, 0)
         };
-        // 隨機選擇一個 displacement
-        randomDisplacement = displacements[distIndex(engine)];
+        
+        bool conti = false;
+        while (!conti) {
+            // 隨機選擇一個 displacement
+            randomDisplacement = displacements[distIndex(engine)];
+            for (const auto& monster : m_Monsters) {
+                if (Calculation::AddPosition(pos, Calculation::MulPosition(randomDisplacement, 28)) != monster->GetGoalPosition()) {
+                    conti = true;
+                }
+            }
+        }
         grids = 0;
         pos = this->GetPosition();
         goalpos = pos + randomDisplacement * 28.f;

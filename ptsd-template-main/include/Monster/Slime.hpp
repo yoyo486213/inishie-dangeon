@@ -3,13 +3,12 @@
 
 #include "pch.hpp"
 #include "IMoveable.hpp"
-#include "ICollidable.hpp"
 #include "Monster/Monster.hpp"
 
 class Player;
 class Character;
 
-class Slime : public IMoveable, public ICollidable, public Monster, public std::enable_shared_from_this<Slime> {
+class Slime : public IMoveable, public Monster, public std::enable_shared_from_this<Slime> {
 public:
     enum class State {
         Move,
@@ -23,15 +22,11 @@ public:
 
     void Update(std::shared_ptr<Player> &m_Player, std::vector<std::shared_ptr<Character>> AllObjects, std::vector<std::shared_ptr<ICollidable>> AllCollidableObjects, std::vector<std::shared_ptr<InvisibleWall>> m_Invisiblewalls, std::vector<std::shared_ptr<Monster>> m_Monsters) override;
 
+    glm::vec2 GetGoalPosition() override { return this->goalpos; }
+    
     void SetState(State state) { this->state = state; }
 
     State GetState() { return state; }
-
-    bool IsCollision(const std::shared_ptr<Character> &other, glm::vec2 displacement) override;
-
-    void OnCollision() override {};
-
-    void OffCollision() override {};
 private:
     State state = State::Stop;
     glm::vec2 randomDisplacement;
@@ -40,7 +35,7 @@ private:
     int grids;
     int goalgrids;
 
-    int walkRateValue = 30;
+    int walkRateValue = 700;
 };
 
 #endif //SLIME_HPP

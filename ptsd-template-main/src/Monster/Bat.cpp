@@ -11,19 +11,8 @@
 #include <algorithm> // std::max
 #include <cmath>    // std::pow
 
-Bat::Bat() : Monster(RESOURCE_DIR"/Monster/Bat.png", 8, 0, glm::vec2{2, 5}, 0, 125, 25, std::vector<int>{0, 0, 0, 0, 0}, 2, 12, 28.0) {}
-
-bool Bat::IsCollision(const std::shared_ptr<Character> &other, glm::vec2 displacement) {
-    glm::vec2 thisSize = this->GetScaledSize();
-    glm::vec2 otherSize = other->GetScaledSize();
-
-    glm::vec2 thisPos = this->GetPosition() + displacement - glm::vec2({thisSize.x / 2.0, thisSize.y / 2.0});
-    glm::vec2 otherPos = other->GetPosition() - glm::vec2({otherSize.x / 2.0, otherSize.y / 2.0});
-
-    bool xOverlap = thisPos.x + thisSize.x > otherPos.x && otherPos.x + otherSize.x > thisPos.x;
-    bool yOverlap = thisPos.y + thisSize.y > otherPos.y && otherPos.y + otherSize.y > thisPos.y;
-
-    return xOverlap && yOverlap && this->GetVisibility();
+Bat::Bat() : Monster(RESOURCE_DIR"/Monster/Bat.png", 8, 0, glm::vec2{2, 5}, 0, 125, 25, std::vector<int>{0, 0, 0, 0, 0}, 2, 12, 28.0) {
+    this->goalpos = this->GetPosition();
 }
 
 void Bat::Move(glm::vec2 displacement, glm::vec2 goal) {
@@ -93,7 +82,13 @@ void Bat::Update(std::shared_ptr<Player> &m_Player, std::vector<std::shared_ptr<
                         collidable = true;
                     }
                 }
-                if (!collidable && static_cast<int>(glm::distance(m_Player->GetPosition(), this->GetPosition() + Calculation::MulPosition(dir, 28))) < mindis) {
+                bool conti = true;
+                for (const auto& monster : m_Monsters) {
+                    if (Calculation::AddPosition(pos, Calculation::MulPosition(dir, 28)) == monster->GetGoalPosition()) {
+                        conti = false;
+                    }
+                }
+                if (!collidable && conti && static_cast<int>(glm::distance(m_Player->GetPosition(), this->GetPosition() + Calculation::MulPosition(dir, 28))) < mindis) {
                     mindis = static_cast<int>(glm::distance(m_Player->GetPosition(), this->GetPosition() + Calculation::MulPosition(dir, 28)));
                     pos = this->GetPosition();
                     randomDisplacement = dir;

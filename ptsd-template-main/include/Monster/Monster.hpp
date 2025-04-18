@@ -3,12 +3,13 @@
 
 #include "pch.hpp"
 #include "Character.hpp"
+#include "ICollidable.hpp"
 
 class ICollidable;
 class Player;
 class InvisibleWall;
 
-class Monster : public Character {
+class Monster : public Character , public ICollidable {
 public:
     Monster(const std::string &ImagePath,
         int hp, int mp, glm::vec2 attack, int defense, int hitrate, int dodgerate, std::vector<int> resistance, int gold, int exp, float TrackRange);
@@ -16,6 +17,8 @@ public:
     virtual ~Monster() = default;
      
     virtual void Update(std::shared_ptr<Player> &m_Player, std::vector<std::shared_ptr<Character>> AllObjects, std::vector<std::shared_ptr<ICollidable>> AllCollidableObjects, std::vector<std::shared_ptr<InvisibleWall>> m_Invisiblewalls, std::vector<std::shared_ptr<Monster>> m_Monsters) = 0;
+
+    virtual glm::vec2 GetGoalPosition() = 0;
 
     virtual void TakeDamage(int damage);
 
@@ -26,6 +29,12 @@ public:
     void SetAttackCD(float cd) { m_AttackCD = cd; }
 
     float GetAttackCD() const { return m_AttackCD; }
+
+    bool IsCollision(const std::shared_ptr<Character> &other, glm::vec2 displacement) override;
+
+    void OnCollision() override {};
+
+    void OffCollision() override {};
 private:
     int m_HP;
     int m_MP;

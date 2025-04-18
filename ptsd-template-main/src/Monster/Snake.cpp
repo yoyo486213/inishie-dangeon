@@ -9,19 +9,8 @@
 #include <algorithm> // std::max
 #include <cmath>    // std::pow
 
-Snake::Snake() : Monster(RESOURCE_DIR"/Monster/Snake.png", 18, 0, glm::vec2{2, 5}, 0, 108, 8, std::vector<int>{0, -50, 0, 0, 0}, 1, 24, 28.0) {}
-
-bool Snake::IsCollision(const std::shared_ptr<Character> &other, glm::vec2 displacement) {
-    glm::vec2 thisSize = this->GetScaledSize();
-    glm::vec2 otherSize = other->GetScaledSize();
-
-    glm::vec2 thisPos = this->GetPosition() + displacement - glm::vec2({thisSize.x / 2.0, thisSize.y / 2.0});
-    glm::vec2 otherPos = other->GetPosition() - glm::vec2({otherSize.x / 2.0, otherSize.y / 2.0});
-
-    bool xOverlap = thisPos.x + thisSize.x > otherPos.x && otherPos.x + otherSize.x > thisPos.x;
-    bool yOverlap = thisPos.y + thisSize.y > otherPos.y && otherPos.y + otherSize.y > thisPos.y;
-
-    return xOverlap && yOverlap && this->GetVisibility();
+Snake::Snake() : Monster(RESOURCE_DIR"/Monster/Snake.png", 18, 0, glm::vec2{2, 5}, 0, 108, 8, std::vector<int>{0, -50, 0, 0, 0}, 1, 24, 28.0) {
+    this->goalpos = this->GetPosition();
 }
 
 void Snake::Move(glm::vec2 displacement, glm::vec2 goal) {
@@ -93,7 +82,8 @@ void Snake::Update(std::shared_ptr<Player> &m_Player, std::vector<std::shared_pt
             bool conti = true;
             for (int dis=1; dis <= static_cast<int>(std::abs(glm::distance(this->GetPosition(), m_Player->GetPosition()))) / 28; dis++) {
                 for (const auto& obj : AllCollidableObjects) {
-                    if (obj->IsCollision(shared_from_this(), -this->trackdisplacement * static_cast<float>(dis) * 28.f) && obj != shared_from_this()) {
+                    auto monster = std::dynamic_pointer_cast<Monster>(obj);
+                    if (obj->IsCollision(shared_from_this(), -this->trackdisplacement * static_cast<float>(dis) * 28.f) && obj != shared_from_this() && obj != monster) {
                         conti = false;
                     }
                 }
@@ -115,8 +105,16 @@ void Snake::Update(std::shared_ptr<Player> &m_Player, std::vector<std::shared_pt
             glm::vec2 displacements[4] = {
                 glm::vec2(0, 1), glm::vec2(0, -1), glm::vec2(1, 0), glm::vec2(-1, 0)
             };
-            // 隨機選擇一個 displacement
-            randomDisplacement = displacements[distIndex(engine)];
+            bool conti = false;
+            while (!conti) {
+                // 隨機選擇一個 displacement
+                randomDisplacement = displacements[distIndex(engine)];
+                for (const auto& monster : m_Monsters) {
+                    if (Calculation::AddPosition(pos, Calculation::MulPosition(randomDisplacement, 28)) != monster->GetGoalPosition()) {
+                        conti = true;
+                    }
+                }
+            }
             grids = 0;
             pos = this->GetPosition();
             goalpos = Calculation::AddPosition(pos, Calculation::MulPosition(randomDisplacement, 28));
