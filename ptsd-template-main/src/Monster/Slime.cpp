@@ -36,7 +36,7 @@ void Slime::Update(std::shared_ptr<Player> &m_Player, std::vector<std::shared_pt
     this->SetAttackCD(this->GetAttackCD() - Util::Time::GetDeltaTimeMs() / 1000.0f);
     if (m_Player->GetHP() > 0 && this->GetAttackCD() <= 0 && GetState() == State::Stop) {
         // 往旁邊走攻擊距離看有沒有碰到玩家
-        this->walkRateValue = 50;
+        this->walkRateValue = 5;
         const std::vector<glm::vec2> directions = {
             {0, 1}, {0, -1}, {-1, 0}, {1, 0}, {1, 1}, {1, -1}, {-1, 1}, {-1, -1}
         };
@@ -64,8 +64,11 @@ void Slime::Update(std::shared_ptr<Player> &m_Player, std::vector<std::shared_pt
         };
 
         if (glm::distance(m_Player->GetPosition(), this->GetPosition()) <= 84 && followRate(engine) <= 90) {
+            const std::vector<glm::vec2> directions = {
+                {0, 1}, {0, -1}, {-1, 0}, {1, 0}, {1, 1}, {1, -1}, {-1, 1}, {-1, -1}, {0, 0}
+            };
             int mindis = 99999;
-            for (const auto& dir : displacements) {
+            for (const auto& dir : directions) {
                 bool collidable = false;
                 if (this->IsCollision(m_Player, Calculation::MulPosition(dir, 14))) {
                     collidable = true;
