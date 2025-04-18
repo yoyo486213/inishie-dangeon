@@ -13,6 +13,7 @@ class Button;
 class MoveAnimated;
 class MyBGM;
 class NameKeyBoard;
+class AnimatedCharacter;
 
 class CreateCharacterMenu : public Util::GameObject{
 public:
@@ -42,6 +43,7 @@ private:
     std::shared_ptr<MoveAnimated> m_WarriorDoor;
     std::shared_ptr<Menu> m_WarriorDoorFrame;
     std::shared_ptr<Menu> m_WarriorDoorText;
+    std::shared_ptr<Menu> m_WarriorCharacter;
     
     std::shared_ptr<MyBGM> m_MenuOpenBGM;
     std::shared_ptr<MyBGM> m_MenuCloseBGM;

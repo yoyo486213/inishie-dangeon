@@ -50,7 +50,7 @@ private:
     std::shared_ptr<Button> Enter;
     std::shared_ptr<Button> Cancel;
     std::vector<std::shared_ptr<Button>> m_ControlBtn;
-    State state;
+    State state = State::Close;
     KeyBoardType Type = KeyBoardType::Eng;
     std::vector<char> output;
     int outputIndex = 0;

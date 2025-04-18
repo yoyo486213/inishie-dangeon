@@ -1,6 +1,7 @@
 #include "Menus/CreateCharacterMenu.hpp"
 #include "Button.hpp"
 #include "MoveAnimated.hpp"
+#include "AnimatedCharacter.hpp"
 #include "MyBGM.hpp"
 #include "Buttons/NameKeyBoard.hpp"
 
@@ -34,7 +35,7 @@ CreateCharacterMenu::CreateCharacterMenu(Util::Renderer *m_Root) {
         m_WarriorDoorImages.emplace_back(buffer);
     }
     m_WarriorDoor = std::make_shared<MoveAnimated>(m_WarriorDoorImages);
-    m_WarriorDoor->SetZIndex(8);
+    m_WarriorDoor->SetZIndex(9);
     m_WarriorDoor->SetVisible(false);
     m_Root->AddChild(m_WarriorDoor);
 
@@ -52,6 +53,13 @@ CreateCharacterMenu::CreateCharacterMenu(Util::Renderer *m_Root) {
     m_WarriorDoorText->SetPosition({-3.5, 10});
     m_Root->AddChild(m_WarriorDoorText);
 
+    //初始化戰士角色
+    m_WarriorCharacter = std::make_shared<Menu>(RESOURCE_DIR"/Character/Butterfly.png");
+    m_WarriorCharacter->SetZIndex(8);
+    m_WarriorCharacter->SetVisible(false);
+    m_WarriorCharacter->SetPosition({-3.5, 114.5});
+    m_Root->AddChild(m_WarriorCharacter);
+
     //初始化BGM
     m_MenuOpenBGM = std::make_shared<MyBGM>(RESOURCE_DIR"/BGM/MenuOpenSnd.wav");     
     m_MenuCloseBGM = std::make_shared<MyBGM>(RESOURCE_DIR"/BGM/MenuCloseSnd.wav");
@@ -65,6 +73,8 @@ void CreateCharacterMenu::OpenMenu(){
     m_MenuBackGround->SetPosition({0, 500});
     m_MenuBackGround->SetVisible(true);
     m_MenuBackGround->SetState(Menu::State::Open);
+    m_WarriorCharacter->SetPosition({-3.5, 614});
+    m_WarriorCharacter->SetVisible(true);
     m_WarriorDoor->SetPosition({-3.5, 614});
     m_WarriorDoor->SetVisible(true);
     m_WarriorDoor->SetCurrentFrame(11); //先切到關門
@@ -114,11 +124,13 @@ void CreateCharacterMenu::Update(){
     if (m_MenuBackGround->GetState() == Menu::State::Open) {
         m_MenuBackGround->Move({0, -20}, {0, 0});
         m_WarriorDoor->Move({0, -20}, {-3.5, 115.5});
+        m_WarriorCharacter->Move({0, -20}, {-3.5, 115.5});
         m_CreateCharacter_X->Move({0, -20}, {223, 184});
     }
     if (m_MenuBackGround->GetState() == Menu::State::Close) {
         m_MenuBackGround->Move({0, 20}, {0, 500});
         m_WarriorDoor->Move({0, 20}, {0, 500});
+        m_WarriorCharacter->Move({0, 20}, {0, 500});
         m_CreateCharacter_X->Move({0, 20}, {0, 500});
     }
 
@@ -156,6 +168,7 @@ void CreateCharacterMenu::Update(){
     if (state == State::Close && m_MenuBackGround->GetState() == Menu::State::Stop) {
         m_MenuBackGround->SetVisible(false);
         m_WarriorDoor->SetVisible(false);
+        m_WarriorCharacter->SetVisible(false);
         m_CreateCharacter_X->SetVisible(false);
         m_NameKeyBoard->Close();
     }

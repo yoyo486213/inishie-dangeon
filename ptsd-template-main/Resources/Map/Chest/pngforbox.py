@@ -36,7 +36,7 @@ def slice_image(image_path, output_folder, slice_width, slice_height):
         transparent_img.paste(slice_img, (slice_width - i, 0))
 
         # 保存切片，文件名按順序編號
-        output_path = os.path.join(output_folder, f"Boxprogress-{i:02d}.png")
+        output_path = os.path.join(output_folder, f"XPBar-{i:03d}.png")
         transparent_img.save(output_path)
 
         print(f"已保存切片: {output_path}")
@@ -45,7 +45,7 @@ def slice_image(image_path, output_folder, slice_width, slice_height):
 
 # 使用函式
 slice_image(
-    "C:/Users/yoyo/Desktop/Project/inishie-dangeon/ptsd-template-main/Resources/Map/Chest/Boxprogress.png",
-    "C:/Users/yoyo/Desktop/Project/inishie-dangeon/ptsd-template-main/Resources/Map/Chest/Boxprogress",
-    50, 5  # 每個切片的大小 (寬50px，高5px)
+    "C:/Users/yoyo/Desktop/Project/inishie-dangeon/ptsd-template-main/Resources/UI/XPBar.png",
+    "C:/Users/yoyo/Desktop/Project/inishie-dangeon/ptsd-template-main/Resources/UI/XPBar",
+    125, 9  # 每個切片的大小 (寬50px，高5px)
 )

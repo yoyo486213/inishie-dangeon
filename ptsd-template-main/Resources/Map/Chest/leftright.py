@@ -23,6 +23,6 @@ def flip_images_in_folder(input_folder, output_folder):
 
 # 使用範例
 flip_images_in_folder(
-    "C:/Users/yoyo/Desktop/Project/inishie-dangeon/ptsd-template-main/Resources/Map/Chest/Boxprogress",
-    "C:/Users/yoyo/Desktop/Project/inishie-dangeon/ptsd-template-main/Resources/Map/Chest/Boxprogressbox"
+    "C:/Users/yoyo/Desktop/Project/inishie-dangeon/ptsd-template-main/Resources/UI/XPBar",
+    "C:/Users/yoyo/Desktop/Project/inishie-dangeon/ptsd-template-main/Resources/UI/XPBarBox"
 )
