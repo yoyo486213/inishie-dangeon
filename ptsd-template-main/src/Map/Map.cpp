@@ -20,6 +20,7 @@
 #include "Monster/Bat.hpp"
 #include "Monster/Worm.hpp"
 #include "Monster/Slime.hpp"
+#include "Monster/Zombie.hpp"
 #include "nlohmann/json.hpp"
 #include <iostream>
 
@@ -160,6 +161,14 @@ Map::Map(Util::Renderer *m_Root) {
     obj4->SetZIndex(15);
     m_Monsters.push_back(std::dynamic_pointer_cast<Monster>(obj4));
     AllCollidableObjects.push_back(obj4);
+
+    auto obj5 = std::make_shared<Zombie>();
+    m_Root->AddChild(obj5);
+    obj5->SetPosition({-140, 0});
+    obj5->SetVisible(true);
+    obj5->SetZIndex(15);
+    m_Monsters.push_back(std::dynamic_pointer_cast<Monster>(obj5));
+    AllCollidableObjects.push_back(obj5);
 }
 
 void Map::Update(std::shared_ptr<Player> &m_Player) {
