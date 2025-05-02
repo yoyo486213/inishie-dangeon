@@ -12,6 +12,7 @@ class NewGameButton;
 class NameKeyBoard;
 class Map;
 class Player;
+class PlayerUI;
 
 class App {
 public:
@@ -47,6 +48,7 @@ private:
     std::shared_ptr<CreateCharacterMenu> m_CreateCharacterMenu;
 
     std::shared_ptr<Map> m_map;
+    std::shared_ptr<PlayerUI> m_UI;
 
     std::shared_ptr<Player> m_Player;
 

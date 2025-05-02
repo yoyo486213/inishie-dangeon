@@ -21,8 +21,10 @@ public:
     void TakeDamage(int damage);
 
     int GetHP() const { return m_HP; }
+    int GetMaxHP() const {return m_MaxHP; }
 
     int GetMP() const { return m_MP; }
+    int GetMaxMP() const {return m_MaxMP; }
 
     glm::vec2 GetAttack() { return m_Attack; }
 
@@ -47,9 +49,12 @@ public:
     int GetGold() { return m_Gold; }
 
     int GetExp() { return m_Exp; }
+    int GetMaxExp() { return m_MaxExp; }
 private:
     int m_HP = 1000;
+    int m_MaxHP = 1000;
     int m_MP = 20;
+    int m_MaxMP = 20;
     glm::vec2 m_Attack = {1, 4};
     int m_Defense = 0;
     int m_Hitrate = 100;
@@ -61,6 +66,7 @@ private:
     float m_AttackCD = 1.f;
     int m_Gold = 0;
     int m_Exp = 0;
+    int m_MaxExp = 100;
 };
 
 #endif //PLAYER_HPP

@@ -7,6 +7,7 @@
 #include "AnimatedCharacter.hpp"
 #include "Menus/CreateCharacterMenu.hpp"
 #include "Menus/StartMenu.hpp"
+#include "Menus/PlayerUI.hpp"
 #include "Buttons/NewGameButton.hpp"
 #include "Buttons/NameKeyBoard.hpp"
 #include "Map/Map.hpp"
@@ -68,6 +69,7 @@ void App::Update() {
             m_Root.AddChild(m_Player);
 
             m_map = std::make_shared<Map>(&m_Root);
+            m_UI = std::make_shared<PlayerUI>(m_Player, &m_Root);
         }
     
     if(m_CreateCharacterMenu->GetState() != Menu::State::Close) {
@@ -88,6 +90,7 @@ void App::Update() {
      */
     if (m_map && m_Player->GetVisibility()) {
         m_map->Update(m_Player);
+        m_UI->Update();
         
         float displacement = 2;
         if (Util::Input::IsKeyPressed(Util::Keycode::W)) {

@@ -45,7 +45,7 @@ def slice_image(image_path, output_folder, slice_width, slice_height):
 
 # 使用函式
 slice_image(
-    "C:/Users/yoyo/Desktop/Project/inishie-dangeon/ptsd-template-main/Resources/Map/Chest/fire.png",
-    "C:/Users/yoyo/Desktop/Project/inishie-dangeon/ptsd-template-main/Resources/Map/Chest/Fire",
+    "C:/Users/USER/Desktop/for_git/OOPLab_113-2/inishie-dangeon/ptsd-template-main/Resources/Map/Chest/fire.png",
+    "C:/Users/USER/Desktop/for_git/OOPLab_113-2/inishie-dangeon/ptsd-template-main/Resources/Map/Chest/Fire",
     23, 26  # 每個切片的大小 (寬27px，高30px)
 )

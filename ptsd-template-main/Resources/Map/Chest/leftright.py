@@ -23,6 +23,6 @@ def flip_images_in_folder(input_folder, output_folder):
 
 # 使用範例
 flip_images_in_folder(
-    "C:/Users/yoyo/Desktop/Project/inishie-dangeon/ptsd-template-main/Resources/UI/XPBar",
-    "C:/Users/yoyo/Desktop/Project/inishie-dangeon/ptsd-template-main/Resources/UI/XPBarBox"
+    "C:/Users/USER/Desktop/for_git/OOPLab_113-2/inishie-dangeon/ptsd-template-main/Resources/UI/Origin/XPBar",
+    "C:/Users/USER/Desktop/for_git/OOPLab_113-2/inishie-dangeon/ptsd-template-main/Resources/UI/Origin/XPBarBox"
 )

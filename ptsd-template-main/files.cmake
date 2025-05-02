@@ -27,6 +27,7 @@ set(SRC_FILES
     Menu.cpp
     Text.cpp
     Menus/CreateCharacterMenu.cpp
+    Menus/PlayerUI.cpp
     Menus/StartMenu.cpp
     Button.cpp
     Buttons/NewGameButton.cpp
@@ -65,6 +66,7 @@ set(INCLUDE_FILES
     Menu.hpp
     Text.hpp
     Menus/CreateCharacterMenu.hpp
+    Menus/PlayerUI.hpp
     Menus/StartMenu.hpp
     nolohmann/json_fwd.hpp
     nolohmann/json.hpp
