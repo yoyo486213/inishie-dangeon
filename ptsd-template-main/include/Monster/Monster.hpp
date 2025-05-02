@@ -11,20 +11,32 @@ class InvisibleWall;
 
 class Monster : public Character , public ICollidable {
 public:
-    Monster(const std::string &ImagePath,
+    enum class State {
+        Move,
+        MoveMap,
+        Stop
+    };
+
+    Monster(const std::vector<std::string> &ImagePaths,
         int hp, int mp, glm::vec2 attack, int defense, int hitrate, int dodgerate, std::vector<int> resistance, int gold, int exp, float TrackRange);
 
     virtual ~Monster() = default;
      
     virtual void Update(std::shared_ptr<Player> &m_Player, std::vector<std::shared_ptr<Character>> AllObjects, std::vector<std::shared_ptr<ICollidable>> AllCollidableObjects, std::vector<std::shared_ptr<InvisibleWall>> m_Invisiblewalls, std::vector<std::shared_ptr<Monster>> m_Monsters) = 0;
 
-    virtual glm::vec2 GetGoalPosition() = 0;
-
     virtual void TakeDamage(int damage);
 
     int GetHP() const { return m_HP; }
 
+    void SetHP(int hp) { m_HP = hp; }
+
     int GetMP() const { return m_MP; }
+
+    void SetMP(int mp) { m_MP = mp; }
+
+    void SetChangeImageCD(float cd) { m_ChangeImageCD = cd; }
+
+    float GetChangeImageCD() const { return m_ChangeImageCD; }
 
     void SetAttackCD(float cd) { m_AttackCD = cd; }
 
@@ -35,10 +47,33 @@ public:
     void OnCollision() override {};
 
     void OffCollision() override {};
+
+    void ChangeImage(int index) {
+        this->SetImage(m_ImagePaths[index]);
+    }
+
+    glm::vec2 GetGoalPosition() { return this->goalpos; }
+
+    void SetGoalPosition(glm::vec2 goal) { this->goalpos = goal; }
+
+    glm::vec2 GetPosPosition() { return this->pos; }
+
+    void SetPosPosition(glm::vec2 pos) { this->pos = pos; }
 private:
     int m_HP;
     int m_MP;
+protected:
+    //move
+    State state = State::Stop;
+    glm::vec2 randomDisplacement;
+    glm::vec2 pos;
+    glm::vec2 goalpos;
+    int grids;
+    int goalgrids;
 public:
+    std::vector<std::string> m_ImagePaths;
+    int m_ImageIndex = 0;
+
     const glm::vec2 m_Attack;
     const int m_Defense;
     const int m_Hitrate;
@@ -49,6 +84,7 @@ public:
     const int m_Exp;
 
     const float m_TrackRange;
+    float m_ChangeImageCD = 0.25f;
     float m_AttackCD = 1.f;
 };
 

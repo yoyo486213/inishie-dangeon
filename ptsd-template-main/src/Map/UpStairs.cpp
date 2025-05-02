@@ -10,7 +10,7 @@ UpStairs::UpStairs(const std::string& ImagePath, Util::Renderer *m_Root) : Chara
         TextButtonImages.emplace_back(buffer);
     }
     m_TextButton = std::make_shared<Button>(TextButtonImages);
-    m_TextButton->SetZIndex(16);
+    m_TextButton->SetZIndex(35);
     m_TextButton->SetVisible(false);
     m_Root->AddChild(m_TextButton);
 }

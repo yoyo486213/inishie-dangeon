@@ -2,9 +2,11 @@
 #include <iostream>
 #include "Calculation.hpp"
 
-Monster::Monster(const std::string &ImagePath,
+Monster::Monster(const std::vector<std::string> &ImagePaths,
     int hp, int mp, glm::vec2 attack, int defense, int hitrate, int dodgerate, std::vector<int> resistance, int gold, int exp, float TrackRange) 
-    : Character(ImagePath), m_HP(hp), m_MP(mp), m_Attack(attack), m_Defense(defense), m_Hitrate(hitrate), m_Dodgerate(dodgerate), m_Resistance(resistance), m_Gold(gold), m_Exp(exp), m_TrackRange(TrackRange) {}
+    : Character(ImagePaths[0]), m_HP(hp), m_MP(mp), m_Attack(attack), m_Defense(defense), m_Hitrate(hitrate), m_Dodgerate(dodgerate), m_Resistance(resistance), m_Gold(gold), m_Exp(exp), m_TrackRange(TrackRange) {
+        this->m_ImagePaths = ImagePaths;
+}
 
 void Monster::TakeDamage(int damage) {
     m_HP -= Calculation::CalcuDmg(damage, m_Defense, m_Resistance[4]);

@@ -21,6 +21,8 @@ set(SRC_FILES
     Monster/Worm.cpp
     Monster/Slime.cpp
     Monster/Zombie.cpp
+    Monster/Skeleton.cpp
+    Monster/Mage.cpp
 
     Player.cpp
 
@@ -60,6 +62,8 @@ set(INCLUDE_FILES
     Monster/Worm.hpp
     Monster/Slime.hpp
     Monster/Zombie.hpp
+    Monster/Skeleton.hpp
+    Monster/Mage.hpp
 
     Player.hpp
 

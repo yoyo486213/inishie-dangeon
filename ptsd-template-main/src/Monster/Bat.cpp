@@ -11,7 +11,10 @@
 #include <algorithm> // std::max
 #include <cmath>    // std::pow
 
-Bat::Bat() : Monster(RESOURCE_DIR"/Monster/Bat.png", 8, 0, glm::vec2{2, 5}, 0, 125, 25, std::vector<int>{0, 0, 0, 0, 0}, 2, 12, 28.0) {
+Bat::Bat() : Monster({RESOURCE_DIR"/Monster/Bat/Bat-0.png",
+                      RESOURCE_DIR"/Monster/Bat/Bat-1.png",
+                      RESOURCE_DIR"/Monster/Bat/Bat-2.png"}, 
+                      8, 0, glm::vec2{2, 5}, 0, 125, 25, std::vector<int>{0, 0, 0, 0, 0}, 2, 12, 28.0) {
     this->goalpos = this->GetPosition();
 }
 
@@ -27,12 +30,30 @@ void Bat::Move(glm::vec2 displacement, glm::vec2 goal) {
             this->state = State::Stop;
         }
     }
+
+    if (this->GetChangeImageCD() <= 0) {
+        this->SetChangeImageCD(0.25f);
+
+        if (m_ImageIndex == 1) { 
+            this->ChangeImage(2);
+            this->m_ImageIndex = 2;
+        }
+        else if (m_ImageIndex == 2) {
+            this->ChangeImage(1);
+            this->m_ImageIndex = 1;
+        }
+        else {
+            this->ChangeImage(1);
+            this->m_ImageIndex = 1;
+        }
+    }
 }
 
 void Bat::Update(std::shared_ptr<Player> &m_Player, std::vector<std::shared_ptr<Character>> AllObjects, std::vector<std::shared_ptr<ICollidable>> AllCollidableObjects, std::vector<std::shared_ptr<InvisibleWall>> m_Invisiblewalls, std::vector<std::shared_ptr<Monster>> m_Monsters) {
     // 初始化隨機數生成器
     std::random_device rd;                   // 真實隨機數生成器
     std::mt19937 engine(rd());               // Mersenne Twister 引擎
+    this->SetChangeImageCD(this->GetChangeImageCD() - Util::Time::GetDeltaTimeMs() / 1000.0f);
     this->SetAttackCD(this->GetAttackCD() - Util::Time::GetDeltaTimeMs() / 1000.0f);
     if (m_Player->GetHP() > 0 && (this->state == State::Stop || static_cast<int>(glm::distance(pos, goalpos)) == 28)) {
         // 往旁邊走攻擊距離看有沒有碰到玩家
@@ -43,11 +64,12 @@ void Bat::Update(std::shared_ptr<Player> &m_Player, std::vector<std::shared_ptr<
             if (this->IsCollision(m_Player, dir * m_TrackRange)) {
                 if (this->GetAttackCD() <= 0) {
                     std::uniform_real_distribution<double> hitrate(0, 100.0);
-                    if (hitrate(engine) < m_Player->GetBlockrate()) {
+                    int rate = hitrate(engine);
+                    if (rate < m_Player->GetBlockrate()) {
                         std::cout << "Block!" << std::endl;
                         break;
                     }
-                    if (hitrate(engine) > m_Hitrate / ((m_Player->GetDodgerate() + 100) / 100.0)) {
+                    if (rate > m_Hitrate / ((m_Player->GetDodgerate() + 100) / 100.0)) {
                         std::cout << "Miss!" << std::endl;
                         break;
                     }
@@ -78,13 +100,14 @@ void Bat::Update(std::shared_ptr<Player> &m_Player, std::vector<std::shared_ptr<
                 for (const auto& obj : AllCollidableObjects) {
                     auto destructibleobject = std::dynamic_pointer_cast<DestructibleObject>(obj);
                     auto chest = std::dynamic_pointer_cast<Chest>(obj);
-                    if (obj->IsCollision(shared_from_this(), Calculation::MulPosition(-dir, 14)) && obj != chest && obj != destructibleobject && obj != shared_from_this()) {
+                    auto monster = std::dynamic_pointer_cast<Monster>(obj);
+                    if (obj->IsCollision(shared_from_this(), Calculation::MulPosition(-dir, 14)) && obj != monster && obj != chest && obj != destructibleobject && obj != shared_from_this()) {
                         collidable = true;
                     }
                 }
                 bool conti = true;
                 for (const auto& monster : m_Monsters) {
-                    if (Calculation::AddPosition(pos, Calculation::MulPosition(dir, 28)) == monster->GetGoalPosition()) {
+                    if (Calculation::AddPosition(this->GetPosition(), Calculation::MulPosition(dir, 28)) == monster->GetGoalPosition()) {
                         conti = false;
                     }
                 }
@@ -104,7 +127,8 @@ void Bat::Update(std::shared_ptr<Player> &m_Player, std::vector<std::shared_ptr<
         for (const auto& obj : AllCollidableObjects) {
             auto destructibleobject = std::dynamic_pointer_cast<DestructibleObject>(obj);
             auto chest = std::dynamic_pointer_cast<Chest>(obj);
-            if (obj->IsCollision(shared_from_this(), -randomDisplacement) && obj != chest && obj != destructibleobject && obj != shared_from_this()) {
+            auto monster = std::dynamic_pointer_cast<Monster>(obj);
+            if (obj->IsCollision(shared_from_this(), -randomDisplacement) && obj != chest && obj != monster && obj != destructibleobject && obj != shared_from_this()) {
                 this->state = State::Stop;
                 return;
             }
