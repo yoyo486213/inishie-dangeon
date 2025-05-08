@@ -11,7 +11,9 @@ set(SRC_FILES
     Map/UpStairs.cpp
     Map/DownStairs.cpp
     Map/DestructibleObject.cpp
-    Map/Props.cpp
+
+    Items/Item.cpp
+    Items/Potion.cpp
 
     Monster/Monster.cpp
     Monster/Rat.cpp
@@ -51,7 +53,9 @@ set(INCLUDE_FILES
     Map/UpStairs.hpp
     Map/DownStairs.hpp
     Map/DestructibleObject.hpp
-    Map/Props.hpp
+
+    Items/Item.hpp
+    Items/Potion.hpp
 
     Monster/Monster.hpp
     Monster/Rat.hpp

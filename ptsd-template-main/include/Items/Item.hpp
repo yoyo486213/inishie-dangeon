@@ -2,24 +2,28 @@
 #define ITEM_HPP
 
 #include "pch.hpp"
+#include "Character.hpp"
 
 namespace Util {
     class Renderer;
 }
-class Character;
 
-class Item {
+class Item : public Character {
+public:
     enum class ItemType {
+        Ball,
         Potion,
         Weapon
     };
-public:
-    Item(std::string ImagePath, ItemType type, Util::Renderer *m_Root);
+
+    Item(std::string ImagePath, ItemType type);
+
     virtual ~Item() = default;
-    virtual void Use() = 0; // 使用道具的純虛擬函數
-    virtual std::string GetType() const = 0; // 獲取道具類型的純虛擬函數
+
+    virtual void Use() = 0;
+
+    ItemType GetType() { return m_Type; }
 private:
-    std::shared_ptr<Character> m_Icon; // 圖示
     ItemType m_Type; // 道具類型
 };
 

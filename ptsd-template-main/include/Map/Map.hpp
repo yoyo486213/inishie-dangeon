@@ -16,9 +16,10 @@ class Door;
 class DownStairs;
 class UpStairs;
 class DestructibleObject;
-class Props;
+class Potion;
 class Box;
 class Player;
+class PlayerUI;
 class Monster;
 
 class Map : public Util::GameObject {
@@ -29,7 +30,7 @@ public:
 
     void Move(glm::vec2 displacement, std::shared_ptr<Player> &m_Player);
 
-    void Update(std::shared_ptr<Player> &m_Player, Util::Renderer *m_Root);
+    void Update(std::shared_ptr<Player> &m_Player, std::shared_ptr<PlayerUI> &m_UI, Util::Renderer *m_Root);
 private:
     std::shared_ptr<Character> m_map;
     std::vector<std::shared_ptr<DestructibleObject>> m_DestructibleObjects;
@@ -39,7 +40,7 @@ private:
     std::vector<std::shared_ptr<Chest>> m_Chests;
     std::vector<std::shared_ptr<Unexplored>> m_Unexploreds;
     std::vector<std::shared_ptr<InvisibleWall>> m_Invisiblewalls;
-    std::vector<std::shared_ptr<Props>> m_Props;
+    std::vector<std::shared_ptr<Potion>> m_Potion;
 
     std::vector<std::shared_ptr<ICollidable>> AllCollidableObjects;
     std::vector<std::shared_ptr<Character>> AllObjects; 

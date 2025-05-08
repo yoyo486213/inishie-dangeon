@@ -2,9 +2,15 @@
 #include "Player.hpp"
 #include "Text.hpp"
 #include "Util/Renderer.hpp"
+#include "Util/Input.hpp"
 #include "AnimatedCharacter.hpp"
 
 PlayerUI::PlayerUI(std::shared_ptr<Player> playerRef, std::shared_ptr<Text> NameRef, Util::Renderer *m_Root) : player(playerRef),m_Name(NameRef){
+    this->m_ShortcutsItems.reserve(4);
+    this->m_Shortcuts.reserve(4);
+    this->m_InventoryItems.reserve(8);
+    this->m_Inventory.reserve(8);
+    
     m_Name->SetZIndex(40);
     m_Name->SetVisible(true);
 
@@ -68,7 +74,6 @@ PlayerUI::PlayerUI(std::shared_ptr<Player> playerRef, std::shared_ptr<Text> Name
     m_EXP->SetLooping(false);
     m_EXP->SetZIndex(40);
     m_Root->AddChild(m_EXP);
-
 }
 
 
@@ -87,9 +92,40 @@ void PlayerUI::Update() {
     else
         m_MP->SetCurrentFrame(MPRate);
 
-    // int expRate=float(player->GetExp())/float(player->GetMaxExp())*75;
-    // if (expRate != 0)
-    //     m_EXP->SetCurrentFrame(expRate-1);
-    // else
-    //     m_EXP->SetCurrentFrame(expRate);
+    int expRate=float(player->GetExp())/float(player->GetMaxExp())*75;
+    if (expRate != 0)
+        m_EXP->SetCurrentFrame(expRate-1);
+    else
+        m_EXP->SetCurrentFrame(expRate);
+
+    if (Util::Input::IsKeyDown(Util::Keycode::NUM_1)) {
+        m_ShortcutsItems[0]->Use();
+    }
+    else if (Util::Input::IsKeyDown(Util::Keycode::NUM_2)) {
+        m_ShortcutsItems[1]->Use();
+    }
+    else if (Util::Input::IsKeyDown(Util::Keycode::NUM_3)) {
+        m_ShortcutsItems[2]->Use();
+    }
+    else if (Util::Input::IsKeyDown(Util::Keycode::NUM_4)) {
+        m_ShortcutsItems[3]->Use();
+    }
+}
+
+bool PlayerUI::PeekItem(std::shared_ptr<Item> item) {
+    for (int i=0; i<4; i++) {
+        if (!m_ShortcutsItems[i]) {
+            m_ShortcutsItems[i] = item;
+            return true;
+        }
+    }
+
+    for (int i=0; i<8; i++) {
+        if (!m_InventoryItems[i]) {
+            m_InventoryItems[i] = item;
+            return true;
+        }
+    }
+
+    return false;
 }

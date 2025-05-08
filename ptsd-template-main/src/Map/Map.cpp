@@ -12,8 +12,12 @@
 #include "Map/Chest.hpp"
 #include "Map/Door.hpp"
 #include "Map/DestructibleObject.hpp"
-#include "Map/Props.hpp"
+
+#include "Items/Item.hpp"
+#include "Items/Potion.hpp"
+
 #include "Player.hpp"
+#include "Menus/PlayerUI.hpp"
 
 #include "Monster/Monster.hpp"
 #include "Monster/Rat.hpp"
@@ -31,7 +35,7 @@
 #include <utility> // for std::pair
 
 Map::Map(Util::Renderer *m_Root) {
-    std::ifstream file(RESOURCE_DIR"/Map/TiledProject/Area1_2.json");
+    std::ifstream file(RESOURCE_DIR"/Map/TiledProject/Area1_1.json");
     nlohmann::json mapData;
     file >> mapData;
 
@@ -44,7 +48,7 @@ Map::Map(Util::Renderer *m_Root) {
     float respawnpointX = mapData["layers"][4]["objects"][0]["x"].get<float>() - centerX;
     float respawnpointY = -(mapData["layers"][4]["objects"][0]["y"].get<float>() - centerY);
 
-    m_map = std::make_shared<Character>(RESOURCE_DIR"/Map/TiledProject/Area1_2.png");
+    m_map = std::make_shared<Character>(RESOURCE_DIR"/Map/TiledProject/Area1_1.png");
     m_map->SetZIndex(10);
     m_map->SetPosition({-respawnpointX - 14, -respawnpointY + 14});
     m_map->SetVisible(true);
@@ -141,59 +145,59 @@ Map::Map(Util::Renderer *m_Root) {
     };
     
     // 掃地圖生成怪物
-    for (int y = 0; y < 36; y++) {
-        for (int x = 0; x < 36; x++) {
-            if (mapData["layers"][0]["data"][y * 36 + x] == 7) {
-                for (const auto& destructibleobject : m_DestructibleObjects) {
-                    if (destructibleobject->GetPosition() == glm::vec2{x * 28 - centerX - respawnpointX, -(y * 28 - centerY) - respawnpointY} && chanceDist(engine) < 10) {
-                        auto obj = std::make_shared<Bat>();
+    // for (int y = 0; y < 36; y++) {
+    //     for (int x = 0; x < 36; x++) {
+    //         if (mapData["layers"][0]["data"][y * 36 + x] == 7) {
+    //             for (const auto& destructibleobject : m_DestructibleObjects) {
+    //                 if (destructibleobject->GetPosition() == glm::vec2{x * 28 - centerX - respawnpointX, -(y * 28 - centerY) - respawnpointY} && chanceDist(engine) < 10) {
+    //                     auto obj = std::make_shared<Bat>();
 
-                        m_Root->AddChild(obj);
-                        obj->SetPosition({ x * 28 - centerX - respawnpointX, -(y * 28 - centerY) - respawnpointY});
-                        obj->SetVisible(true);
-                        obj->SetZIndex(15);
+    //                     m_Root->AddChild(obj);
+    //                     obj->SetPosition({ x * 28 - centerX - respawnpointX, -(y * 28 - centerY) - respawnpointY});
+    //                     obj->SetVisible(true);
+    //                     obj->SetZIndex(15);
 
-                        m_Monsters.push_back(obj);
-                        AllCollidableObjects.push_back(obj);
-                        continue;
-                    }
-                }
-                if (occupiedTiles.count({x * 28 - centerX - respawnpointX, -(y * 28 - centerY) - respawnpointY}) > 0) {
-                    continue;
-                }
+    //                     m_Monsters.push_back(obj);
+    //                     AllCollidableObjects.push_back(obj);
+    //                     continue;
+    //                 }
+    //             }
+    //             if (occupiedTiles.count({x * 28 - centerX - respawnpointX, -(y * 28 - centerY) - respawnpointY}) > 0) {
+    //                 continue;
+    //             }
     
-                if (chanceDist(engine) < 20) {
-                    // 選一隻怪物
-                    int index = monsterDist(engine);
-                    auto obj = monsterFactoryList[index]();
+    //             if (chanceDist(engine) < 20) {
+    //                 // 選一隻怪物
+    //                 int index = monsterDist(engine);
+    //                 auto obj = monsterFactoryList[index]();
     
-                    // 加入場景
-                    m_Root->AddChild(obj);
-                    obj->SetPosition({ x * 28 - centerX - respawnpointX, -(y * 28 - centerY) - respawnpointY});
-                    obj->SetVisible(true);
-                    obj->SetZIndex(15);
+    //                 // 加入場景
+    //                 m_Root->AddChild(obj);
+    //                 obj->SetPosition({ x * 28 - centerX - respawnpointX, -(y * 28 - centerY) - respawnpointY});
+    //                 obj->SetVisible(true);
+    //                 obj->SetZIndex(15);
     
-                    m_Monsters.push_back(obj);
-                    AllCollidableObjects.push_back(obj);
-                }
-            }
-        }
-    }
+    //                 m_Monsters.push_back(obj);
+    //                 AllCollidableObjects.push_back(obj);
+    //             }
+    //         }
+    //     }
+    // }
 
     for (const auto& monster : m_Monsters) {
         monster->SetGoalPosition(monster->GetPosition());
     }
 }
 
-void Map::Update(std::shared_ptr<Player> &m_Player, Util::Renderer *m_Root) {
+void Map::Update(std::shared_ptr<Player> &m_Player, std::shared_ptr<PlayerUI> &m_UI, Util::Renderer *m_Root) {
     if (m_CurrentInteracting) {
-        auto prop = std::dynamic_pointer_cast<Props>(m_CurrentInteracting);
-        if (prop) {
-            prop->OnCollision(m_Player);
-        }
-        else {
-            m_CurrentInteracting->OnCollision();
-        }
+        // auto prop = std::dynamic_pointer_cast<Potion>(m_CurrentInteracting);
+        // if (prop) {
+        //     prop->OnCollision(m_Player);
+        // }
+        // else {
+        m_CurrentInteracting->OnCollision();
+        // }
 
         auto chest = std::dynamic_pointer_cast<Chest>(m_CurrentInteracting);
         if (chest && chest->GetOpened() == Chest::OpenType::Normal) {
@@ -206,24 +210,30 @@ void Map::Update(std::shared_ptr<Player> &m_Player, Util::Renderer *m_Root) {
             };
             for (const auto& dir : directions) {
                 if (dis(gen) < 50) {
-                    std::shared_ptr<Props> props = std::make_shared<Props>();
-                    props->SetPosition(chest->GetPosition() + dir * 28.f);
-                    props->SetVisible(true);
-                    props->SetZIndex(14);
-                    m_Root->AddChild(props);
-                    m_Props.push_back(props);
-                    AllObjects.push_back(props);
+                    std::shared_ptr<Potion> potion = std::make_shared<Potion>(m_Player);
+                    potion->SetPosition(chest->GetPosition() + dir * 28.f);
+                    potion->SetVisible(true);
+                    potion->SetZIndex(14);
+                    m_Root->AddChild(potion);
+                    m_Potion.push_back(potion);
+                    AllObjects.push_back(potion);
                 } 
             }
         }
     }
-    for (const auto& prop : m_Props) {
-        if (prop->IfFocus()) {
-            prop->ChangeImage(2);
+    for (const auto& potion : m_Potion) {
+        if (potion->IfClick()) {
+            if (m_UI->PeekItem(std::dynamic_pointer_cast<Item>(potion))) {
+                potion->SetVisible(false);
+            }
         }
-        else {
-            prop->ChangeImage(1);
-        }
+
+        // if (potion->IfFocus()) {
+        //     //給他背景
+        // }
+        // else {
+        //     //取消背景
+        // }
     }
 
     m_UpStairs->ChangeImage(m_UpStairs->IfFouse() ? 2 : 1);
@@ -248,12 +258,6 @@ void Map::Move(glm::vec2 displacement, std::shared_ptr<Player> &m_Player) {
             }
             
             m_CurrentInteracting = item;
-            unconti = true;
-        }
-    }
-    for (const auto& prop : m_Props) {
-        if (prop->IsCollision(m_Player, displacement)) {
-            m_CurrentInteracting = prop;
             unconti = true;
         }
     }

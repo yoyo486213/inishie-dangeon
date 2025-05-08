@@ -9,7 +9,7 @@ public:
 
     virtual bool IfClick() = 0;
 
-    virtual bool IfPressed() { return  false;};
+    virtual bool IfPressed() = 0;
 };
 
 #endif //ICLICKABLE_HPP

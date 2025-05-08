@@ -74,12 +74,6 @@ private:
     int m_Gold = 0;
     int m_Exp = 0;
     int m_MaxExp = 100;
-
-    int SelectedSlot = -1;
-    std::vector<std::shared_ptr<Item>> m_ShortcutsItems; // 4 格
-    std::vector<std::shared_ptr<Button>> m_Shortcuts; // 4 格
-    std::vector<std::shared_ptr<Item>> m_InventoryItems; // 8 格
-    std::vector<std::shared_ptr<Button>> m_Inventory; // 8 格
 };
 
 #endif //PLAYER_HPP

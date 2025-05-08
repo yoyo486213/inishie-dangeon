@@ -11,6 +11,8 @@ class AnimatedCharacter;
 class Menu;
 class Player;
 class Text;
+class Item;
+class Button;
 
 class PlayerUI {
 public:
@@ -20,6 +22,8 @@ public:
     virtual ~PlayerUI() = default;
 
     void Update();
+
+    bool PeekItem(std::shared_ptr<Item> item);
 private:
     std::shared_ptr<Player> player;
 
@@ -32,6 +36,12 @@ private:
     std::shared_ptr<AnimatedCharacter> m_HP;
     std::shared_ptr<AnimatedCharacter> m_MP;
     std::shared_ptr<AnimatedCharacter> m_EXP;
+
+    int SelectedSlot = -1;
+    std::vector<std::shared_ptr<Item>> m_ShortcutsItems; // 4 格
+    std::vector<std::shared_ptr<Button>> m_Shortcuts; // 4 格
+    std::vector<std::shared_ptr<Item>> m_InventoryItems; // 8 格
+    std::vector<std::shared_ptr<Button>> m_Inventory; // 8 格
 };
 
 #endif //PLAYERUI_HPP
