@@ -4,6 +4,8 @@
 #include "pch.hpp"
 #include "Util/GameObject.hpp"
 #include "Util/Renderer.hpp"
+#include "Buttons/NameKeyBoard.hpp"
+#include "Text.hpp"
 #include "Menu.hpp"
 
 namespace Util {
@@ -34,6 +36,7 @@ public:
     bool IfEnter();
     void Enter();
 
+    std::shared_ptr<Text> GetName() { return m_NameKeyBoard->GetName(); }
     void Update();
 
     Menu::State GetState() { return m_MenuBackGround->GetState(); }

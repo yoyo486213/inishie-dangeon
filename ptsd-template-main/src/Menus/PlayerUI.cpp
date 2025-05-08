@@ -1,9 +1,13 @@
 #include "Menus/PlayerUI.hpp"
 #include "Player.hpp"
+#include "Text.hpp"
 #include "Util/Renderer.hpp"
 #include "AnimatedCharacter.hpp"
 
-PlayerUI::PlayerUI(std::shared_ptr<Player> playerRef, Util::Renderer *m_Root) : player(playerRef) {
+PlayerUI::PlayerUI(std::shared_ptr<Player> playerRef, std::shared_ptr<Text> NameRef, Util::Renderer *m_Root) : player(playerRef),m_Name(NameRef){
+    m_Name->SetZIndex(40);
+    m_Name->SetVisible(true);
+
     char buffer[200];
     m_HPBox = std::make_shared<Character>(RESOURCE_DIR"/UI/HPBox.png");
     m_HPBox->SetPosition({-133 , -188});
@@ -19,7 +23,6 @@ PlayerUI::PlayerUI(std::shared_ptr<Player> playerRef, Util::Renderer *m_Root) : 
     }
     m_HP = std::make_shared<AnimatedCharacter>(HPImages);
     m_HP->SetPosition({-117 , -188});
-    m_HP->SetCurrentFrame(99);
     m_HP->SetVisible(true);
     m_HP->SetLooping(false);
     m_HP->SetZIndex(40);
@@ -40,14 +43,13 @@ PlayerUI::PlayerUI(std::shared_ptr<Player> playerRef, Util::Renderer *m_Root) : 
     }
     m_MP = std::make_shared<AnimatedCharacter>(MPImages);
     m_MP->SetPosition({-116 , -208});
-    m_MP->SetCurrentFrame(99);
     m_MP->SetVisible(true);
     m_MP->SetLooping(false);
     m_MP->SetZIndex(40);
     m_Root->AddChild(m_MP);
 
 
-    m_EXPBox = std::make_shared<Character>(RESOURCE_DIR"/UI/MPBox.png");
+    m_EXPBox = std::make_shared<Character>(RESOURCE_DIR"/UI/XPBox.png");
     m_EXPBox->SetPosition({-110 , 208});
     m_EXPBox->SetVisible(true);
     m_EXPBox->SetZIndex(39);
@@ -100,6 +102,8 @@ PlayerUI::PlayerUI(std::shared_ptr<Player> playerRef, Util::Renderer *m_Root) : 
 
 
 void PlayerUI::Update() {
+    m_Name->SetPosition({-248+m_Name->GetScaledSize().x/2 ,223+m_Name->GetScaledSize().y/2});
+
     int HPRate=float(player->GetHP())/float(player->GetMaxHP())*100;
     if (HPRate != 0)
         m_HP->SetCurrentFrame(HPRate-1);
@@ -112,9 +116,9 @@ void PlayerUI::Update() {
     else
         m_MP->SetCurrentFrame(MPRate);
 
-    int expRate=float(player->GetExp())/float(player->GetMaxExp())*75;
-    if (expRate != 0)
-        m_EXP->SetCurrentFrame(expRate-1);
-    else
-        m_EXP->SetCurrentFrame(expRate);
+    // int expRate=float(player->GetExp())/float(player->GetMaxExp())*75;
+    // if (expRate != 0)
+    //     m_EXP->SetCurrentFrame(expRate-1);
+    // else
+    //     m_EXP->SetCurrentFrame(expRate);
 }

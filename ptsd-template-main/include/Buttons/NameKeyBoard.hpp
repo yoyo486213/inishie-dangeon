@@ -39,6 +39,8 @@ public:
     
     int ClickContorlBtn();
 
+    std::shared_ptr<Text> GetName() { return m_Name; }
+
     void Update();
 private:
     std::vector<std::shared_ptr<Button>> m_BigLetterBtn;
