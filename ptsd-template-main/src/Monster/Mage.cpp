@@ -16,19 +16,31 @@ Mage::Mage() : Monster({RESOURCE_DIR"/Monster/Mage/Mage-B-0.png", RESOURCE_DIR"/
                         RESOURCE_DIR"/Monster/Mage/Mage-L-0.png", RESOURCE_DIR"/Monster/Mage/Mage-L-1.png",
                         RESOURCE_DIR"/Monster/Mage/Mage-R-0.png", RESOURCE_DIR"/Monster/Mage/Mage-R-1.png"}, 
                         24, 0, glm::vec2{1, 4}, 0, 101, 1, std::vector<int>{0, 0, 0, 0, 0}, 2, 16, 168.0) {
-    this->goalpos = this->GetPosition();
 }
 
-void Mage::Move(glm::vec2 displacement, glm::vec2 goal) {
-    if (((goal.x - pos.x) * displacement.x + (goal.y - pos.y) * displacement.y) > 0) {
+void Mage::Move(glm::vec2 displacement, glm::vec2 goal, std::vector<std::shared_ptr<Monster>> m_Monsters) {
+    if (!Calculation::Equal(pos, goal)) {
         pos += displacement;
         this->SetPosition(this->GetPosition() + displacement);
     }
     else {
         grids++;
-        goalpos = Calculation::AddPosition(pos, Calculation::MulPosition(randomDisplacement, 28));
         if (grids >= goalgrids) {
             this->state = State::Stop;
+        }
+        else {
+            bool conti = true;
+            for (const auto& monster : m_Monsters) {
+                if (monster == shared_from_this()) {
+                    continue;
+                }
+                if (Calculation::Equal(Calculation::AddPosition(this->GetPosition(), Calculation::MulPosition(randomDisplacement, 28)), monster->GetGoalPosition())) {
+                    conti = false;
+                }
+            }
+            if (conti) {
+                goalpos = Calculation::AddPosition(pos, Calculation::MulPosition(randomDisplacement, 28));
+            }
         }
     }
 
@@ -136,21 +148,26 @@ void Mage::Update(std::shared_ptr<Player> &m_Player, std::vector<std::shared_ptr
                         collidable = true;
                     }
                 }
-                bool conti = true;
                 for (const auto& monster : m_Monsters) {
-                    if (Calculation::AddPosition(this->GetPosition(), Calculation::MulPosition(dir, 28)) == monster->GetGoalPosition()) {
-                        conti = false;
+                    if (monster == shared_from_this()) {
+                        continue;
+                    }
+                    if (Calculation::Equal(Calculation::AddPosition(this->GetPosition(), Calculation::MulPosition(dir, 28)), monster->GetGoalPosition())) {
+                        collidable = true;
                     }
                 }
-                if (!collidable && conti && static_cast<int>(glm::distance(m_Player->GetPosition(), this->GetPosition() + Calculation::MulPosition(dir, 28))) > maxdis) {
+                if (!collidable && static_cast<int>(glm::distance(m_Player->GetPosition(), this->GetPosition() + Calculation::MulPosition(dir, 28))) > maxdis) {
                     maxdis = static_cast<int>(glm::distance(m_Player->GetPosition(), this->GetPosition() + Calculation::MulPosition(dir, 28)));
-                    pos = this->GetPosition();
                     randomDisplacement = dir;
-                    goalpos = Calculation::AddPosition(pos, Calculation::MulPosition(randomDisplacement, 28));
-                    grids = 0;
-                    goalgrids = 1;
-                    state = State::Move;
                 }
+            }
+
+            if (maxdis != 0) {
+                pos = this->GetPosition();
+                goalpos = Calculation::AddPosition(pos, Calculation::MulPosition(randomDisplacement, 28));
+                grids = 0;
+                goalgrids = 1;
+                state = State::Move;
             }
         }
 
@@ -167,21 +184,26 @@ void Mage::Update(std::shared_ptr<Player> &m_Player, std::vector<std::shared_ptr
                         collidable = true;
                     }
                 }
-                bool conti = true;
                 for (const auto& monster : m_Monsters) {
-                    if (Calculation::AddPosition(this->GetPosition(), Calculation::MulPosition(dir, 28)) == monster->GetGoalPosition()) {
-                        conti = false;
+                    if (monster == shared_from_this()) {
+                        continue;
+                    }
+                    if (Calculation::Equal(Calculation::AddPosition(this->GetPosition(), Calculation::MulPosition(dir, 28)), monster->GetGoalPosition())) {
+                        collidable = true;
                     }
                 }
-                if (!collidable && conti && static_cast<int>(glm::distance(m_Player->GetPosition(), this->GetPosition() + Calculation::MulPosition(dir, 28))) < mindis) {
+                if (!collidable && static_cast<int>(glm::distance(m_Player->GetPosition(), this->GetPosition() + Calculation::MulPosition(dir, 28))) < mindis) {
                     mindis = static_cast<int>(glm::distance(m_Player->GetPosition(), this->GetPosition() + Calculation::MulPosition(dir, 28)));
-                    pos = this->GetPosition();
                     randomDisplacement = dir;
-                    goalpos = Calculation::AddPosition(pos, Calculation::MulPosition(randomDisplacement, 28));
-                    grids = 0;
-                    goalgrids = 1;
-                    state = State::Move;
                 }
+            }
+
+            if (mindis != 99999) {
+                pos = this->GetPosition();
+                goalpos = Calculation::AddPosition(pos, Calculation::MulPosition(randomDisplacement, 28));
+                grids = 0;
+                goalgrids = 1;
+                state = State::Move;
             }
         }
 
@@ -194,24 +216,34 @@ void Mage::Update(std::shared_ptr<Player> &m_Player, std::vector<std::shared_ptr
             // 隨機選擇一個 displacement
             randomDisplacement = displacements[distIndex(engine)];
 
+            bool conti = true;
             for (const auto& obj : AllCollidableObjects) {
                 auto monster = std::dynamic_pointer_cast<Monster>(obj);
                 if (obj->IsCollision(shared_from_this(), Calculation::MulPosition(-randomDisplacement, 14)) && obj != monster && obj != shared_from_this()) {
-                    return;
+                    conti = false;
                 }
             }
 
             for (const auto& monster : m_Monsters) {
-                if (Calculation::AddPosition(this->GetPosition(), Calculation::MulPosition(randomDisplacement, 28)) == monster->GetGoalPosition()) {
-                    return;
+                if (monster == shared_from_this()) {
+                    continue;
+                }
+                if (Calculation::Equal(Calculation::AddPosition(this->GetPosition(), Calculation::MulPosition(randomDisplacement, 28)), monster->GetGoalPosition())) {
+                    conti = false;
                 }
             }
 
-            grids = 0;
-            pos = this->GetPosition();
-            goalpos = Calculation::AddPosition(pos, Calculation::MulPosition(randomDisplacement, 28));
-            goalgrids = distValue(engine);
-            this->state = State::Move;
+            if (conti) {
+                grids = 0;
+                pos = this->GetPosition();
+                goalpos = Calculation::AddPosition(pos, Calculation::MulPosition(randomDisplacement, 28));
+                goalgrids = distValue(engine);
+                this->state = State::Move;
+            }
+        }
+
+        if (this->state == State::Stop) {
+            this->SetGoalPosition(this->GetPosition());
         }
     }
     if (this->state == State::Move) {
@@ -232,7 +264,7 @@ void Mage::Update(std::shared_ptr<Player> &m_Player, std::vector<std::shared_ptr
             return;
         }
 
-        Move(randomDisplacement, goalpos);
+        Move(randomDisplacement, goalpos, m_Monsters);
     }
     if (this->state == State::MoveMap) {
         for (const auto& obj : AllCollidableObjects) {
@@ -254,8 +286,9 @@ void Mage::Update(std::shared_ptr<Player> &m_Player, std::vector<std::shared_ptr
             }
         }
         pos += randomDisplacement;
-        if (std::abs(pos.x - goalpos.x) < 0.0001f && std::abs(pos.y - goalpos.y) < 0.0001f) {
+        if (Calculation::Equal(pos, goalpos)) {
             this->state = State::Stop;
+            this->SetGoalPosition(this->GetPosition());
         }
     }
 }

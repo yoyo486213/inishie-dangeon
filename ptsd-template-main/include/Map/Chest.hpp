@@ -23,9 +23,20 @@ public:
         None
     };
 
+    enum class OpenType {
+        Normal,
+        Trap,
+        None,
+        Trash
+    };
+
     Chest(const std::string& ImagePath, Util::Renderer *m_Root);
 
     virtual ~Chest() = default;
+
+    OpenType GetOpened() const { return opened; }
+
+    void SetOpened(OpenType type) { this->opened = type; }
 
     std::shared_ptr<AnimatedCharacter> GetTrapAnimation() { return m_TrapAnimation; }
 
@@ -35,7 +46,7 @@ public:
 
     void OffCollision() override;
 private:
-    bool opened = false;
+    OpenType opened = OpenType::None;
     TrapType m_TrapType = TrapType::None;
     std::shared_ptr<Character> m_BoxProgressBox;
     std::shared_ptr<Character> m_TrapBox;

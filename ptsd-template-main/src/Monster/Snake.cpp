@@ -12,11 +12,10 @@
 Snake::Snake() : Monster({RESOURCE_DIR"/Monster/Snake/Snake-L-0.png", RESOURCE_DIR"/Monster/Snake/Snake-L-1.png",
                           RESOURCE_DIR"/Monster/Snake/Snake-R-0.png", RESOURCE_DIR"/Monster/Snake/Snake-R-1.png"},
                           18, 0, glm::vec2{2, 5}, 0, 108, 8, std::vector<int>{0, -50, 0, 0, 0}, 1, 24, 28.0) {
-    this->goalpos = this->GetPosition();
 }
 
-void Snake::Move(glm::vec2 displacement, glm::vec2 goal) {
-    if (((goal.x - pos.x) * displacement.x + (goal.y - pos.y) * displacement.y) > 0) {
+void Snake::Move(glm::vec2 displacement, glm::vec2 goal, std::vector<std::shared_ptr<Monster>> m_Monsters) {
+    if (!Calculation::Equal(pos, goal)) {
         if ((pos.x < 0 && pos.x + displacement.x > 0) || (pos.x > 0 && pos.x + displacement.x < 0) || static_cast<int>(pos.x + displacement.x) == 0){
             throughzero = true;
             goalgrids += 1;
@@ -35,9 +34,22 @@ void Snake::Move(glm::vec2 displacement, glm::vec2 goal) {
     }
     else {
         grids++;
-        goalpos = Calculation::AddPosition(pos, Calculation::MulPosition(randomDisplacement, 28));
         if (grids >= goalgrids) {
             this->state = State::Stop;
+        }
+        else {
+            bool conti = true;
+            for (const auto& monster : m_Monsters) {
+                if (monster == shared_from_this()) {
+                    continue;
+                }
+                if (Calculation::Equal(Calculation::AddPosition(this->GetPosition(), Calculation::MulPosition(randomDisplacement, 28)), monster->GetGoalPosition())) {
+                    conti = false;
+                }
+            }
+            if (conti) {
+                goalpos = Calculation::AddPosition(pos, Calculation::MulPosition(randomDisplacement, 28));
+            }
         }
     }
 
@@ -148,11 +160,15 @@ void Snake::Update(std::shared_ptr<Player> &m_Player, std::vector<std::shared_pt
         }
     }
     if (this->state == State::Stop) {
+        this->SetGoalPosition(this->GetPosition());
         this->goalchange = true;
         throughzero = false;
 
         if (static_cast<int>(this->GetPosition().x) == 0 || static_cast<int>(this->GetPosition().y) == 0) {
             bool conti = true;
+            if (this->IsCollision(m_Player, trackdisplacement)) {
+                conti = false;
+            }
             for (int dis=1; dis <= static_cast<int>(std::abs(glm::distance(this->GetPosition(), m_Player->GetPosition()))) / 28; dis++) {
                 for (const auto& obj : AllCollidableObjects) {
                     auto monster = std::dynamic_pointer_cast<Monster>(obj);
@@ -161,11 +177,20 @@ void Snake::Update(std::shared_ptr<Player> &m_Player, std::vector<std::shared_pt
                     }
                 }
             }
+            for (const auto& monster : m_Monsters) {
+                if (monster == shared_from_this()) {
+                    continue;
+                }
+                if (Calculation::Equal(Calculation::AddPosition(this->GetPosition(), Calculation::MulPosition(trackdisplacement, 28)), monster->GetGoalPosition())) {
+                    conti = false;
+                }
+            }
+
             if (conti) {
                 this->goalchange = false;
                 pos = this->GetPosition();
-                randomDisplacement = Calculation::GetDirection(-this->GetPosition());
-                goalpos = Calculation::AddPosition(pos, Calculation::MulPosition(randomDisplacement, 28));
+                randomDisplacement = trackdisplacement;
+                goalpos = Calculation::AddPosition(pos, Calculation::MulPosition(trackdisplacement, 28));
                 grids = 0;
                 goalgrids = 11;
                 this->state = State::Move;
@@ -180,29 +205,35 @@ void Snake::Update(std::shared_ptr<Player> &m_Player, std::vector<std::shared_pt
             };
             // bool conti = false;
             // while (!conti) {
-                // 隨機選擇一個 displacement
+            // 隨機選擇一個 displacement
             randomDisplacement = displacements[distIndex(engine)];
+            bool conti = true;
+            if (this->IsCollision(m_Player, Calculation::MulPosition(randomDisplacement, 14))) {
+                conti = false;
+            }
             for (const auto& obj : AllCollidableObjects) {
                 auto monster = std::dynamic_pointer_cast<Monster>(obj);
                 if (obj->IsCollision(shared_from_this(), Calculation::MulPosition(-randomDisplacement, 14)) && obj != monster && obj != shared_from_this()) {
-                    return;
+                    conti = false;
                 }
             }
-            
             for (const auto& monster : m_Monsters) {
                 if (monster == shared_from_this()) {
                     continue;
                 }
-                if (Calculation::AddPosition(this->GetPosition(), Calculation::MulPosition(randomDisplacement, 28)) == monster->GetGoalPosition()) {
-                    return;
+                if (Calculation::Equal(Calculation::AddPosition(this->GetPosition(), Calculation::MulPosition(randomDisplacement, 28)), monster->GetGoalPosition())) {
+                    conti = false;
                 }
             }
             // }
-            grids = 0;
-            pos = this->GetPosition();
-            goalpos = Calculation::AddPosition(pos, Calculation::MulPosition(randomDisplacement, 28));
-            goalgrids = distValue(engine);
-            this->state = State::Move;
+
+            if (conti) {
+                grids = 0;
+                pos = this->GetPosition();
+                goalpos = Calculation::AddPosition(pos, Calculation::MulPosition(randomDisplacement, 28));
+                goalgrids = distValue(engine);
+                this->state = State::Move;
+            }
         }
     }
     if (this->state == State::Move) {
@@ -227,6 +258,17 @@ void Snake::Update(std::shared_ptr<Player> &m_Player, std::vector<std::shared_pt
             throughzero = false;
 
             bool conti = true;
+            if (this->IsCollision(m_Player, trackdisplacement)) {
+                conti = false;
+            }
+            for (const auto& monster : m_Monsters) {
+                if (monster == shared_from_this()) {
+                    continue;
+                }
+                if (Calculation::Equal(Calculation::AddPosition(this->GetPosition(), Calculation::MulPosition(trackdisplacement, 28)), monster->GetGoalPosition())) {
+                    conti = false;
+                }
+            }
             for (int dis=1; dis <= static_cast<int>(std::abs(glm::distance(this->trackpos, m_Player->GetPosition()))) / 28; dis++) {
                 for (const auto& obj : AllCollidableObjects) {
                     if (obj->IsCollision(shared_from_this(), -this->trackdisplacement * static_cast<float>(dis) * 28.f) && obj != shared_from_this()) {
@@ -255,10 +297,10 @@ void Snake::Update(std::shared_ptr<Player> &m_Player, std::vector<std::shared_pt
                 }
             
                 if (uncollidable) {
-                    Move(randomDisplacement * static_cast<float>(std::min(4, static_cast<int>(std::pow(2, grids)))), goalpos);
+                    Move(randomDisplacement * static_cast<float>(std::min(4, static_cast<int>(std::pow(2, grids)))), goalpos, m_Monsters);
                 }
                 else {
-                    Move(randomDisplacement, goalpos);
+                    Move(randomDisplacement, goalpos, m_Monsters);
                 }
             }
             else if (!this->IsCollision(m_Player, randomDisplacement * static_cast<float>(std::min(2, static_cast<int>(std::pow(2, grids)))))) {
@@ -270,18 +312,18 @@ void Snake::Update(std::shared_ptr<Player> &m_Player, std::vector<std::shared_pt
                 }
 
                 if (uncollidable) {  
-                    Move(randomDisplacement * static_cast<float>(std::min(2, static_cast<int>(std::pow(2, grids)))), goalpos);
+                    Move(randomDisplacement * static_cast<float>(std::min(2, static_cast<int>(std::pow(2, grids)))), goalpos, m_Monsters);
                 }
                 else {
-                    Move(randomDisplacement, goalpos);
+                    Move(randomDisplacement, goalpos, m_Monsters);
                 }
             }
             else {
-                Move(randomDisplacement, goalpos);
+                Move(randomDisplacement, goalpos, m_Monsters);
             }
         }
         else {
-            Move(randomDisplacement, goalpos);
+            Move(randomDisplacement, goalpos, m_Monsters);
         }
     }
     if (this->state == State::MoveMap) {
@@ -304,7 +346,7 @@ void Snake::Update(std::shared_ptr<Player> &m_Player, std::vector<std::shared_pt
             }
         }
         pos += randomDisplacement;
-        if (std::abs(pos.x - goalpos.x) < 0.0001f && std::abs(pos.y - goalpos.y) < 0.0001f) {
+        if (Calculation::Equal(pos, goalpos)) {
             this->state = State::Stop;
         }
     }

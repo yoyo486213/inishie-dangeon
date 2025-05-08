@@ -65,7 +65,7 @@ void App::Update() {
         {
             m_CreateCharacterMenu->Enter();
             m_GameState = GameState::ENTER_MAP;
-            m_Player = std::make_shared<Player>(RESOURCE_DIR"/Character/Butterfly.png");
+            m_Player = std::make_shared<Player>(RESOURCE_DIR"/Character/Butterfly.png", m_Root);
             m_Root.AddChild(m_Player);
 
             m_map = std::make_shared<Map>(&m_Root);
@@ -89,7 +89,7 @@ void App::Update() {
      * closing the window.
      */
     if (m_map && m_Player->GetVisibility()) {
-        m_map->Update(m_Player);
+        m_map->Update(m_Player, &m_Root);
         m_UI->Update();
         
         float displacement = 2;
@@ -106,10 +106,10 @@ void App::Update() {
             m_map->Move({-displacement, 0}, m_Player);
         }
 
-        if (Util::Input::IsKeyPressed(Util::Keycode::P)) {
-            m_Player->SetAttack({100, 100});
+        if (Util::Input::IsKeyPressed(Util::Keycode::K)) {
+            m_Player->SetAttack({1000, 1000});
         }
-        if (Util::Input::IsKeyPressed(Util::Keycode::O)) {
+        if (Util::Input::IsKeyPressed(Util::Keycode::J)) {
             m_Player->SetAttack({1, 4});
         }
     }

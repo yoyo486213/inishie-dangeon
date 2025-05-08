@@ -69,35 +69,6 @@ PlayerUI::PlayerUI(std::shared_ptr<Player> playerRef, std::shared_ptr<Text> Name
     m_EXP->SetZIndex(40);
     m_Root->AddChild(m_EXP);
 
-
-
-    std::vector<std::string> ShortcutsImages;  
-    ShortcutsImages.reserve(3);
-    for (int i = 1; i < 4; i++) {
-        snprintf(buffer, sizeof(buffer), RESOURCE_DIR"/UI/XPBar/XPBar-%02d.png", i);
-        ShortcutsImages.emplace_back(buffer);
-    }
-    for (int i = 0; i < 4; i++) {
-        m_Shortcuts.emplace_back(std::make_shared<AnimatedCharacter>(ShortcutsImages));
-        m_Shortcuts[i]->SetZIndex(40);
-        m_Shortcuts[i]->SetPosition({50 + 30*i, -300});
-        m_Shortcuts[i]->SetVisible(true);
-        m_Root->AddChild(m_Shortcuts[i]);
-    }
-
-    std::vector<std::string> InventoryImages;  
-    InventoryImages.reserve(3);
-    for (int i = 1; i < 4; i++) {
-        snprintf(buffer, sizeof(buffer), RESOURCE_DIR"/UI/XPBar/XPBar-%02d.png", i);
-        InventoryImages.emplace_back(buffer);
-    }
-    for (int i = 0; i < 4; i++) {
-        m_Inventory.emplace_back(std::make_shared<AnimatedCharacter>(InventoryImages));
-        m_Inventory[i]->SetZIndex(40);
-        m_Inventory[i]->SetPosition({50 + 30*i, -300});
-        m_Inventory[i]->SetVisible(true);
-        m_Root->AddChild(m_Inventory[i]);
-    }
 }
 
 
@@ -105,7 +76,7 @@ void PlayerUI::Update() {
     m_Name->SetPosition({-248+m_Name->GetScaledSize().x/2 ,223+m_Name->GetScaledSize().y/2});
 
     int HPRate=float(player->GetHP())/float(player->GetMaxHP())*100;
-    if (HPRate != 0)
+    if (HPRate >= 1)
         m_HP->SetCurrentFrame(HPRate-1);
     else
         m_HP->SetCurrentFrame(HPRate);

@@ -12,7 +12,7 @@
 #include "Map/Chest.hpp"
 #include "Map/Door.hpp"
 #include "Map/DestructibleObject.hpp"
-#include "Map/Box.hpp"
+#include "Map/Props.hpp"
 #include "Player.hpp"
 
 #include "Monster/Monster.hpp"
@@ -31,7 +31,7 @@
 #include <utility> // for std::pair
 
 Map::Map(Util::Renderer *m_Root) {
-    std::ifstream file(RESOURCE_DIR"/Map/TiledProject/Area1_1.json");
+    std::ifstream file(RESOURCE_DIR"/Map/TiledProject/Area1_2.json");
     nlohmann::json mapData;
     file >> mapData;
 
@@ -44,7 +44,7 @@ Map::Map(Util::Renderer *m_Root) {
     float respawnpointX = mapData["layers"][4]["objects"][0]["x"].get<float>() - centerX;
     float respawnpointY = -(mapData["layers"][4]["objects"][0]["y"].get<float>() - centerY);
 
-    m_map = std::make_shared<Character>(RESOURCE_DIR"/Map/TiledProject/Area1_1.png");
+    m_map = std::make_shared<Character>(RESOURCE_DIR"/Map/TiledProject/Area1_2.png");
     m_map->SetZIndex(10);
     m_map->SetPosition({-respawnpointX - 14, -respawnpointY + 14});
     m_map->SetVisible(true);
@@ -128,11 +128,11 @@ Map::Map(Util::Renderer *m_Root) {
     std::random_device rd;
     std::mt19937 engine(rd());
     std::uniform_int_distribution<int> chanceDist(0, 99);
-    std::uniform_int_distribution<int> monsterDist(0, 4);
+    std::uniform_int_distribution<int> monsterDist(0, 6);
     // 怪物建構工廠清單
     std::vector<std::function<std::shared_ptr<Monster>()>> monsterFactoryList = {
-        // []() { return std::make_shared<Rat>(); },
-        // []() { return std::make_shared<Snake>(); },
+        []() { return std::make_shared<Rat>(); },
+        []() { return std::make_shared<Snake>(); },
         []() { return std::make_shared<Worm>(); },
         []() { return std::make_shared<Slime>(); },
         []() { return std::make_shared<Zombie>(); },
@@ -141,75 +141,89 @@ Map::Map(Util::Renderer *m_Root) {
     };
     
     // 掃地圖生成怪物
-    // for (int y = 0; y < 36; y++) {
-    //     for (int x = 0; x < 36; x++) {
-    //         if (mapData["layers"][0]["data"][y * 36 + x] == 7) {
-    //             for (const auto& destructibleobject : m_DestructibleObjects) {
-    //                 if (destructibleobject->GetPosition() == glm::vec2{x * 28 - centerX - respawnpointX, -(y * 28 - centerY) - respawnpointY} && chanceDist(engine) < 10) {
-    //                     std::cout << "Create Bat" << std::endl;
-    //                     auto obj = std::make_shared<Bat>();
+    for (int y = 0; y < 36; y++) {
+        for (int x = 0; x < 36; x++) {
+            if (mapData["layers"][0]["data"][y * 36 + x] == 7) {
+                for (const auto& destructibleobject : m_DestructibleObjects) {
+                    if (destructibleobject->GetPosition() == glm::vec2{x * 28 - centerX - respawnpointX, -(y * 28 - centerY) - respawnpointY} && chanceDist(engine) < 10) {
+                        auto obj = std::make_shared<Bat>();
 
-    //                     m_Root->AddChild(obj);
-    //                     obj->SetPosition({ x * 28 - centerX - respawnpointX, -(y * 28 - centerY) - respawnpointY});
-    //                     obj->SetVisible(true);
-    //                     obj->SetZIndex(15);
+                        m_Root->AddChild(obj);
+                        obj->SetPosition({ x * 28 - centerX - respawnpointX, -(y * 28 - centerY) - respawnpointY});
+                        obj->SetVisible(true);
+                        obj->SetZIndex(15);
 
-    //                     m_Monsters.push_back(obj);
-    //                     AllCollidableObjects.push_back(obj);
-    //                     continue;
-    //                 }
-    //             }
-    //             // 👇 如果這格已被佔用，就跳過
-    //             if (occupiedTiles.count({x * 28 - centerX - respawnpointX, -(y * 28 - centerY) - respawnpointY}) > 0) {
-    //                 continue;
-    //             }
+                        m_Monsters.push_back(obj);
+                        AllCollidableObjects.push_back(obj);
+                        continue;
+                    }
+                }
+                if (occupiedTiles.count({x * 28 - centerX - respawnpointX, -(y * 28 - centerY) - respawnpointY}) > 0) {
+                    continue;
+                }
     
-    //             if (chanceDist(engine) < 20) {
-    //                 // 選一隻怪物
-    //                 int index = monsterDist(engine);
-    //                 auto obj = monsterFactoryList[index]();
+                if (chanceDist(engine) < 20) {
+                    // 選一隻怪物
+                    int index = monsterDist(engine);
+                    auto obj = monsterFactoryList[index]();
     
-    //                 // 加入場景
-    //                 m_Root->AddChild(obj);
-    //                 obj->SetPosition({ x * 28 - centerX - respawnpointX, -(y * 28 - centerY) - respawnpointY});
-    //                 obj->SetVisible(true);
-    //                 obj->SetZIndex(15);
+                    // 加入場景
+                    m_Root->AddChild(obj);
+                    obj->SetPosition({ x * 28 - centerX - respawnpointX, -(y * 28 - centerY) - respawnpointY});
+                    obj->SetVisible(true);
+                    obj->SetZIndex(15);
     
-    //                 m_Monsters.push_back(obj);
-    //                 AllCollidableObjects.push_back(obj);
-    //             }
-    //         }
-    //     }
-    // }
-
-    auto obj = std::make_shared<Zombie>();
-    m_Root->AddChild(obj);
-    obj->SetPosition({ -28, -112});
-    obj->SetVisible(true);
-    obj->SetZIndex(15);
-    m_Monsters.push_back(obj);
-    AllCollidableObjects.push_back(obj);
-
-    auto obj1 = std::make_shared<Skeleton>();
-    m_Root->AddChild(obj1);
-    obj1->SetPosition({ -56, -140});
-    obj1->SetVisible(true);
-    obj1->SetZIndex(15);
-    m_Monsters.push_back(obj1);
-    AllCollidableObjects.push_back(obj1);
+                    m_Monsters.push_back(obj);
+                    AllCollidableObjects.push_back(obj);
+                }
+            }
+        }
+    }
 
     for (const auto& monster : m_Monsters) {
         monster->SetGoalPosition(monster->GetPosition());
     }
-
-    for (const auto& monster : m_Monsters) {
-        std::cout << monster->GetGoalPosition().x << " " << monster->GetGoalPosition().y << std::endl;
-    }
 }
 
-void Map::Update(std::shared_ptr<Player> &m_Player) {
+void Map::Update(std::shared_ptr<Player> &m_Player, Util::Renderer *m_Root) {
     if (m_CurrentInteracting) {
-        m_CurrentInteracting->OnCollision();
+        auto prop = std::dynamic_pointer_cast<Props>(m_CurrentInteracting);
+        if (prop) {
+            prop->OnCollision(m_Player);
+        }
+        else {
+            m_CurrentInteracting->OnCollision();
+        }
+
+        auto chest = std::dynamic_pointer_cast<Chest>(m_CurrentInteracting);
+        if (chest && chest->GetOpened() == Chest::OpenType::Normal) {
+            chest->SetOpened(Chest::OpenType::Trash);
+            std::random_device rd;
+            std::mt19937 gen(rd()); // 以隨機設備為種子初始化 Mersenne Twister 引擎
+            std::uniform_int_distribution<> dis(1, 100); // 設置範圍 (最小值到最大值)
+            const std::vector<glm::vec2> directions = {
+                {0, 1}, {0, -1}, {-1, 0}, {1, 0}, {1, 1}, {1, -1}, {-1, 1}, {-1, -1}
+            };
+            for (const auto& dir : directions) {
+                if (dis(gen) < 50) {
+                    std::shared_ptr<Props> props = std::make_shared<Props>();
+                    props->SetPosition(chest->GetPosition() + dir * 28.f);
+                    props->SetVisible(true);
+                    props->SetZIndex(14);
+                    m_Root->AddChild(props);
+                    m_Props.push_back(props);
+                    AllObjects.push_back(props);
+                } 
+            }
+        }
+    }
+    for (const auto& prop : m_Props) {
+        if (prop->IfFocus()) {
+            prop->ChangeImage(2);
+        }
+        else {
+            prop->ChangeImage(1);
+        }
     }
 
     m_UpStairs->ChangeImage(m_UpStairs->IfFouse() ? 2 : 1);
@@ -223,16 +237,7 @@ void Map::Update(std::shared_ptr<Player> &m_Player) {
 }
 
 void Map::Move(glm::vec2 displacement, std::shared_ptr<Player> &m_Player) {    
-    // Just Push Box
-    // 判斷角色推箱子時的碰撞
     bool unconti = false;
-    // for (const auto& item : AllCollidableObjects) {
-    //     if (item->IsCollision(m_Box, displacement) && m_Box->IsCollision(m_Player, displacement)) {
-    //         Move(displacement - glm::vec2(1, 1) * glm::normalize(displacement), m_Player);
-    //         unconti = true;
-    //     }
-    // }
-
     // main
     for (const auto& item : AllCollidableObjects) {
         if (item->IsCollision(m_Player, displacement)) {
@@ -243,6 +248,12 @@ void Map::Move(glm::vec2 displacement, std::shared_ptr<Player> &m_Player) {
             }
             
             m_CurrentInteracting = item;
+            unconti = true;
+        }
+    }
+    for (const auto& prop : m_Props) {
+        if (prop->IsCollision(m_Player, displacement)) {
+            m_CurrentInteracting = prop;
             unconti = true;
         }
     }
@@ -267,10 +278,4 @@ void Map::Move(glm::vec2 displacement, std::shared_ptr<Player> &m_Player) {
         monster->SetPosPosition(monster->GetPosPosition() + displacement);
         monster->SetGoalPosition(monster->GetGoalPosition() + displacement);
     }
-
-    //just push box
-    // if (m_Box->IsCollision(m_Player, displacement)) {
-    //     return;
-    // }
-    // m_Box->SetPosition(m_Box->GetPosition() + displacement);
 }

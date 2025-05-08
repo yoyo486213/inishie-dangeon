@@ -5,12 +5,17 @@
 #include "pch.hpp"
 #include "Character.hpp"
 
+namespace Util {
+    class Renderer;
+}
 class Monster;
 class ICollidable;
+class Button;
+class Item;
 
 class Player : public Character {
 public:
-    Player(const std::string &ImagePath);
+    Player(const std::string &ImagePath, Util::Renderer *m_Root);
 
     virtual ~Player() = default;
 
@@ -22,9 +27,11 @@ public:
 
     int GetHP() const { return m_HP; }
     int GetMaxHP() const {return m_MaxHP; }
+    void SetHP(int hp) { this->m_HP = hp;}
 
     int GetMP() const { return m_MP; }
     int GetMaxMP() const {return m_MaxMP; }
+    void SetMP(int mp) { this->m_MP = mp; }
 
     glm::vec2 GetAttack() { return m_Attack; }
 
@@ -51,11 +58,11 @@ public:
     int GetExp() { return m_Exp; }
     int GetMaxExp() { return m_MaxExp; }
 private:
-    int m_HP = 1000;
-    int m_MaxHP = 1000;
+    int m_HP = 100000000;
+    int m_MaxHP = m_HP;
     int m_MP = 20;
-    int m_MaxMP = 20;
-    glm::vec2 m_Attack = {1, 4};
+    int m_MaxMP = m_MP;
+    glm::vec2 m_Attack = {1000, 4000};
     int m_Defense = 0;
     int m_Hitrate = 100;
     int m_Dodgerate = 0;
@@ -67,6 +74,12 @@ private:
     int m_Gold = 0;
     int m_Exp = 0;
     int m_MaxExp = 100;
+
+    int SelectedSlot = -1;
+    std::vector<std::shared_ptr<Item>> m_ShortcutsItems; // 4 格
+    std::vector<std::shared_ptr<Button>> m_Shortcuts; // 4 格
+    std::vector<std::shared_ptr<Item>> m_InventoryItems; // 8 格
+    std::vector<std::shared_ptr<Button>> m_Inventory; // 8 格
 };
 
 #endif //PLAYER_HPP

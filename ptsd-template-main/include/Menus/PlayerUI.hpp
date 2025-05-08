@@ -32,9 +32,6 @@ private:
     std::shared_ptr<AnimatedCharacter> m_HP;
     std::shared_ptr<AnimatedCharacter> m_MP;
     std::shared_ptr<AnimatedCharacter> m_EXP;
-    
-    std::vector<std::shared_ptr<AnimatedCharacter>> m_Shortcuts; // 4 格
-    std::vector<std::shared_ptr<AnimatedCharacter>> m_Inventory; // 8 格
 };
 
 #endif //PLAYERUI_HPP

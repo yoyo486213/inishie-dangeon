@@ -18,17 +18,29 @@ Skeleton::Skeleton() : Monster({RESOURCE_DIR"/Monster/Skeleton/Skeleton-B-0.png"
                                 23, 0, glm::vec2{5, 8}, 3, 103, 3, std::vector<int>{40, 0, 0, 0, 0}, 3, 24, 28.0) {
 }
 
-void Skeleton::Move(glm::vec2 displacement, glm::vec2 goal) {
-    if (((goal.x - pos.x) * displacement.x + (goal.y - pos.y) * displacement.y) > 0) {
+void Skeleton::Move(glm::vec2 displacement, glm::vec2 goal, std::vector<std::shared_ptr<Monster>> m_Monsters) {
+    if (!Calculation::Equal(pos, goal)) {
         pos += displacement;
         this->SetPosition(this->GetPosition() + displacement);
     }
     else {
         grids++;
-        goalpos = Calculation::AddPosition(pos, Calculation::MulPosition(randomDisplacement, 28));
         if (grids >= goalgrids) {
             this->state = State::Stop;
-            this->pos = this->GetPosition();
+        }
+        else {
+            bool conti = true;
+            for (const auto& monster : m_Monsters) {
+                if (monster == shared_from_this()) {
+                    continue;
+                }
+                if (Calculation::Equal(Calculation::AddPosition(this->GetPosition(), Calculation::MulPosition(randomDisplacement, 28)), monster->GetGoalPosition())) {
+                    conti = false;
+                }
+            }
+            if (conti) {
+                goalpos = Calculation::AddPosition(pos, Calculation::MulPosition(randomDisplacement, 28));
+            }
         }
     }
 
@@ -99,16 +111,11 @@ void Skeleton::Update(std::shared_ptr<Player> &m_Player, std::vector<std::shared
     std::random_device rd;                   // 真實隨機數生成器
     std::mt19937 engine(rd());               // Mersenne Twister 引擎
     std::uniform_int_distribution<int> distIndex(0, 7);  // 生成 0~3 之間的隨機索引
-    std::uniform_int_distribution<int> distValue(1, 1); // 生成 1~11 之間的隨機步長
+    std::uniform_int_distribution<int> distValue(1, 11); // 生成 1~11 之間的隨機步長
     std::uniform_int_distribution<int> walkRate(1, 60); // 移動機率
     std::uniform_int_distribution<int> revivalRate(1, 50);
     this->SetChangeImageCD(this->GetChangeImageCD() - Util::Time::GetDeltaTimeMs() / 1000.0f);
     this->SetAttackCD(this->GetAttackCD() - Util::Time::GetDeltaTimeMs() / 1000.0f);
-
-    std::cout << "Skeleton: " << this->GetPosition().x << " " << this->GetPosition().y << std::endl;
-    std::cout << "Goal: " << goalpos.x << " " << goalpos.y << std::endl;
-    std::cout << m_Monsters[0]->GetPosition().x << " " << m_Monsters[0]->GetPosition().y << std::endl;
-    std::cout << m_Monsters[0]->GetGoalPosition().x << " " << m_Monsters[0]->GetGoalPosition().y << std::endl;
     // 復活
     if (m_revivalCD <= 0) {
         m_revivalCD = 3.f;
@@ -140,11 +147,11 @@ void Skeleton::Update(std::shared_ptr<Player> &m_Player, std::vector<std::shared
                     std::uniform_real_distribution<double> hitrate(0, 100.0);
                     int rate = hitrate(engine);
                     if (rate < m_Player->GetBlockrate()) {
-                        std::cout << "Block!" << std::endl;
+                        // std::cout << "Block!" << std::endl;
                         break;
                     }
                     if (rate > m_Hitrate / ((m_Player->GetDodgerate() + 100) / 100.0)) {
-                        std::cout << "Miss!" << std::endl;
+                        // std::cout << "Miss!" << std::endl;
                         break;
                     }
                     m_Player->TakeDamage(Calculation::CalcuAttack(m_Attack, 0));
@@ -178,19 +185,22 @@ void Skeleton::Update(std::shared_ptr<Player> &m_Player, std::vector<std::shared
                     if (monster == shared_from_this()) {
                         continue;
                     }
-                    if (Calculation::AddPosition(this->GetPosition(), Calculation::MulPosition(dir, 28)) == monster->GetGoalPosition()) {
+                    if (Calculation::Equal(Calculation::AddPosition(this->GetPosition(), Calculation::MulPosition(dir, 28)), monster->GetGoalPosition())) {
                         collidable = true;
                     }
                 }
                 if (!collidable && static_cast<int>(glm::distance(m_Player->GetPosition(), this->GetPosition() + Calculation::MulPosition(dir, 28))) < mindis) {
                     mindis = static_cast<int>(glm::distance(m_Player->GetPosition(), this->GetPosition() + Calculation::MulPosition(dir, 28)));
-                    pos = this->GetPosition();
                     randomDisplacement = dir;
-                    goalpos = Calculation::AddPosition(pos, Calculation::MulPosition(randomDisplacement, 28));
-                    grids = 0;
-                    goalgrids = 1;
-                    state = State::Move;
                 }
+            }
+
+            if (mindis != 99999) {
+                pos = this->GetPosition();
+                goalpos = Calculation::AddPosition(pos, Calculation::MulPosition(randomDisplacement, 28));
+                grids = 0;
+                goalgrids = 1;
+                state = State::Move;
             }
         }
 
@@ -201,29 +211,38 @@ void Skeleton::Update(std::shared_ptr<Player> &m_Player, std::vector<std::shared
                 glm::vec2(0, 1), glm::vec2(0, -1), glm::vec2(1, 0), glm::vec2(-1, 0), glm::vec2(1, 1), glm::vec2(1, -1), glm::vec2(-1, 1), glm::vec2(-1, -1)
             };
             // 隨機選擇一個 displacement
-            randomDisplacement = displacements[4];
+            randomDisplacement = displacements[distIndex(engine)];
             
+            bool conti = true;
+            if (this->IsCollision(m_Player, Calculation::MulPosition(randomDisplacement, 14))) {
+                conti = false;
+            }
             for (const auto& obj : AllCollidableObjects) {
                 auto monster = std::dynamic_pointer_cast<Monster>(obj);
                 if (obj->IsCollision(shared_from_this(), Calculation::MulPosition(-randomDisplacement, 14)) && obj != monster && obj != shared_from_this()) {
-                    return;
+                    conti = false;
                 }
             }
-            
             for (const auto& monster : m_Monsters) {
                 if (monster == shared_from_this()) {
                     continue;
                 }
-                if (Calculation::AddPosition(this->GetPosition(), Calculation::MulPosition(randomDisplacement, 28)) == monster->GetGoalPosition()) {
-                    return;
+                if (Calculation::Equal(Calculation::AddPosition(this->GetPosition(), Calculation::MulPosition(randomDisplacement, 28)), monster->GetGoalPosition())) {
+                    conti = false;
                 }
             }
 
-            grids = 0;
-            pos = this->GetPosition();
-            goalpos = Calculation::AddPosition(pos, Calculation::MulPosition(randomDisplacement, 28));
-            goalgrids = distValue(engine);
-            this->state = State::Move;
+            if (conti) {
+                grids = 0;
+                pos = this->GetPosition();
+                goalpos = Calculation::AddPosition(pos, Calculation::MulPosition(randomDisplacement, 28));
+                goalgrids = distValue(engine);
+                this->state = State::Move;
+            }
+        }
+
+        if (this->state == State::Stop) {
+            this->SetGoalPosition(this->GetPosition());
         }
     }
     if (this->state == State::Move) {
@@ -241,11 +260,10 @@ void Skeleton::Update(std::shared_ptr<Player> &m_Player, std::vector<std::shared
         }
         if (this->IsCollision(m_Player, randomDisplacement) && static_cast<int>(glm::distance(pos, goalpos)) % 28 != 0) {
             this->state = State::MoveMap;
-            this->SetGoalPosition(this->GetPosition());
             return;
         }
 
-        Move(randomDisplacement, goalpos);
+        Move(randomDisplacement, goalpos, m_Monsters);
     }
     if (this->state == State::MoveMap) {
         for (const auto& obj : AllCollidableObjects) {
@@ -265,12 +283,11 @@ void Skeleton::Update(std::shared_ptr<Player> &m_Player, std::vector<std::shared
             if (monster != shared_from_this()) {
                 monster->SetPosition(monster->GetPosition() - randomDisplacement);
             }
-            monster->SetPosPosition(monster->GetPosPosition() - randomDisplacement);
-            monster->SetGoalPosition(monster->GetGoalPosition() - randomDisplacement);
         }
         pos += randomDisplacement;
-        if (std::abs(pos.x - goalpos.x) < 0.0001f && std::abs(pos.y - goalpos.y) < 0.0001f) {
+        if (Calculation::Equal(pos, goalpos)) {
             this->state = State::Stop;
+            this->SetGoalPosition(this->GetPosition());
         }
     }
 }

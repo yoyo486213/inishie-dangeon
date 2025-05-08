@@ -8,11 +8,11 @@
 class Player;
 class Character;
 
-class Slime : public IMoveable, public Monster, public std::enable_shared_from_this<Slime> {
+class Slime : public Monster, public std::enable_shared_from_this<Slime> {
 public:
     Slime();
 
-    void Move(glm::vec2 displacement, glm::vec2 goal) override;
+    void Move(glm::vec2 displacement, glm::vec2 goal, std::vector<std::shared_ptr<Monster>> m_Monsters);
 
     void Update(std::shared_ptr<Player> &m_Player, std::vector<std::shared_ptr<Character>> AllObjects, std::vector<std::shared_ptr<ICollidable>> AllCollidableObjects, std::vector<std::shared_ptr<InvisibleWall>> m_Invisiblewalls, std::vector<std::shared_ptr<Monster>> m_Monsters) override;
 private:
