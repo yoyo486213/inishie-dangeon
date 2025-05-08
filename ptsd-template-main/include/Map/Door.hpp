@@ -19,7 +19,7 @@ public:
 
     void OffCollision() override {};
 
-    void ExploreDoorsRecursively(std::shared_ptr<Door> door);
+    void ExploreDoorsRecursively(glm::vec2 position);
 private:
     std::vector<std::shared_ptr<Unexplored>>& m_Unexploreds;
 };

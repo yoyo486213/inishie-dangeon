@@ -6,9 +6,9 @@
 Chest::Chest(const std::string& ImagePath, Util::Renderer *m_Root) : Character(ImagePath) {
     std::random_device rd;
     std::mt19937 gen(rd()); // 以隨機設備為種子初始化 Mersenne Twister 引擎
-    std::uniform_int_distribution<> dis(50, 100); // 設置範圍 (最小值到最大值)
+    std::uniform_int_distribution<int> dis(50, 100); // 設置範圍 (最小值到最大值)
     
-    m_TrapType = TrapType::Fire;
+    m_TrapType = TrapType::None;
 
     m_BoxProgressBox = std::make_shared<Character>(RESOURCE_DIR"/Map/Chest/Boxprogressbox.png");
     m_BoxProgressBox->SetVisible(false);
@@ -16,7 +16,7 @@ Chest::Chest(const std::string& ImagePath, Util::Renderer *m_Root) : Character(I
     m_Root->AddChild(m_BoxProgressBox);
 
     std::vector<std::string> BoxprogressImages;
-    BoxprogressImages.reserve(26);
+    BoxprogressImages.reserve(50);
     for (int i = 1; i < 51; i++) {
         char buffer[200];
         snprintf(buffer, sizeof(buffer), RESOURCE_DIR"/Map/Chest/Boxprogress/Boxprogress-%02d.png", i);
@@ -115,7 +115,9 @@ bool Chest::IsCollision(const std::shared_ptr<Character> &other, glm::vec2 displ
 }
 
 void Chest::OnCollision() {
-    if (opened == false) {
+    if (opened == OpenType::Trash) { return; }
+
+    if (opened == OpenType::None) {
         if (m_TrapType != TrapType::None) {
             m_TrapBox->SetVisible(true);
             m_TrapBox->SetPosition({GetPosition().x, GetPosition().y + 40});
@@ -137,7 +139,7 @@ void Chest::OnCollision() {
     }
     
     if (m_BoxProgress->IfAnimationEnds()) {
-        opened = true;
+        opened = OpenType::Normal;
         if (m_TrapType != TrapType::None) {
             m_TrapBox->SetVisible(false);
             m_TrapAnimation->SetVisible(false);
@@ -145,10 +147,9 @@ void Chest::OnCollision() {
         m_BoxProgressBox->SetVisible(false);
         m_BoxProgress->SetVisible(false);
         SetImage(RESOURCE_DIR"/Map/TiledProject/Area1_Resources/OpenChest.png");
-        // 噴裝備
     }
     if (m_TrapAnimation && m_TrapAnimation->IfAnimationEnds()) {
-        opened = true;
+        opened = OpenType::Trap;
         if (m_TrapType != TrapType::None) {
             m_TrapBox->SetVisible(false);
             m_TrapAnimation->SetVisible(false);

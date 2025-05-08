@@ -19,17 +19,28 @@ bool Door::IsCollision(const std::shared_ptr<Character> &other, glm::vec2 displa
 
 void Door::OnCollision() {
     if (this->GetVisibility()) {
-        ExploreDoorsRecursively(shared_from_this());
+        ExploreDoorsRecursively(this->GetPosition());
     }
     this->SetVisible(false);
 }
 
-void Door::ExploreDoorsRecursively(std::shared_ptr<Door> door) {
+void Door::ExploreDoorsRecursively(glm::vec2 position) {
     for (const auto& unexplored : m_Unexploreds) {
-        if (unexplored->GetVisibility() && unexplored->IfExplored(door->GetPosition())) {
+        if (unexplored->GetVisibility() && unexplored->IfExplored(position + glm::vec2({0, 28}))) {
             unexplored->SetVisible(false);
-            door->SetPosition({unexplored->GetPosition().x, unexplored->GetPosition().y});
-            ExploreDoorsRecursively(door);
+            ExploreDoorsRecursively(position + glm::vec2({0, 28}));
+        }
+        if (unexplored->GetVisibility() && unexplored->IfExplored(position + glm::vec2({0, -28}))) {
+            unexplored->SetVisible(false);
+            ExploreDoorsRecursively(position + glm::vec2({0, -28}));
+        }
+        if (unexplored->GetVisibility() && unexplored->IfExplored(position + glm::vec2({28, 0}))) {
+            unexplored->SetVisible(false);
+            ExploreDoorsRecursively(position + glm::vec2({28, 0}));
+        }
+        if (unexplored->GetVisibility() && unexplored->IfExplored(position + glm::vec2({-28, 0}))) {
+            unexplored->SetVisible(false);
+            ExploreDoorsRecursively(position + glm::vec2({-28, 0}));
         }
     }
 }

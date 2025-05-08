@@ -61,6 +61,10 @@ public:
     
         return glm::vec2(dx, dy);
     }    
+
+    static bool Equal(glm::vec2 pos1, glm::vec2 pos2) {
+        return (std::abs(pos1.x - pos2.x) < 0.001f && std::abs(pos1.y - pos2.y) < 0.001f);
+    }
 };
 
 #endif

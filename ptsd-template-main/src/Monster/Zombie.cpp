@@ -20,16 +20,29 @@ Zombie::Zombie() : Monster({RESOURCE_DIR"/Monster/Zombie/Zombie-B-0.png", RESOUR
                             51, 0, glm::vec2{8, 11}, 3, 105, 5, std::vector<int>{-50, 0, 0, 0, 0}, 4, 32, 28.0) {
 }
 
-void Zombie::Move(glm::vec2 displacement, glm::vec2 goal) {
-    if (((goal.x - pos.x) * displacement.x + (goal.y - pos.y) * displacement.y) > 0) {
+void Zombie::Move(glm::vec2 displacement, glm::vec2 goal, std::vector<std::shared_ptr<Monster>> m_Monsters) {
+    if (!Calculation::Equal(pos, goal)) {
         pos += displacement;
         this->SetPosition(this->GetPosition() + displacement);
     }
     else {
         grids++;
-        goalpos = Calculation::AddPosition(pos, Calculation::MulPosition(randomDisplacement, 28));
         if (grids >= goalgrids) {
             this->state = State::Stop;
+        }
+        else {
+            bool conti = true;
+            for (const auto& monster : m_Monsters) {
+                if (monster == shared_from_this()) {
+                    continue;
+                }
+                if (Calculation::Equal(Calculation::AddPosition(this->GetPosition(), Calculation::MulPosition(randomDisplacement, 28)), monster->GetGoalPosition())) {
+                    conti = false;
+                }
+            }
+            if (conti) {
+                goalpos = Calculation::AddPosition(pos, Calculation::MulPosition(randomDisplacement, 28));
+            }
         }
         // 初始化隨機數生成器
         std::random_device rd;                   // 真實隨機數生成器
@@ -107,7 +120,7 @@ void Zombie::Update(std::shared_ptr<Player> &m_Player, std::vector<std::shared_p
     std::random_device rd;                   // 真實隨機數生成器
     std::mt19937 engine(rd());               // Mersenne Twister 引擎
     std::uniform_int_distribution<int> distIndex(0, 7);  // 生成 0~3 之間的隨機索引
-    std::uniform_int_distribution<int> distValue(1, 1); // 生成 1~11 之間的隨機步長
+    std::uniform_int_distribution<int> distValue(1, 11); // 生成 1~11 之間的隨機步長
     std::uniform_int_distribution<int> walkRate(1, 50); // 移動機率
     this->SetChangeImageCD(this->GetChangeImageCD() - Util::Time::GetDeltaTimeMs() / 1000.0f);
     this->SetAttackCD(this->GetAttackCD() - Util::Time::GetDeltaTimeMs() / 1000.0f);
@@ -182,19 +195,22 @@ void Zombie::Update(std::shared_ptr<Player> &m_Player, std::vector<std::shared_p
                     if (monster == shared_from_this()) {
                         continue;
                     }
-                    if (Calculation::AddPosition(this->GetPosition(), Calculation::MulPosition(dir, 28)) == monster->GetGoalPosition()) {
+                    if (Calculation::Equal(Calculation::AddPosition(this->GetPosition(), Calculation::MulPosition(dir, 28)), monster->GetGoalPosition())) {
                         collidable = true;
                     }
                 }
                 if (!collidable && static_cast<int>(glm::distance(m_Player->GetPosition(), this->GetPosition() + Calculation::MulPosition(dir, 28))) < mindis) {
                     mindis = static_cast<int>(glm::distance(m_Player->GetPosition(), this->GetPosition() + Calculation::MulPosition(dir, 28)));
-                    pos = this->GetPosition();
                     randomDisplacement = dir;
-                    goalpos = Calculation::AddPosition(pos, Calculation::MulPosition(randomDisplacement, 28));
-                    grids = 0;
-                    goalgrids = 1;
-                    state = State::Move;
                 }
+            }
+            
+            if (mindis != 99999) {
+                pos = this->GetPosition();
+                goalpos = Calculation::AddPosition(pos, Calculation::MulPosition(randomDisplacement, 28));
+                grids = 0;
+                goalgrids = 1;
+                state = State::Move;
             }
         }
 
@@ -205,32 +221,38 @@ void Zombie::Update(std::shared_ptr<Player> &m_Player, std::vector<std::shared_p
                 glm::vec2(0, 1), glm::vec2(0, -1), glm::vec2(1, 0), glm::vec2(-1, 0), glm::vec2(1, 1), glm::vec2(1, -1), glm::vec2(-1, 1), glm::vec2(-1, -1)
             };
             // 隨機選擇一個 displacement
+            bool conti = true;
             randomDisplacement = displacements[distIndex(engine)];
 
+            if (this->IsCollision(m_Player, Calculation::MulPosition(randomDisplacement, 14))) {
+                return;
+            }
             for (const auto& obj : AllCollidableObjects) {
                 auto monster = std::dynamic_pointer_cast<Monster>(obj);
                 if (obj->IsCollision(shared_from_this(), Calculation::MulPosition(-randomDisplacement, 14)) && obj != monster && obj != shared_from_this()) {
-                    return;
+                    conti = false;
                 }
             }
-            
             for (const auto& monster : m_Monsters) {
                 if (monster == shared_from_this()) {
                     continue;
                 }
-                // std::cout << "Skeleton: " << monster->GetPosition().x << " " << monster->GetPosition().y << std::endl;
-                // std::cout << "Goal: " << Calculation::AddPosition(this->GetPosition(), Calculation::MulPosition(randomDisplacement, 28)).x << " " << Calculation::AddPosition(this->GetPosition(), Calculation::MulPosition(randomDisplacement, 28)).y << std::endl;
-                if (Calculation::AddPosition(this->GetPosition(), Calculation::MulPosition(randomDisplacement, 28)) == monster->GetGoalPosition()) {
-                    // std::cout << "Skeleton" << std::endl;
-                    return;
+                if (Calculation::Equal(Calculation::AddPosition(this->GetPosition(), Calculation::MulPosition(randomDisplacement, 28)), monster->GetGoalPosition())) {
+                    conti = false;
                 }
             }
 
-            grids = 0;
-            pos = this->GetPosition();
-            goalpos = Calculation::AddPosition(pos, Calculation::MulPosition(randomDisplacement, 28));
-            goalgrids = distValue(engine);
-            this->state = State::Move;
+            if (conti) {
+                grids = 0;
+                pos = this->GetPosition();
+                goalpos = Calculation::AddPosition(pos, Calculation::MulPosition(randomDisplacement, 28));
+                goalgrids = distValue(engine);
+                this->state = State::Move;
+            }
+        }
+
+        if (this->state == State::Stop) {
+            this->SetGoalPosition(this->GetPosition());
         }
     }
     if (this->state == State::Move) {
@@ -248,11 +270,10 @@ void Zombie::Update(std::shared_ptr<Player> &m_Player, std::vector<std::shared_p
         }
         if (this->IsCollision(m_Player, randomDisplacement) && static_cast<int>(glm::distance(pos, goalpos)) % 28 != 0) {
             this->state = State::MoveMap;
-            this->SetGoalPosition(this->GetPosition());
             return;
         }
 
-        Move(randomDisplacement, goalpos);
+        Move(randomDisplacement, goalpos, m_Monsters);
     }
     if (this->state == State::MoveMap) {
         for (const auto& obj : AllCollidableObjects) {
@@ -272,12 +293,11 @@ void Zombie::Update(std::shared_ptr<Player> &m_Player, std::vector<std::shared_p
             if (monster != shared_from_this()) {
                 monster->SetPosition(monster->GetPosition() - randomDisplacement);
             }
-            monster->SetPosPosition(monster->GetPosPosition() - randomDisplacement);
-            monster->SetGoalPosition(monster->GetGoalPosition() - randomDisplacement);
         }
         pos += randomDisplacement;
-        if (std::abs(pos.x - goalpos.x) < 0.0001f && std::abs(pos.y - goalpos.y) < 0.0001f) {
+        if (Calculation::Equal(pos, goalpos)) {
             this->state = State::Stop;
+            this->SetGoalPosition(this->GetPosition());
         }
     }
 }

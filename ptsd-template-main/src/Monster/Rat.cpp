@@ -12,19 +12,31 @@ Rat::Rat() : Monster({RESOURCE_DIR"/Monster/Rat/Rat-B-0.png", RESOURCE_DIR"/Mons
                       RESOURCE_DIR"/Monster/Rat/Rat-L-0.png", RESOURCE_DIR"/Monster/Rat/Rat-L-1.png",
                       RESOURCE_DIR"/Monster/Rat/Rat-R-0.png", RESOURCE_DIR"/Monster/Rat/Rat-R-1.png"},
                       4, 0, glm::vec2{1, 4}, 0, 105, 5, std::vector<int>{-50, 0, 0, 0, 0}, 1, 6, 28.0) {
-    this->goalpos = this->GetPosition();
 }
 
-void Rat::Move(glm::vec2 displacement, glm::vec2 goal) {
-    if (((goal[0] - pos.x) * displacement[0] + (goal[1] - pos.y) * displacement[1]) > 0) {
+void Rat::Move(glm::vec2 displacement, glm::vec2 goal, std::vector<std::shared_ptr<Monster>> m_Monsters) {
+    if (!Calculation::Equal(pos, goal)) {
         pos += displacement;
         this->SetPosition(this->GetPosition() + displacement);
     }
     else {
         grids++;
-        goalpos = pos + randomDisplacement * 28.f;
         if (grids >= goalgrids) {
             this->state = State::Stop;
+        }
+        else {
+            bool conti = true;
+            for (const auto& monster : m_Monsters) {
+                if (monster == shared_from_this()) {
+                    continue;
+                }
+                if (Calculation::Equal(Calculation::AddPosition(this->GetPosition(), Calculation::MulPosition(randomDisplacement, 28)), monster->GetGoalPosition())) {
+                    conti = false;
+                }
+            }
+            if (conti) {
+                goalpos = Calculation::AddPosition(pos, Calculation::MulPosition(randomDisplacement, 28));
+            }
         }
     }
 
@@ -133,10 +145,14 @@ void Rat::Update(std::shared_ptr<Player> &m_Player, std::vector<std::shared_ptr<
         // 隨機選擇一個 displacement
         randomDisplacement = displacements[distIndex(engine)];
         
+        bool conti = true;
+        if (this->IsCollision(m_Player, Calculation::MulPosition(randomDisplacement, 14))) {
+            conti = false;
+        }
         for (const auto& obj : AllCollidableObjects) {
             auto monster = std::dynamic_pointer_cast<Monster>(obj);
             if (obj->IsCollision(shared_from_this(), Calculation::MulPosition(-randomDisplacement, 14)) && obj != monster && obj != shared_from_this()) {
-                return;
+                conti = false;
             }
         }
         
@@ -144,17 +160,23 @@ void Rat::Update(std::shared_ptr<Player> &m_Player, std::vector<std::shared_ptr<
             if (monster == shared_from_this()) {
                 continue;
             }
-            if (Calculation::AddPosition(this->GetPosition(), Calculation::MulPosition(randomDisplacement, 28)) == monster->GetGoalPosition()) {
-                return;
+            if (Calculation::Equal(Calculation::AddPosition(this->GetPosition(), Calculation::MulPosition(randomDisplacement, 28)), monster->GetGoalPosition())) {
+                conti = false;
             }
         }
         // }
 
-        grids = 0;
-        pos = this->GetPosition();
-        goalpos = pos + randomDisplacement * 28.f;
-        goalgrids = distValue(engine);
-        this->state = State::Move;
+        if (conti) {
+            grids = 0;
+            pos = this->GetPosition();
+            goalpos = pos + randomDisplacement * 28.f;
+            goalgrids = distValue(engine);
+            this->state = State::Move;
+        }
+        
+        if (this->state == State::Stop) {
+            this->SetGoalPosition(this->GetPosition());
+        }
     }
     if (this->state == State::Move) {
         for (const auto& obj : AllCollidableObjects) {
@@ -173,7 +195,7 @@ void Rat::Update(std::shared_ptr<Player> &m_Player, std::vector<std::shared_ptr<
             return;
         }
 
-        Move(randomDisplacement, goalpos);
+        Move(randomDisplacement, goalpos, m_Monsters);
     }
     if (this->state == State::MoveMap) {
         for (const auto& obj : AllCollidableObjects) {
