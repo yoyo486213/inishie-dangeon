@@ -95,16 +95,6 @@ void PlayerUI::Update() {
         m_EXP->SetCurrentFrame(expRate);
     }
 
-    for (int i = 0; i < 4; ++i) {
-        std::cout << "Slot " << i << ": ";
-        if (m_ShortcutsItems[i]) {
-            std::cout << "valid -> type: " << typeid(*m_ShortcutsItems[i]).name() << std::endl;
-        } else {
-            std::cout << "nullptr" << std::endl;
-        }
-    }
-    
-
     if (Util::Input::IsKeyDown(Util::Keycode::NUM_1) && m_ShortcutsItems[0]) {
         m_ShortcutsItems[0]->Use();
         m_ShortcutsItems[0] = nullptr;

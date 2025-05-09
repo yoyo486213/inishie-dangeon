@@ -221,25 +221,19 @@ void Map::Update(std::shared_ptr<Player> &m_Player, std::shared_ptr<PlayerUI> &m
             }
         }
     }
+    // 判斷是否使用快捷欄
     for (auto it = m_Potion.begin(); it != m_Potion.end(); ) {
         auto& potion = *it;
         if (potion->IfClick()) {
             if (m_UI->PeekItem(std::dynamic_pointer_cast<Item>(potion))) {
                 potion->SetVisible(false);
-    
-                // 從場景中移除
                 m_Root->RemoveChild(potion);
-    
-                // 從所有物件中移除
                 AllObjects.erase(std::remove(AllObjects.begin(), AllObjects.end(), potion), AllObjects.end());
-    
-                // 從藥水容器中移除
-                it = m_Potion.erase(it); // erase 會返回下一個有效的 iterator
+                it = m_Potion.erase(it);
                 continue;
             }
         }
     
-        // 可選加上 hover 邏輯
         /*
         if (potion->IfFocus()) {
             // 給他背景

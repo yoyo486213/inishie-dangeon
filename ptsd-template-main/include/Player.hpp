@@ -27,11 +27,19 @@ public:
 
     int GetHP() const { return m_HP; }
     int GetMaxHP() const {return m_MaxHP; }
-    void SetHP(int hp) { this->m_HP = hp;}
+    void SetHP(int hp) { 
+        if (this->GetHP() + hp <= this->GetMaxHP()) {
+            this->m_HP += hp; 
+        }
+    }
 
     int GetMP() const { return m_MP; }
     int GetMaxMP() const {return m_MaxMP; }
-    void SetMP(int mp) { this->m_MP = mp; }
+    void SetMP(int mp) { 
+        if (this->GetMP() + mp <= this->GetMaxMP()) {
+            this->m_MP += mp; 
+        }
+    }
 
     glm::vec2 GetAttack() { return m_Attack; }
 
