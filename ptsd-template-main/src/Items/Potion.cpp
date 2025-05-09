@@ -22,15 +22,16 @@ Potion::Potion(std::shared_ptr<Player> &m_Player) : Item(RESOURCE_DIR"/Potion/Hp
 }
 
 void Potion::Use() {
-    std::cout << "use" << std::endl;
-    // switch (GetType()) {
-    //     case Type::Hp:
-    //         m_Player->SetHP(m_Player->GetHP() + 50);
-    //         std::cout << m_Player->GetHP() << std::endl;
-    //     case Type::Mp:
-    //         m_Player->SetMP(m_Player->GetMP() + 50);
-    //         std::cout << m_Player->GetMP() << std::endl;
-    // }
+    switch (GetType()) {
+        case Type::Hp:
+            m_Player->SetHP(m_Player->GetHP() + 50);
+            std::cout << m_Player->GetHP() << std::endl;
+            break;
+        case Type::Mp:
+            m_Player->SetMP(m_Player->GetMP() + 50);
+            std::cout << m_Player->GetMP() << std::endl;
+            break;
+    }
 }
 
 bool Potion::IfFocus() {

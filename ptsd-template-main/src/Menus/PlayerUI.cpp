@@ -1,16 +1,13 @@
 #include "Menus/PlayerUI.hpp"
-#include "Player.hpp"
-#include "Text.hpp"
 #include "Util/Renderer.hpp"
 #include "Util/Input.hpp"
 #include "AnimatedCharacter.hpp"
+#include "Text.hpp"
+#include "Player.hpp"
+#include "Items/Item.hpp"
+#include "Items/Potion.hpp"
 
-PlayerUI::PlayerUI(std::shared_ptr<Player> playerRef, std::shared_ptr<Text> NameRef, Util::Renderer *m_Root) : player(playerRef),m_Name(NameRef){
-    this->m_ShortcutsItems.reserve(4);
-    this->m_Shortcuts.reserve(4);
-    this->m_InventoryItems.reserve(8);
-    this->m_Inventory.reserve(8);
-    
+PlayerUI::PlayerUI(std::shared_ptr<Player> playerRef, std::shared_ptr<Text> NameRef, Util::Renderer *m_Root) : player(playerRef),m_Name(NameRef) {
     m_Name->SetZIndex(40);
     m_Name->SetVisible(true);
 
@@ -54,7 +51,6 @@ PlayerUI::PlayerUI(std::shared_ptr<Player> playerRef, std::shared_ptr<Text> Name
     m_MP->SetZIndex(40);
     m_Root->AddChild(m_MP);
 
-
     m_EXPBox = std::make_shared<Character>(RESOURCE_DIR"/UI/XPBox.png");
     m_EXPBox->SetPosition({-110 , 208});
     m_EXPBox->SetVisible(true);
@@ -95,20 +91,35 @@ void PlayerUI::Update() {
     int expRate=float(player->GetExp())/float(player->GetMaxExp())*75;
     if (expRate != 0)
         m_EXP->SetCurrentFrame(expRate-1);
-    else
+    else {
         m_EXP->SetCurrentFrame(expRate);
+    }
 
-    if (Util::Input::IsKeyDown(Util::Keycode::NUM_1)) {
+    for (int i = 0; i < 4; ++i) {
+        std::cout << "Slot " << i << ": ";
+        if (m_ShortcutsItems[i]) {
+            std::cout << "valid -> type: " << typeid(*m_ShortcutsItems[i]).name() << std::endl;
+        } else {
+            std::cout << "nullptr" << std::endl;
+        }
+    }
+    
+
+    if (Util::Input::IsKeyDown(Util::Keycode::NUM_1) && m_ShortcutsItems[0]) {
         m_ShortcutsItems[0]->Use();
+        m_ShortcutsItems[0] = nullptr;
     }
-    else if (Util::Input::IsKeyDown(Util::Keycode::NUM_2)) {
+    else if (Util::Input::IsKeyDown(Util::Keycode::NUM_2) && m_ShortcutsItems[1]) {
         m_ShortcutsItems[1]->Use();
+        m_ShortcutsItems[1] = nullptr;
     }
-    else if (Util::Input::IsKeyDown(Util::Keycode::NUM_3)) {
+    else if (Util::Input::IsKeyDown(Util::Keycode::NUM_3) && m_ShortcutsItems[2]) {
         m_ShortcutsItems[2]->Use();
+        m_ShortcutsItems[2] = nullptr;
     }
-    else if (Util::Input::IsKeyDown(Util::Keycode::NUM_4)) {
+    else if (Util::Input::IsKeyDown(Util::Keycode::NUM_4) && m_ShortcutsItems[3]) {
         m_ShortcutsItems[3]->Use();
+        m_ShortcutsItems[3] = nullptr;
     }
 }
 

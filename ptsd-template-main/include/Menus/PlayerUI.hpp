@@ -38,10 +38,10 @@ private:
     std::shared_ptr<AnimatedCharacter> m_EXP;
 
     int SelectedSlot = -1;
-    std::vector<std::shared_ptr<Item>> m_ShortcutsItems; // 4 格
-    std::vector<std::shared_ptr<Button>> m_Shortcuts; // 4 格
-    std::vector<std::shared_ptr<Item>> m_InventoryItems; // 8 格
-    std::vector<std::shared_ptr<Button>> m_Inventory; // 8 格
+    std::vector<std::shared_ptr<Item>> m_ShortcutsItems{4, nullptr}; // 4 格
+    std::vector<std::shared_ptr<Button>> m_Shortcuts{4, nullptr}; // 4 格
+    std::vector<std::shared_ptr<Item>> m_InventoryItems{8, nullptr}; // 8 格
+    std::vector<std::shared_ptr<Button>> m_Inventory{8, nullptr}; // 8 格
 };
 
 #endif //PLAYERUI_HPP

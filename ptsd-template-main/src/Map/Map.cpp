@@ -31,8 +31,8 @@
 
 #include "nlohmann/json.hpp"
 #include <iostream>
+#include <memory>
 #include <set>
-#include <utility> // for std::pair
 
 Map::Map(Util::Renderer *m_Root) {
     std::ifstream file(RESOURCE_DIR"/Map/TiledProject/Area1_1.json");
@@ -221,20 +221,36 @@ void Map::Update(std::shared_ptr<Player> &m_Player, std::shared_ptr<PlayerUI> &m
             }
         }
     }
-    for (const auto& potion : m_Potion) {
+    for (auto it = m_Potion.begin(); it != m_Potion.end(); ) {
+        auto& potion = *it;
         if (potion->IfClick()) {
             if (m_UI->PeekItem(std::dynamic_pointer_cast<Item>(potion))) {
                 potion->SetVisible(false);
+    
+                // 從場景中移除
+                m_Root->RemoveChild(potion);
+    
+                // 從所有物件中移除
+                AllObjects.erase(std::remove(AllObjects.begin(), AllObjects.end(), potion), AllObjects.end());
+    
+                // 從藥水容器中移除
+                it = m_Potion.erase(it); // erase 會返回下一個有效的 iterator
+                continue;
             }
         }
-
-        // if (potion->IfFocus()) {
-        //     //給他背景
-        // }
-        // else {
-        //     //取消背景
-        // }
+    
+        // 可選加上 hover 邏輯
+        /*
+        if (potion->IfFocus()) {
+            // 給他背景
+        } else {
+            // 取消背景
+        }
+        */
+    
+        ++it;
     }
+    
 
     m_UpStairs->ChangeImage(m_UpStairs->IfFouse() ? 2 : 1);
     m_DownStairs->ChangeImage(m_DownStairs->IfFouse() ? 2 : 1);
