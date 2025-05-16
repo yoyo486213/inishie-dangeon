@@ -94,22 +94,22 @@ void App::Update() {
         
         float displacement = 2;
         if (Util::Input::IsKeyPressed(Util::Keycode::W)) {
-            m_map->Move({0, -displacement}, m_Player);
+            m_map->Move({0, -displacement}, m_Player, &m_Root);
         }
         if (Util::Input::IsKeyPressed(Util::Keycode::A)) {
-            m_map->Move({displacement, 0}, m_Player);
+            m_map->Move({displacement, 0}, m_Player, &m_Root);
         }
         if (Util::Input::IsKeyPressed(Util::Keycode::S)) {
-            m_map->Move({0, displacement}, m_Player);
+            m_map->Move({0, displacement}, m_Player, &m_Root);
         }
         if (Util::Input::IsKeyPressed(Util::Keycode::D)) {
-            m_map->Move({-displacement, 0}, m_Player);
+            m_map->Move({-displacement, 0}, m_Player, &m_Root);
         }
 
-        if (Util::Input::IsKeyPressed(Util::Keycode::K)) {
+        if (Util::Input::IsKeyPressed(Util::Keycode::P)) {
             m_Player->SetAttack({1000, 1000});
         }
-        if (Util::Input::IsKeyPressed(Util::Keycode::J)) {
+        if (Util::Input::IsKeyPressed(Util::Keycode::O)) {
             m_Player->SetAttack({1, 4});
         }
     }

@@ -26,8 +26,6 @@ public:
     bool IfClick() override;
 
     bool IfPressed() override;
-
-    Type GetType() { return type; }
 private:
     std::shared_ptr<Player> m_Player;
 

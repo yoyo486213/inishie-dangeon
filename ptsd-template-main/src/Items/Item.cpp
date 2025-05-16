@@ -2,7 +2,7 @@
 #include "Util/Renderer.hpp"
 #include "Character.hpp"
 
-Item::Item(std::string ImagePath, ItemType type) : Character(ImagePath), m_Type(type) {
+Item::Item(std::string ImagePath) : Character(ImagePath) {
     this->SetVisible(true);
     this->SetZIndex(40);
 }

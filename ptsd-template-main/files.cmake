@@ -14,6 +14,10 @@ set(SRC_FILES
 
     Items/Item.cpp
     Items/Potion.cpp
+    Items/Orb.cpp
+
+    Weapon/Weapon.cpp
+    Weapon/SortSword.cpp
 
     Monster/Monster.cpp
     Monster/Rat.cpp
@@ -56,6 +60,10 @@ set(INCLUDE_FILES
 
     Items/Item.hpp
     Items/Potion.hpp
+    Items/Orb.hpp
+
+    Weapon/Weapon.hpp
+    Weapon/SortSword.hpp
 
     Monster/Monster.hpp
     Monster/Rat.hpp

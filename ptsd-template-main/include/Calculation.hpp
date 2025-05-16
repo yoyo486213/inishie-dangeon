@@ -3,6 +3,7 @@
 
 #include "pch.hpp"
 #include <random>
+#include <iostream>
 
 class Calculation {
 public:
@@ -20,10 +21,17 @@ public:
     }
 
     static int CalcuDmg(int damage, int defense, int physicalresistance) {
-        int finalDmg = (damage - defense / 4) * (damage / (damage + defense));
-        finalDmg = finalDmg * (100 - physicalresistance) / 100;
-        return glm::max(1, finalDmg);
+        // 先轉成 float
+        float dmg = static_cast<float>(damage);
+        float def = static_cast<float>(defense);
+    
+        float adjustedDmg = (dmg - def / 4.0f) * (dmg / (dmg + def));
+        adjustedDmg = adjustedDmg * (100.0f - physicalresistance) / 100.0f;
+    
+        // 最後轉回 int 並確保最少 1
+        return glm::max(1, static_cast<int>(adjustedDmg));
     }
+    
 
     static float Round4(float x) {
         return glm::round(x * 1e4f) / 1e4f;
