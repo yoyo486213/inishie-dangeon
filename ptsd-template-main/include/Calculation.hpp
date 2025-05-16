@@ -74,10 +74,10 @@ public:
         return (std::abs(pos1.x - pos2.x) < 0.001f && std::abs(pos1.y - pos2.y) < 0.001f);
     }
 
-    static glm::vec2 GetStairRelativeCoordinates(glm::vec2 stairCoordinates, glm::vec2 position) {
+    static glm::vec2 GetRelativeCoordinates(glm::vec2 stairCoordinates, glm::vec2 position) {
         glm::vec2 temp = {0, 0};
-        temp.x = round(position.x - stairCoordinates.x / 28);
-        temp.y = round(position.y - stairCoordinates.y / 28);
+        temp.x = round((position.x - stairCoordinates.x) / 28);
+        temp.y = round((position.y - stairCoordinates.y) / 28);
         return {temp.x * 28 + stairCoordinates.x, temp.y * 28 + stairCoordinates.y};
     }
 };

@@ -38,4 +38,5 @@ bool Button::IfPressed() {
 
 void Button::ChangeImage(int index) {
     this->SetImage(this->ImagePaths[index - 1]);
+    m_ImageIndex = index;
 }

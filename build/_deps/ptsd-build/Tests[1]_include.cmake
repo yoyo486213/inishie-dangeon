@@ -1,5 +1,0 @@
-if(EXISTS "C:/Users/USER/Desktop/for_git/OOPLab_113-2/inishie-dangeon/build/_deps/ptsd-build/Tests[1]_tests.cmake")
-  include("C:/Users/USER/Desktop/for_git/OOPLab_113-2/inishie-dangeon/build/_deps/ptsd-build/Tests[1]_tests.cmake")
-else()
-  add_test(Tests_NOT_BUILT Tests_NOT_BUILT)
-endif()

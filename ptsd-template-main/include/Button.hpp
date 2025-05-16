@@ -33,10 +33,13 @@ public:
 
     void ChangeImage(int index);
 
+    int GetImageIndex() const { return m_ImageIndex; }
+
     virtual ~Button() = default;
 
 private:
     State state = State::Stop;
+    int m_ImageIndex = 1;
     std::string ImagePath;
     std::vector<std::string> ImagePaths;
 };
