@@ -14,6 +14,8 @@ public:
 
     virtual ~Item() = default;
 
+    virtual bool useOnSelect() const { return false; }
+    
     virtual void Use() = 0;
 };
 

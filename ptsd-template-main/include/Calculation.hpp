@@ -75,10 +75,10 @@ public:
     }
 
     static glm::vec2 GetStairRelativeCoordinates(glm::vec2 stairCoordinates, glm::vec2 position) {
-        glm::vec2 temp = {0,0};
-        temp.x = round(position.x - stairCoordinates.x/28);
-        temp.y = round(position.y - stairCoordinates.y/28);
-        return {temp.x*28, temp.y*28};
+        glm::vec2 temp = {0, 0};
+        temp.x = round(position.x - stairCoordinates.x / 28);
+        temp.y = round(position.y - stairCoordinates.y / 28);
+        return {temp.x * 28 + stairCoordinates.x, temp.y * 28 + stairCoordinates.y};
     }
 };
 
