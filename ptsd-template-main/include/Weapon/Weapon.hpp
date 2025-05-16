@@ -8,7 +8,7 @@
 
 class Player;
 
-class Weapon : public Item , public IUsable, public IEquipable{
+class Weapon : public Item {
 public:
     Weapon(std::string ImagePath, glm::vec2 attack,
            float attackCD, float skillMultiplier, int skillRange,

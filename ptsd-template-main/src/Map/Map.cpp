@@ -340,7 +340,7 @@ void Map::Move(glm::vec2 displacement, std::shared_ptr<Player> &m_Player, Util::
             if (monster && m_Player->GetAttackCD() <= 0) {
                 monster->TakeDamage(Calculation::CalcuAttack(m_Player->GetAttack(), m_Player->GetCriticalrate()));
                 if (monster->GetHP() >= -10000 && monster->GetHP() <= 0) {
-                    this->CreateItems(monster->GetPosition(), m_Player, m_Root);
+                    this->CreateItems(Calculation::GetRelativeCoordinates(m_UpStairs->GetPosition(), monster->GetPosition()), m_Player, m_Root);
                     monster->SetHP(-99999);
                 }
                 m_Player->SetAttackCD(1.f);
