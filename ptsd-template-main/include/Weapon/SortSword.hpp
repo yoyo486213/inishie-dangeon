@@ -8,7 +8,9 @@ class SortSword : public Weapon {
 public:
     SortSword();
 
-    void Skill() override {};
+    void Skill() override;
+private:
+    std::vector<
 };
 
 #endif // SORTSWORD_HPP
