@@ -4,6 +4,7 @@
 #include "AnimatedCharacter.hpp"
 #include "Text.hpp"
 #include "Player.hpp"
+#include "Button.hpp"
 #include "Items/Item.hpp"
 #include "Items/Potion.hpp"
 
@@ -70,6 +71,52 @@ PlayerUI::PlayerUI(std::shared_ptr<Player> playerRef, std::shared_ptr<Text> Name
     m_EXP->SetLooping(false);
     m_EXP->SetZIndex(40);
     m_Root->AddChild(m_EXP);
+
+    for (int i = 0; i < 4; i++) {
+        m_Shortcuts[i] = std::make_shared<Button>(
+            std::vector<std::string>{
+                RESOURCE_DIR"/UI/ItemSlot_Default.png",
+                RESOURCE_DIR"/UI/ItemSlot_Selected.png",
+                RESOURCE_DIR"/UI/ItemSlot_Cooldown.png",
+                RESOURCE_DIR"/UI/FocusItemSlot_Default.png",
+                RESOURCE_DIR"/UI/FocusItemSlot_Selected.png",
+                RESOURCE_DIR"/UI/FocusItemSlot_Cooldown.png"
+            }
+        );
+        m_Shortcuts[i]->SetPosition({80 + i * 42, -194});
+        m_Shortcuts[i]->SetVisible(true);
+        m_Shortcuts[i]->SetZIndex(39);
+        m_Root->AddChild(m_Shortcuts[i]);
+
+        m_ShortcutsBackGrounds[i] = std::make_shared<Character>(RESOURCE_DIR"/UI/ItemSlot_BackGround.png");
+        m_ShortcutsBackGrounds[i]->SetPosition({80 + i * 42, -194});
+        m_ShortcutsBackGrounds[i]->SetVisible(true);
+        m_ShortcutsBackGrounds[i]->SetZIndex(37);
+        m_Root->AddChild(m_ShortcutsBackGrounds[i]);
+    }
+
+    for (int i = 0; i < 8; i++) {
+        m_Inventory[i] = std::make_shared<Button>(
+            std::vector<std::string>{
+                RESOURCE_DIR"/UI/ItemSlot_NotMarked.png",
+                RESOURCE_DIR"/UI/ItemSlot_Default.png",
+                RESOURCE_DIR"/UI/ItemSlot_Selected.png",
+                RESOURCE_DIR"/UI/ItemSlot_Cooldown.png",
+                RESOURCE_DIR"/UI/FocusItemSlot_Default.png",
+                RESOURCE_DIR"/UI/FocusItemSlot_Selected.png",
+                RESOURCE_DIR"/UI/FocusItemSlot_Cooldown.png"
+            }
+        );
+        if (i < 4) {
+            m_Inventory[i]->SetPosition({120 + i * 42, -79});
+        } 
+        else {
+            m_Inventory[i]->SetPosition({120 + (i - 4) * 42, -121});
+        }
+        m_Inventory[i]->SetVisible(true);
+        m_Inventory[i]->SetZIndex(39);
+        m_Root->AddChild(m_Inventory[i]);
+    }
 }
 
 
@@ -93,6 +140,36 @@ void PlayerUI::Update() {
         m_EXP->SetCurrentFrame(expRate-1);
     else {
         m_EXP->SetCurrentFrame(expRate);
+    }
+
+    for (int i = 0; i < 4; i++) {
+        if (m_Shortcuts[i]->IfClick()) {
+            m_Shortcuts[i]->ChangeImage(2);
+            
+        }
+        else if (m_Shortcuts[i]->IfFocus()) {
+            if (m_Shortcuts[i]->GetImageIndex() <= 3) {
+                m_Shortcuts[i]->ChangeImage(m_Shortcuts[i]->GetImageIndex() + 3);
+            }
+        }
+        else if (m_Shortcuts[i]->GetImageIndex() > 3) {
+            m_Shortcuts[i]->ChangeImage(m_Shortcuts[i]->GetImageIndex() - 3);
+        }
+    }
+
+    for (int i = 0; i < 8; i++) {
+        if (m_Inventory[i]->IfClick()) {
+            m_Inventory[i]->ChangeImage(2);
+            SelectedSlot = i;
+        }
+        else if (m_Inventory[i]->IfFocus()) {
+            if (m_Inventory[i]->GetImageIndex() <= 3) {
+                m_Inventory[i]->ChangeImage(m_Inventory[i]->GetImageIndex() + 3);
+            }
+        }
+        else if (m_Inventory[i]->GetImageIndex() > 3) {
+            m_Inventory[i]->ChangeImage(m_Inventory[i]->GetImageIndex() - 3);
+        }
     }
 
     if (Util::Input::IsKeyDown(Util::Keycode::NUM_1) && m_ShortcutsItems[0]) {

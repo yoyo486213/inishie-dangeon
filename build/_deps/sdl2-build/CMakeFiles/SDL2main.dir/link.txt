@@ -1,2 +1,0 @@
-C:\msys64\ucrt64\bin\ar.exe qc libSDL2maind.a CMakeFiles/SDL2main.dir/src/main/windows/SDL_windows_main.c.obj
-C:\msys64\ucrt64\bin\ranlib.exe libSDL2maind.a

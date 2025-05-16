@@ -1,2 +1,0 @@
-C:\msys64\ucrt64\bin\ar.exe qc libSDL2_ttfd.a CMakeFiles/SDL2_ttf.dir/SDL_ttf.c.obj
-C:\msys64\ucrt64\bin\ranlib.exe libSDL2_ttfd.a
