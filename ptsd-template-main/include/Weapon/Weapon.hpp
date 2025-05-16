@@ -16,8 +16,6 @@ public:
           m_SkillRange(skillRange), m_SkillCost(skillCost),
           m_SkillCD(skillCD) {};
 
-    void Equip(std::shared_ptr<Player> m_Player);
-
     void Use() override {};
 
     virtual void Skill() = 0;

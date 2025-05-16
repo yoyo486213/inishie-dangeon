@@ -9,8 +9,6 @@ public:
     SortSword();
 
     void Skill() override;
-private:
-    std::vector<
 };
 
 #endif // SORTSWORD_HPP
