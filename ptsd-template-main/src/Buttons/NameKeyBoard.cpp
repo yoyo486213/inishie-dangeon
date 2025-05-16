@@ -120,7 +120,7 @@ void NameKeyBoard::Closing() {
     state = State::Closing;
 }
 void NameKeyBoard::Close() {
-    if (state != State::Close) {
+    if (state == State::Close) {
         std::cout << "hide!" << std::endl ;
         for (int i = 0; i < 26; i++) {
             m_BigLetterBtn[i]->SetVisible(false);

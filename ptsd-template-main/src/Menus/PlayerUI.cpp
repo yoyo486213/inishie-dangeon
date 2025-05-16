@@ -74,8 +74,7 @@ PlayerUI::PlayerUI(std::shared_ptr<Player> playerRef, std::shared_ptr<Text> Name
 
 
 void PlayerUI::Update() {
-    // m_Name->SetPosition({-248+m_Name->GetScaledSize().x/2 ,223+m_Name->GetScaledSize().y/2});
-    m_Name->SetPosition({0,0});
+    m_Name->SetPosition({-230+m_Name->GetScaledSize().x/2 ,223+m_Name->GetScaledSize().y/2});
 
     int HPRate=float(player->GetHP())/float(player->GetMaxHP())*100;
     if (HPRate >= 1)

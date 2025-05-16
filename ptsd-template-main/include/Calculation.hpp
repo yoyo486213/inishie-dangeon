@@ -73,6 +73,13 @@ public:
     static bool Equal(glm::vec2 pos1, glm::vec2 pos2) {
         return (std::abs(pos1.x - pos2.x) < 0.001f && std::abs(pos1.y - pos2.y) < 0.001f);
     }
+
+    static glm::vec2 GetStairRelativeCoordinates(glm::vec2 stairCoordinates, glm::vec2 position) {
+        glm::vec2 temp = {0,0};
+        temp.x = round(position.x - stairCoordinates.x/28);
+        temp.y = round(position.y - stairCoordinates.y/28);
+        return {temp.x*28, temp.y*28};
+    }
 };
 
 #endif

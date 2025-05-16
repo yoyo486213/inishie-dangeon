@@ -2,11 +2,13 @@
 #define WEAPON_HPP
 
 #include "pch.hpp"
+#include "IUsable.hpp"
+#include "IEquipable.hpp"
 #include "Items/Item.hpp"
 
 class Player;
 
-class Weapon : public Item {
+class Weapon : public Item , public IUsable, public IEquipable{
 public:
     Weapon(std::string ImagePath, glm::vec2 attack,
            float attackCD, float skillMultiplier, int skillRange,

@@ -94,16 +94,20 @@ void App::Update() {
         
         float displacement = 2;
         if (Util::Input::IsKeyPressed(Util::Keycode::W)) {
-            m_map->Move({0, -displacement}, m_Player, &m_Root);
+            for (int i = 0; i < displacement; i++)
+                m_map->Move({0, -1}, m_Player, &m_Root);
         }
         if (Util::Input::IsKeyPressed(Util::Keycode::A)) {
-            m_map->Move({displacement, 0}, m_Player, &m_Root);
+            for (int i = 0; i < displacement; i++)
+                m_map->Move({1, 0}, m_Player, &m_Root);
         }
         if (Util::Input::IsKeyPressed(Util::Keycode::S)) {
-            m_map->Move({0, displacement}, m_Player, &m_Root);
+            for (int i = 0; i < displacement; i++)
+                m_map->Move({0, 1}, m_Player, &m_Root);
         }
         if (Util::Input::IsKeyPressed(Util::Keycode::D)) {
-            m_map->Move({-displacement, 0}, m_Player, &m_Root);
+            for (int i = 0; i < displacement; i++)
+                m_map->Move({-1, 0}, m_Player, &m_Root);
         }
 
         if (Util::Input::IsKeyPressed(Util::Keycode::P)) {
