@@ -26,6 +26,8 @@ public:
     bool IfClick() override;
 
     bool IfPressed() override;
+
+    bool useOnSelect() const override { return true; }
 private:
     std::shared_ptr<Player> m_Player;
 
