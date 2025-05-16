@@ -120,22 +120,26 @@ void NameKeyBoard::Closing() {
     state = State::Closing;
 }
 void NameKeyBoard::Close() {
-    for (int i = 0; i < 26; i++) {
-        m_BigLetterBtn[i]->SetVisible(false);
-        m_SmallLetterBtn[i]->SetVisible(false);
+    if (state != State::Close) {
+        std::cout << "hide!" << std::endl ;
+        for (int i = 0; i < 26; i++) {
+            m_BigLetterBtn[i]->SetVisible(false);
+            m_SmallLetterBtn[i]->SetVisible(false);
+        }
+        for (int i = 0; i < 10; i++) {
+            m_NumberBtn[i]->SetVisible(false);
+        }
+        if (Type == KeyBoardType::Eng)
+            ToNum->SetVisible(false);
+        else
+            ToEng->SetVisible(false);
+        Back->SetVisible(false);
+        Cancel->SetVisible(false);
+        Enter->SetVisible(false);
+        m_Name->SetVisible(false);
+        Type = KeyBoardType::Eng;
+        state = State::Close;
     }
-    for (int i = 0; i < 10; i++) {
-        m_NumberBtn[i]->SetVisible(false);
-    }
-    if (Type == KeyBoardType::Eng)
-        ToNum->SetVisible(false);
-    else
-        ToEng->SetVisible(false);
-    Back->SetVisible(false);
-    Cancel->SetVisible(false);
-    Enter->SetVisible(false);
-    m_Name->SetVisible(false);
-    Type = KeyBoardType::Eng;
 }
 
 
