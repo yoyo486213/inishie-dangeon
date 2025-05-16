@@ -6,6 +6,8 @@
 #include "Player.hpp"
 #include "Items/Item.hpp"
 #include "Items/Potion.hpp"
+#include "IEquipable.hpp"
+#include "IUsable.hpp"
 
 PlayerUI::PlayerUI(std::shared_ptr<Player> playerRef, std::shared_ptr<Text> NameRef, Util::Renderer *m_Root) : player(playerRef),m_Name(NameRef) {
     m_Name->SetZIndex(40);
@@ -51,8 +53,10 @@ PlayerUI::PlayerUI(std::shared_ptr<Player> playerRef, std::shared_ptr<Text> Name
     m_MP->SetZIndex(40);
     m_Root->AddChild(m_MP);
 
+    m_Name->SetPosition({-263+m_Name->GetScaledSize().x/2 ,193+m_Name->GetScaledSize().y/2});
+
     m_EXPBox = std::make_shared<Character>(RESOURCE_DIR"/UI/XPBox.png");
-    m_EXPBox->SetPosition({-110 , 208});
+    m_EXPBox->SetPosition({m_Name->GetPosition().x + m_Name->GetScaledSize().x / 2 + m_EXPBox->GetScaledSize().x / 2 + 5, m_Name->GetPosition().y});
     m_EXPBox->SetVisible(true);
     m_EXPBox->SetZIndex(39);
     m_Root->AddChild(m_EXPBox);
@@ -72,9 +76,25 @@ PlayerUI::PlayerUI(std::shared_ptr<Player> playerRef, std::shared_ptr<Text> Name
     m_Root->AddChild(m_EXP);
 }
 
+bool PlayerUI::PeekItem(std::shared_ptr<Item> item) {
+    for (int i=0; i<4; i++) {
+        if (!m_ShortcutsItems[i]) {
+            m_ShortcutsItems[i] = item;
+            return true;
+        }
+    }
+
+    for (int i=0; i<8; i++) {
+        if (!m_InventoryItems[i]) {
+            m_InventoryItems[i] = item;
+            return true;
+        }
+    }
+
+    return false;
+}
 
 void PlayerUI::Update() {
-    m_Name->SetPosition({-230+m_Name->GetScaledSize().x/2 ,223+m_Name->GetScaledSize().y/2});
 
     int HPRate=float(player->GetHP())/float(player->GetMaxHP())*100;
     if (HPRate >= 1)
@@ -96,37 +116,55 @@ void PlayerUI::Update() {
     }
 
     if (Util::Input::IsKeyDown(Util::Keycode::NUM_1) && m_ShortcutsItems[0]) {
-        m_ShortcutsItems[0]->Use();
-        m_ShortcutsItems[0] = nullptr;
+        if (auto e = std::dynamic_pointer_cast<IEquipable>(m_ShortcutsItems[0])) {
+            e->Equip();
+        }
+        if (m_ShortcutsItems[0]->useOnSelect()) {
+            if (auto u = std::dynamic_pointer_cast<IUsable>(m_ShortcutsItems[0])) {
+                u->Use();
+                m_ShortcutsItems[0] = nullptr;
+            }
+        } 
+        else {
+        }
     }
     else if (Util::Input::IsKeyDown(Util::Keycode::NUM_2) && m_ShortcutsItems[1]) {
-        m_ShortcutsItems[1]->Use();
-        m_ShortcutsItems[1] = nullptr;
+        if (auto e = std::dynamic_pointer_cast<IEquipable>(m_ShortcutsItems[1])) {
+            e->Equip();
+        }
+        if (m_ShortcutsItems[1]->useOnSelect()) {
+            if (auto u = std::dynamic_pointer_cast<IUsable>(m_ShortcutsItems[1])) {
+                u->Use();
+                m_ShortcutsItems[1] = nullptr;
+            }
+        } 
+        else {
+        }
     }
     else if (Util::Input::IsKeyDown(Util::Keycode::NUM_3) && m_ShortcutsItems[2]) {
-        m_ShortcutsItems[2]->Use();
-        m_ShortcutsItems[2] = nullptr;
+        if (auto e = std::dynamic_pointer_cast<IEquipable>(m_ShortcutsItems[2])) {
+            e->Equip();
+        }
+        if (m_ShortcutsItems[2]->useOnSelect()) {
+            if (auto u = std::dynamic_pointer_cast<IUsable>(m_ShortcutsItems[2])) {
+                u->Use();
+                m_ShortcutsItems[2] = nullptr;
+            }
+        } 
+        else {
+        }
     }
     else if (Util::Input::IsKeyDown(Util::Keycode::NUM_4) && m_ShortcutsItems[3]) {
-        m_ShortcutsItems[3]->Use();
-        m_ShortcutsItems[3] = nullptr;
-    }
-}
-
-bool PlayerUI::PeekItem(std::shared_ptr<Item> item) {
-    for (int i=0; i<4; i++) {
-        if (!m_ShortcutsItems[i]) {
-            m_ShortcutsItems[i] = item;
-            return true;
+        if (auto e = std::dynamic_pointer_cast<IEquipable>(m_ShortcutsItems[3])) {
+            e->Equip();
+        }
+        if (m_ShortcutsItems[3]->useOnSelect()) {
+            if (auto u = std::dynamic_pointer_cast<IUsable>(m_ShortcutsItems[3])) {
+                u->Use();
+                m_ShortcutsItems[3] = nullptr;
+            }
+        } 
+        else {
         }
     }
-
-    for (int i=0; i<8; i++) {
-        if (!m_InventoryItems[i]) {
-            m_InventoryItems[i] = item;
-            return true;
-        }
-    }
-
-    return false;
 }

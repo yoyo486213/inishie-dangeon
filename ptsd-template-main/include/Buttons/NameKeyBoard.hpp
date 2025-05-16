@@ -18,7 +18,8 @@ public:
         Open,
         Close,
         Closing,
-        Stop
+        Stop,
+        GameStart,
     };
     enum class KeyBoardType{
         Eng,

@@ -15,8 +15,6 @@ public:
     virtual ~Item() = default;
 
     virtual bool useOnSelect() const { return false; }
-    
-    virtual void Use() = 0;
 };
 
 #endif //ITEM_HPP

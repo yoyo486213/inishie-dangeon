@@ -4,11 +4,12 @@
 #include "pch.hpp"
 #include "IMoveable.hpp"
 #include "IClickable.hpp"
+#include "IUsable.hpp"
 #include "Item.hpp"
 
 class Player;
 
-class Potion : public IClickable, public Item {
+class Potion : public IClickable, public Item , public IUsable{
 public:
     enum class Type {
         Hp,
