@@ -61,7 +61,7 @@ void Slime::Update(std::shared_ptr<Player> &m_Player, std::vector<std::shared_pt
     std::uniform_int_distribution<int> followRate(1, 100); // 移動機率
     this->SetChangeImageCD(this->GetChangeImageCD() - Util::Time::GetDeltaTimeMs() / 1000.0f);
     this->SetAttackCD(this->GetAttackCD() - Util::Time::GetDeltaTimeMs() / 1000.0f);
-    if (m_Player->GetHP() > 0 && this->GetAttackCD() <= 0 && this->state == State::Stop) {
+    if (this->GetHP() > 0 && m_Player->GetHP() > 0 && this->GetAttackCD() <= 0 && this->state == State::Stop) {
         // 往旁邊走攻擊距離看有沒有碰到玩家
         this->walkRateValue = 5;
         const std::vector<glm::vec2> directions = {

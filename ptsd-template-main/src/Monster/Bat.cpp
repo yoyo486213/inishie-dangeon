@@ -67,7 +67,7 @@ void Bat::Update(std::shared_ptr<Player> &m_Player, std::vector<std::shared_ptr<
     std::mt19937 engine(rd());               // Mersenne Twister 引擎
     this->SetChangeImageCD(this->GetChangeImageCD() - Util::Time::GetDeltaTimeMs() / 1000.0f);
     this->SetAttackCD(this->GetAttackCD() - Util::Time::GetDeltaTimeMs() / 1000.0f);
-    if (m_Player->GetHP() > 0 && (this->state == State::Stop || static_cast<int>(glm::distance(pos, goalpos)) == 28)) {
+    if (this->GetHP() > 0 && m_Player->GetHP() > 0 && (this->state == State::Stop || static_cast<int>(glm::distance(pos, goalpos)) == 28)) {
         // 往旁邊走攻擊距離看有沒有碰到玩家
         const std::vector<glm::vec2> directions = {
             {0, 1}, {0, -1}, {-1, 0}, {1, 0}, {1, 1}, {1, -1}, {-1, 1}, {-1, -1}
