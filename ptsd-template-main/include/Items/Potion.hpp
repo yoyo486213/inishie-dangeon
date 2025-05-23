@@ -9,7 +9,7 @@
 
 class Player;
 
-class Potion : public IClickable, public Item , public IUsable{
+class Potion : public IClickable, public Item , public IUsable {
 public:
     enum class Type {
         Hp,
