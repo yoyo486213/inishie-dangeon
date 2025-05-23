@@ -176,6 +176,7 @@ bool PlayerUI::PeekItem(std::shared_ptr<Item> item) {
 
 
 void PlayerUI::RejoinRander(Util::Renderer *m_Root){
+    m_Root->AddChild(m_Name);
     m_Root->AddChild(m_HPBox);
     m_Root->AddChild(m_HP);
     m_Root->AddChild(m_MPBox);
@@ -185,9 +186,16 @@ void PlayerUI::RejoinRander(Util::Renderer *m_Root){
     for (int i = 0; i < 4; i++) {
         m_Root->AddChild(m_Shortcuts[i]);
         m_Root->AddChild(m_ShortcutsBackGrounds[i]);
+        if (m_ShortcutsItems[i]) {
+            m_Root->AddChild(m_ShortcutsItems[i]);
+        }
+        
     }
     for (int i = 0; i < 8; i++) {
         m_Root->AddChild(m_Inventory[i]);
+        if (m_InventoryItems[i]) {
+            m_Root->AddChild(m_InventoryItems[i]);
+        }
     }
     m_Root->AddChild(m_Backpack);
     m_Root->AddChild(m_BackpackBackGround);
