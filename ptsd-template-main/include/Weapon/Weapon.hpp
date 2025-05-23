@@ -2,10 +2,6 @@
 #define WEAPON_HPP
 
 #include "pch.hpp"
-<<<<<<< HEAD
-#include "IEquipable.hpp"
-=======
->>>>>>> acb205481fa689122c59dd34a70ad5228ec03ee3
 #include "Items/Item.hpp"
 
 class Player;
@@ -22,11 +18,6 @@ public:
     
     virtual ~Weapon() = default;
 
-<<<<<<< HEAD
-    virtual bool useOnSelect() const override { return true; }
-
-=======
->>>>>>> acb205481fa689122c59dd34a70ad5228ec03ee3
     virtual void Skill() = 0;
 private:
     glm::vec2 m_Attack;
