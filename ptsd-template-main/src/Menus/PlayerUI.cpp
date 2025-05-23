@@ -53,8 +53,10 @@ PlayerUI::PlayerUI(std::shared_ptr<Player> playerRef, std::shared_ptr<Text> Name
     m_MP->SetZIndex(40);
     m_Root->AddChild(m_MP);
 
+    m_Name->SetPosition({-263+m_Name->GetScaledSize().x/2 ,193+m_Name->GetScaledSize().y/2});
+
     m_EXPBox = std::make_shared<Character>(RESOURCE_DIR"/UI/XPBox.png");
-    m_EXPBox->SetPosition({-110 , 208});
+    m_EXPBox->SetPosition({m_Name->GetPosition().x + m_Name->GetScaledSize().x / 2 + m_EXPBox->GetScaledSize().x / 2 + 5, m_Name->GetPosition().y});
     m_EXPBox->SetVisible(true);
     m_EXPBox->SetZIndex(39);
     m_Root->AddChild(m_EXPBox);
@@ -334,6 +336,4 @@ bool PlayerUI::PeekItem(std::shared_ptr<Item> item) {
             return true;
         }
     }
-
-    return false;
 }

@@ -293,6 +293,9 @@ void NameKeyBoard::Update() {
                 m_Name->SetImage(RESOURCE_DIR"/TextGenerator/output" + std::to_string(outputIndex) + ".png");
                 outputIndex+=1;
             }
+            if (m_ControlBtn[1]->IfClick()) {
+                state = State::GameStart;
+            }
             if (m_ControlBtn[2]->IfClick()) {
                 Click_time = std::chrono::high_resolution_clock::now();
                 output.clear();
@@ -369,7 +372,8 @@ void NameKeyBoard::Update() {
 
         ToNum->Move({0, 20}, {122+ToNum->GetScaledSize().x/2, -38+500});
         ToEng->Move({0, 20}, {122+ToEng->GetScaledSize().x/2, -38+500});
-        m_Name->Move({0, 20}, {-3.5, 50+500});
+        if (state != State::GameStart)
+            m_Name->Move({0, 20}, {-3.5, 50+500});
     }
     
 }
