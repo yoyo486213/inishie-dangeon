@@ -37,6 +37,10 @@ public:
 
     void Update(std::shared_ptr<Player> &m_Player, std::shared_ptr<PlayerUI> &m_UI, Util::Renderer *m_Root);
 private:
+    // map
+    int floor = 1;
+    int beforemapindex = 0;
+
     std::shared_ptr<Character> m_map;
     std::vector<std::shared_ptr<DestructibleObject>> m_DestructibleObjects;
     std::shared_ptr<UpStairs> m_UpStairs;

@@ -3,11 +3,12 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "Area1_4.tmx",
+    "activeFile": "Area1_5.tmx",
     "expandedProjectPaths": [
         "."
     ],
     "exportAsImage.includeBackgroundColor": false,
+    "file.lastUsedOpenFilter": "全部檔案 (*)",
     "fileStates": {
         "Area1-5model - 複製 (2).tmx": {
             "scale": 0.7558531746031745,
@@ -37,8 +38,63 @@
             "scale": 0.75,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 546.6666666666666,
+                "x": 585.3333333333333,
                 "y": 523.3333333333333
+            }
+        },
+        "Area1-6.tmx": {
+            "expandedObjectLayers": [
+                5,
+                4,
+                2,
+                3
+            ],
+            "scale": 1,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 630.5,
+                "y": 462.5
+            }
+        },
+        "Area1-7.tmx": {
+            "expandedObjectLayers": [
+                5,
+                4,
+                2,
+                3
+            ],
+            "scale": 0.75,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 230,
+                "y": 543.3333333333333
+            }
+        },
+        "Area1-8.tmx": {
+            "expandedObjectLayers": [
+                5,
+                4,
+                2,
+                3
+            ],
+            "scale": 0.75,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 658,
+                "y": 378
+            }
+        },
+        "Area1-9.tmx": {
+            "expandedObjectLayers": [
+                5,
+                4,
+                2
+            ],
+            "scale": 0.75,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 349.99999999999994,
+                "y": 686
             }
         },
         "Area1_1.json": {
@@ -51,29 +107,29 @@
         },
         "Area1_1.tmx": {
             "expandedObjectLayers": [
-                9,
-                3,
+                8,
                 7,
-                8
+                3,
+                9
             ],
             "scale": 1,
             "selectedLayer": 3,
             "viewCenter": {
-                "x": 411,
+                "x": 393,
                 "y": 527.5
             }
         },
         "Area1_2.tmx": {
             "expandedObjectLayers": [
-                2,
-                3,
+                5,
                 4,
-                5
+                2,
+                3
             ],
             "scale": 0.75,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 504,
+                "x": 457.33333333333337,
                 "y": 327.3333333333333
             }
         },
@@ -104,20 +160,66 @@
         },
         "Area1_4.tmx": {
             "expandedObjectLayers": [
+                4,
                 2,
-                3,
-                4
+                3
             ],
-            "scale": 2,
-            "selectedLayer": 1,
+            "scale": 1.5,
+            "selectedLayer": 3,
             "viewCenter": {
-                "x": 413.25,
-                "y": 501.75
+                "x": 551.3333333333333,
+                "y": 513.6666666666667
+            }
+        },
+        "Area1_5.tmx": {
+            "expandedObjectLayers": [
+                5,
+                4,
+                2,
+                3
+            ],
+            "scale": 3,
+            "selectedLayer": 3,
+            "viewCenter": {
+                "x": 490.16666666666663,
+                "y": 546.1666666666666
+            }
+        },
+        "Area1_6.tmx": {
+            "scale": 2,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 557,
+                "y": 290.75
+            }
+        },
+        "Area1_7.tmx": {
+            "scale": 0.8614087301587301,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 503.8258666359554,
+                "y": 504.4063111827709
+            }
+        },
+        "Area1_8.tmx": {
+            "scale": 1,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 496,
+                "y": 720.5
+            }
+        },
+        "Area1_9.tmx": {
+            "scale": 0.8614087301587301,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 503.8258666359554,
+                "y": 504.4063111827709
             }
         },
         "Resource.tsx": {
             "dynamicWrapping": false,
-            "scaleInDock": 1,
+            "scaleInDock": 1.5,
             "scaleInEditor": 1
         }
     },
@@ -129,25 +231,28 @@
     "map.tileWidth": 28,
     "map.width": 36,
     "openFiles": [
-        "Resource.tsx",
-        "Area1-5model.tmx",
         "Area1_1.tmx",
         "Area1_2.tmx",
-        "Area1_3.tmx",
-        "Area1_4.tmx"
+        "Area1_4.tmx",
+        "Area1_5.tmx",
+        "Area1_6.tmx",
+        "Area1_7.tmx",
+        "Area1_8.tmx",
+        "Area1_9.tmx"
     ],
     "project": "Map.tiled-project",
     "recentFiles": [
-        "Resource.tsx",
-        "Area1-5model.tmx",
         "Area1_1.tmx",
         "Area1_2.tmx",
-        "Area1_3.tmx",
         "Area1_4.tmx",
-        "Area1-5model - 複製.tmx",
-        "Area1-5model - 複製 (3).tmx",
-        "Area1-5model - 複製 (2).tmx",
-        "Area1_3.json",
-        "Area1_1.json"
+        "Area1_9.tmx",
+        "Area1_8.tmx",
+        "Area1_7.tmx",
+        "Area1_6.tmx",
+        "Area1_5.tmx",
+        "Resource.tsx",
+        "Area1-9.tmx",
+        "Area1-8.tmx",
+        "Area1-7.tmx"
     ]
 }

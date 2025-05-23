@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="36" height="36" tilewidth="28" tileheight="28" infinite="0" nextlayerid="6" nextobjectid="131">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="36" height="36" tilewidth="28" tileheight="28" infinite="0" nextlayerid="6" nextobjectid="132">
  <editorsettings>
   <export target="Area1_4.json" format="json"/>
  </editorsettings>
@@ -44,7 +44,7 @@
 6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6
 </data>
  </layer>
- <objectgroup id="2" name="Object" visible="0">
+ <objectgroup id="2" name="Object">
   <object id="1" name="UpStairs" gid="9" x="504" y="616" width="28" height="28"/>
   <object id="2" name="DownStairs" gid="10" x="448" y="448" width="28" height="28"/>
   <object id="3" name="CloseChest" gid="11" x="560" y="392" width="28" height="28"/>
@@ -155,13 +155,12 @@
   <object id="107" name="Unexplored" gid="8" x="588" y="532" width="28" height="28"/>
   <object id="108" name="Unexplored" gid="8" x="616" y="532" width="28" height="28"/>
  </objectgroup>
- <objectgroup id="4" name="InvisableWall" visible="0">
+ <objectgroup id="4" name="InvisableWall">
   <object id="113" x="308" y="308" width="364" height="28"/>
   <object id="114" x="672" y="308" width="28" height="364"/>
   <object id="115" x="336" y="672" width="364" height="28"/>
   <object id="116" x="308" y="336" width="28" height="364"/>
   <object id="117" x="476" y="644" width="28" height="28"/>
-  <object id="118" x="336" y="448" width="28"/>
   <object id="119" x="476" y="336" width="28" height="28"/>
   <object id="120" x="420" y="532" width="28" height="56"/>
   <object id="121" x="448" y="560" width="140" height="28"/>
@@ -173,8 +172,9 @@
   <object id="127" x="476" y="392" width="28" height="56"/>
   <object id="128" x="420" y="476" width="28" height="28"/>
   <object id="129" x="532" y="476" width="28" height="28"/>
+  <object id="131" x="336" y="448" width="28" height="28"/>
  </objectgroup>
- <objectgroup id="5" name="Respawnpoint" visible="0">
+ <objectgroup id="5" name="Respawnpoint">
   <object id="130" x="504" y="588">
    <point/>
   </object>

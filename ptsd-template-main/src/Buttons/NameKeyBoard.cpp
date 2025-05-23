@@ -121,7 +121,6 @@ void NameKeyBoard::Closing() {
 }
 void NameKeyBoard::Close() {
     if (state == State::GameStart) {
-        std::cout << "hide!" << std::endl ;
         for (int i = 0; i < 26; i++) {
             m_BigLetterBtn[i]->SetVisible(false);
             m_SmallLetterBtn[i]->SetVisible(false);
