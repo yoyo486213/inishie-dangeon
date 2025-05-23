@@ -120,7 +120,7 @@ void Skeleton::Update(std::shared_ptr<Player> &m_Player, std::vector<std::shared
     if (m_revivalCD <= 0) {
         m_revivalCD = 3.f;
         revival = false;
-        this->SetHP(23);
+        this->Restore_HP(23);
         this->state = State::Stop;
         this->SetAttackCD(1.f);
         this->SetVisible(true);
