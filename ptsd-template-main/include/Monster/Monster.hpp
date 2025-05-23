@@ -37,11 +37,11 @@ public:
 
     int GetMaxHP() const { return m_MaxHP; }
 
-    void SetHP(int hp) { m_HP = hp; }
+    void Restore_HP(int hp) { m_HP = hp; }
 
     int GetMP() const { return m_MP; }
 
-    void SetMP(int mp) { m_MP = mp; }
+    void Restore_MP(int mp) { m_MP = mp; }
 
     void SetChangeImageCD(float cd) { m_ChangeImageCD = cd; }
 

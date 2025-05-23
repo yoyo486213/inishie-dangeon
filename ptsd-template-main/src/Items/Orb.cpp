@@ -45,10 +45,10 @@ bool Orb::IsCollision(const std::shared_ptr<Character> &other, glm::vec2 displac
 void Orb::OnCollision(std::shared_ptr<Player> &m_Player) {
     switch (this->type) {
         case Type::Hp:
-            m_Player->SetHP(m_Player->GetHP() + 50);
+            m_Player->Restore_HP(m_Player->GetHP() + 50);
             break;
         case Type::Mp:
-            m_Player->SetMP(m_Player->GetMP() + 50);
+            m_Player->Restore_MP(m_Player->GetMP() + 50);
             break;
     }
 }

@@ -27,17 +27,19 @@ public:
 
     int GetHP() const { return m_HP; }
     int GetMaxHP() const {return m_MaxHP; }
-    void SetHP(int hp) { 
-        if (this->GetHP() + hp <= this->GetMaxHP()) {
-            this->m_HP += hp; 
+    void Restore_HP(int hp) { 
+        this->m_HP += hp; 
+        if (this->GetHP() > this->GetMaxHP()) {
+            this->m_HP = this->GetMaxHP();
         }
     }
 
     int GetMP() const { return m_MP; }
     int GetMaxMP() const {return m_MaxMP; }
-    void SetMP(int mp) { 
-        if (this->GetMP() + mp <= this->GetMaxMP()) {
-            this->m_MP += mp; 
+    void Restore_MP(int mp) { 
+        this->m_MP += mp; 
+        if (this->GetMP() > this->GetMaxMP()) {
+            this->m_MP = this->GetMaxMP();
         }
     }
 
