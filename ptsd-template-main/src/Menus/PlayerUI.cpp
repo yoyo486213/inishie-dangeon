@@ -175,6 +175,27 @@ bool PlayerUI::PeekItem(std::shared_ptr<Item> item) {
 }
 
 
+void PlayerUI::RejoinRander(Util::Renderer *m_Root){
+    m_Root->AddChild(m_HPBox);
+    m_Root->AddChild(m_HP);
+    m_Root->AddChild(m_MPBox);
+    m_Root->AddChild(m_MP);
+    m_Root->AddChild(m_EXPBox);
+    m_Root->AddChild(m_EXP);
+    for (int i = 0; i < 4; i++) {
+        m_Root->AddChild(m_Shortcuts[i]);
+        m_Root->AddChild(m_ShortcutsBackGrounds[i]);
+    }
+    for (int i = 0; i < 8; i++) {
+        m_Root->AddChild(m_Inventory[i]);
+    }
+    m_Root->AddChild(m_Backpack);
+    m_Root->AddChild(m_BackpackBackGround);
+    m_Root->AddChild(m_CloseButton);
+}
+
+
+
 void PlayerUI::Update(Util::Renderer *m_Root) {
     int HPRate=float(player->GetHP())/float(player->GetMaxHP())*100;
     if (HPRate >= 1)

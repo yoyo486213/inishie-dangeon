@@ -24,6 +24,8 @@ public:
     void Update(Util::Renderer *m_Root);
 
     bool PeekItem(std::shared_ptr<Item> item);
+
+    void RejoinRander(Util::Renderer *m_Root);
 private:
     std::shared_ptr<Player> player;
 
