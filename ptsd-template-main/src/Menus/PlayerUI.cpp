@@ -171,6 +171,7 @@ bool PlayerUI::PeekItem(std::shared_ptr<Item> item) {
             return true;
         }
     }
+    return false;
 }
 
 
@@ -323,6 +324,7 @@ void PlayerUI::Update(Util::Renderer *m_Root) {
         if (m_ShortcutsItems[0]->useOnSelect()) {
             if (auto u = std::dynamic_pointer_cast<IUsable>(m_ShortcutsItems[0])) {
                 u->Use();
+                m_Root->RemoveChild(m_ShortcutsItems[0]);
                 m_ShortcutsItems[0] = nullptr;
             }
         } 
@@ -336,6 +338,7 @@ void PlayerUI::Update(Util::Renderer *m_Root) {
         if (m_ShortcutsItems[1]->useOnSelect()) {
             if (auto u = std::dynamic_pointer_cast<IUsable>(m_ShortcutsItems[1])) {
                 u->Use();
+                m_Root->RemoveChild(m_ShortcutsItems[1]);
                 m_ShortcutsItems[1] = nullptr;
             }
         } 
@@ -349,6 +352,7 @@ void PlayerUI::Update(Util::Renderer *m_Root) {
         if (m_ShortcutsItems[2]->useOnSelect()) {
             if (auto u = std::dynamic_pointer_cast<IUsable>(m_ShortcutsItems[2])) {
                 u->Use();
+                m_Root->RemoveChild(m_ShortcutsItems[2]);
                 m_ShortcutsItems[2] = nullptr;
             }
         } 
@@ -362,6 +366,7 @@ void PlayerUI::Update(Util::Renderer *m_Root) {
         if (m_ShortcutsItems[3]->useOnSelect()) {
             if (auto u = std::dynamic_pointer_cast<IUsable>(m_ShortcutsItems[3])) {
                 u->Use();
+                m_Root->RemoveChild(m_ShortcutsItems[3]);
                 m_ShortcutsItems[3] = nullptr;
             }
         } 

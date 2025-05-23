@@ -2,6 +2,7 @@
 #define WEAPON_HPP
 
 #include "pch.hpp"
+#include "IEquipable.hpp"
 #include "Items/Item.hpp"
 
 class Player;
