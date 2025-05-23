@@ -120,7 +120,7 @@ void NameKeyBoard::Closing() {
     state = State::Closing;
 }
 void NameKeyBoard::Close() {
-    if (state == State::Close) {
+    if (state == State::GameStart) {
         std::cout << "hide!" << std::endl ;
         for (int i = 0; i < 26; i++) {
             m_BigLetterBtn[i]->SetVisible(false);
@@ -136,7 +136,9 @@ void NameKeyBoard::Close() {
         Back->SetVisible(false);
         Cancel->SetVisible(false);
         Enter->SetVisible(false);
-        m_Name->SetVisible(false);
+        if (state != State::GameStart) {
+            m_Name->SetVisible(false);
+        }
         Type = KeyBoardType::Eng;
         state = State::Close;
     }

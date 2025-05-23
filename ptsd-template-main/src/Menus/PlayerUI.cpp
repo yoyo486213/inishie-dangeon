@@ -175,8 +175,6 @@ bool PlayerUI::PeekItem(std::shared_ptr<Item> item) {
 
 
 void PlayerUI::Update(Util::Renderer *m_Root) {
-    m_Name->SetPosition({-230+m_Name->GetScaledSize().x/2 ,223+m_Name->GetScaledSize().y/2});
-
     int HPRate=float(player->GetHP())/float(player->GetMaxHP())*100;
     if (HPRate >= 1)
         m_HP->SetCurrentFrame(HPRate-1);
