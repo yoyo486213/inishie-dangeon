@@ -180,9 +180,11 @@ void Map::CreateMap(Util::Renderer *m_Root) {
             if (mapData["layers"][0]["data"][y * 36 + x] == 7) {
                 for (const auto& destructibleobject : m_DestructibleObjects) {
                     if (destructibleobject->GetPosition() == glm::vec2{x * 28 - centerX - respawnpointX, -(y * 28 - centerY) - respawnpointY} && chanceDist(engine) < 10) {
-                        auto obj = std::make_shared<Bat>();
+                        std::shared_ptr<Bat> obj = std::make_shared<Bat>();
 
                         m_Root->AddChild(obj);
+                        m_Root->AddChild(obj->GetHPBox());
+                        m_Root->AddChild(obj->GetHPBar());
                         obj->SetPosition({ x * 28 - centerX - respawnpointX, -(y * 28 - centerY) - respawnpointY});
                         obj->SetVisible(true);
                         obj->SetZIndex(15);
@@ -203,6 +205,8 @@ void Map::CreateMap(Util::Renderer *m_Root) {
     
                     // 加入場景
                     m_Root->AddChild(obj);
+                    m_Root->AddChild(obj->GetHPBox());
+                    m_Root->AddChild(obj->GetHPBar());
                     obj->SetPosition({ x * 28 - centerX - respawnpointX, -(y * 28 - centerY) - respawnpointY});
                     obj->SetVisible(true);
                     obj->SetZIndex(15);
@@ -242,7 +246,7 @@ void Map::CreateItems(glm::vec2 pos, std::shared_ptr<Player> &m_Player, Util::Re
         }
     }
 
-    if (dis(gen) < 50) {
+    if (dis(gen) < 100) {
         std::shared_ptr<Potion> potion = std::make_shared<Potion>(m_Player);
         potion->SetPosition(pos);
         potion->SetVisible(true);
@@ -296,8 +300,6 @@ void Map::Update(std::shared_ptr<Player> &m_Player, std::shared_ptr<PlayerUI> &m
         auto& potion = *it;
         if (potion->IfClick()) {
             if (m_UI->PeekItem(std::dynamic_pointer_cast<Item>(potion))) {
-                potion->SetVisible(false);
-                m_Root->RemoveChild(potion);
                 AllObjects.erase(std::remove(AllObjects.begin(), AllObjects.end(), potion), AllObjects.end());
                 it = m_Potion.erase(it);
                 continue;
@@ -326,6 +328,7 @@ void Map::Update(std::shared_ptr<Player> &m_Player, std::shared_ptr<PlayerUI> &m
 
     for (const auto& monster : m_Monsters) {
         monster->Update(m_Player, AllObjects, AllCollidableObjects, m_Invisiblewalls, m_Monsters);
+        monster->UpdateHPProgress();
     }
 
     m_Player->SetAttackCD(m_Player->GetAttackCD() - Util::Time::GetDeltaTimeMs() / 1000.0f);

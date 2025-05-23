@@ -1,1 +1,0 @@
-C:/Users/yoyo/Desktop/Project/inishie-dangeon/ptsd-template-main/Resources/UI/HealthBar

@@ -9,7 +9,7 @@ def flip_images_in_folder(input_folder, output_folder):
     for filename in os.listdir(input_folder):
         if filename.endswith(".png"):
             image_path = os.path.join(input_folder, filename)
-            output_path = os.path.join(output_folder, filename)
+            output_path = os.path.join(output_folder, filename.replace("XPBar", "HPBar"))
 
             # 打開圖片
             img = Image.open(image_path)
@@ -23,6 +23,6 @@ def flip_images_in_folder(input_folder, output_folder):
 
 # 使用範例
 flip_images_in_folder(
-    "C:/Users/USER/Desktop/for_git/OOPLab_113-2/inishie-dangeon/ptsd-template-main/Resources/UI/Origin/XPBar",
-    "C:/Users/USER/Desktop/for_git/OOPLab_113-2/inishie-dangeon/ptsd-template-main/Resources/UI/Origin/XPBarBox"
+    r"C:\Users\yoyo\Desktop\Project\inishie-dangeon\ptsd-template-main\Resources\Monster\temp",
+    r"C:\Users\yoyo\Desktop\Project\inishie-dangeon\ptsd-template-main\Resources\Monster\HPProgress"
 )

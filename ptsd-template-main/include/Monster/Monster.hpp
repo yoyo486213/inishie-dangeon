@@ -3,11 +3,16 @@
 
 #include "pch.hpp"
 #include "Character.hpp"
+#include "AnimatedCharacter.hpp"
+#include "Util/GameObject.hpp"
 #include "ICollidable.hpp"
 
 class ICollidable;
 class Player;
 class InvisibleWall;
+namespace Util {
+    class Renderer;
+}
 
 class Monster : public Character , public ICollidable {
 public:
@@ -24,9 +29,13 @@ public:
      
     virtual void Update(std::shared_ptr<Player> &m_Player, std::vector<std::shared_ptr<Character>> AllObjects, std::vector<std::shared_ptr<ICollidable>> AllCollidableObjects, std::vector<std::shared_ptr<InvisibleWall>> m_Invisiblewalls, std::vector<std::shared_ptr<Monster>> m_Monsters) = 0;
 
+    void UpdateHPProgress();
+
     virtual void TakeDamage(int damage);
 
     int GetHP() const { return m_HP; }
+
+    int GetMaxHP() const { return m_MaxHP; }
 
     void SetHP(int hp) { m_HP = hp; }
 
@@ -48,6 +57,8 @@ public:
 
     void OffCollision() override {};
 
+    bool IfFocus();
+
     void ChangeImage(int index) {
         this->SetImage(m_ImagePaths[index]);
     }
@@ -59,9 +70,19 @@ public:
     glm::vec2 GetPosPosition() { return this->pos; }
 
     void SetPosPosition(glm::vec2 pos) { this->pos = pos; }
+
+    std::shared_ptr<Util::GameObject> GetHPBox() { return std::static_pointer_cast<Util::GameObject>(m_HPBox); }
+    
+    std::shared_ptr<Util::GameObject> GetHPBar() { return std::static_pointer_cast<Util::GameObject>(m_HPBar); }
 private:
     int m_HP;
     int m_MP;
+
+    int m_MaxHP = m_HP;
+    int m_MaxMP = m_MP;
+
+    std::shared_ptr<Character> m_HPBox;
+    std::shared_ptr<AnimatedCharacter> m_HPBar;
 protected:
     //move
     State state = State::Stop;

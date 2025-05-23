@@ -2,7 +2,6 @@
 #define WEAPON_HPP
 
 #include "pch.hpp"
-#include "IUsable.hpp"
 #include "IEquipable.hpp"
 #include "Items/Item.hpp"
 
@@ -17,8 +16,10 @@ public:
           m_AttackCD(attackCD), m_SkillMultiplier(skillMultiplier),
           m_SkillRange(skillRange), m_SkillCost(skillCost),
           m_SkillCD(skillCD) {};
+    
+    virtual ~Weapon() = default;
 
-    void Use() override {};
+    virtual bool useOnSelect() const override { return true; }
 
     virtual void Skill() = 0;
 private:

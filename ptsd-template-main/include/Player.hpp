@@ -66,11 +66,11 @@ public:
     int GetExp() { return m_Exp; }
     int GetMaxExp() { return m_MaxExp; }
 private:
-    int m_HP = 100000000;
+    int m_HP = 10000;
     int m_MaxHP = m_HP;
     int m_MP = 20;
     int m_MaxMP = m_MP;
-    glm::vec2 m_Attack = {1000, 4000};
+    glm::vec2 m_Attack = {1, 4};
     int m_Defense = 0;
     int m_Hitrate = 100;
     int m_Dodgerate = 0;

@@ -17,9 +17,9 @@ public:
     
     Potion(std::shared_ptr<Player> &m_Player);
 
-    void Use() override;
-
     virtual ~Potion() = default;
+    
+    void Use() override;
 
     bool IfFocus() override;
 

@@ -45,7 +45,7 @@ def slice_image(image_path, output_folder, slice_width, slice_height):
 
 # 使用函式
 slice_image(
-    "C:/Users/USER/Desktop/for_git/OOPLab_113-2/inishie-dangeon/ptsd-template-main/Resources/UI/Origin/XPBar.png",
-    "C:/Users/USER/Desktop/for_git/OOPLab_113-2/inishie-dangeon/ptsd-template-main/Resources/UI/Origin/XPBar",
-    75, 10  # 每個切片的大小 (寬50px，高5px)
+    r"C:\Users\yoyo\Desktop\Project\inishie-dangeon\ptsd-template-main\Resources\Monster\HPProgress.png",
+    r"C:\Users\yoyo\Desktop\Project\inishie-dangeon\ptsd-template-main\Resources\Monster\HPProgress",
+    50, 5  # 每個切片的大小 (寬50px，高5px)
 )

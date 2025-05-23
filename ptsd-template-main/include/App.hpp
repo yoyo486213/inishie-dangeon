@@ -34,6 +34,9 @@ public:
 
     void End(); // NOLINT(readability-convert-member-functions-to-static)
 
+    static void AddChild(std::shared_ptr<Util::GameObject> obj) {
+        m_Root.AddChild(obj);
+    };
 private:
     void ValidTask();
 
@@ -52,7 +55,7 @@ private:
 
     std::shared_ptr<Player> m_Player;
 
-    Util::Renderer m_Root;
+    static Util::Renderer m_Root;
 };
 
 #endif

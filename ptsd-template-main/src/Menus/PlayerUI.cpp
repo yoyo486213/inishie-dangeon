@@ -7,6 +7,7 @@
 #include "Button.hpp"
 #include "Items/Item.hpp"
 #include "Items/Potion.hpp"
+#include "App.hpp"
 
 PlayerUI::PlayerUI(std::shared_ptr<Player> playerRef, std::shared_ptr<Text> NameRef, Util::Renderer *m_Root) : player(playerRef),m_Name(NameRef) {
     m_Name->SetZIndex(40);
@@ -100,11 +101,7 @@ PlayerUI::PlayerUI(std::shared_ptr<Player> playerRef, std::shared_ptr<Text> Name
             std::vector<std::string>{
                 RESOURCE_DIR"/UI/ItemSlot_NotMarked.png",
                 RESOURCE_DIR"/UI/ItemSlot_Default.png",
-                RESOURCE_DIR"/UI/ItemSlot_Selected.png",
-                RESOURCE_DIR"/UI/ItemSlot_Cooldown.png",
-                RESOURCE_DIR"/UI/FocusItemSlot_Default.png",
-                RESOURCE_DIR"/UI/FocusItemSlot_Selected.png",
-                RESOURCE_DIR"/UI/FocusItemSlot_Cooldown.png"
+                RESOURCE_DIR"/UI/FocusItemSlot_Default.png"
             }
         );
         if (i < 4) {
@@ -117,10 +114,40 @@ PlayerUI::PlayerUI(std::shared_ptr<Player> playerRef, std::shared_ptr<Text> Name
         m_Inventory[i]->SetZIndex(39);
         m_Root->AddChild(m_Inventory[i]);
     }
+
+    m_Backpack = std::make_shared<Button>(
+        std::vector<std::string>{
+            RESOURCE_DIR"/UI/Backpack_Default.png",
+            RESOURCE_DIR"/UI/Backpack_Focus.png",
+            RESOURCE_DIR"/UI/Backpack_Open.png"
+        }
+    );
+    m_Backpack->SetPosition({258, -194});
+    m_Backpack->SetVisible(true);
+    m_Backpack->SetZIndex(39);
+    m_Root->AddChild(m_Backpack);
+
+    m_CloseButton = std::make_shared<Button>(
+        std::vector<std::string>{
+            RESOURCE_DIR"/UI/Backpack_X.png",
+            RESOURCE_DIR"/UI/Backpack_X_Focus.png",
+            RESOURCE_DIR"/UI/Backpack_X_Pressed.png"
+        }
+    );
+    m_CloseButton->SetPosition({275, -45});
+    m_CloseButton->SetVisible(false);
+    m_CloseButton->SetZIndex(39);
+    m_Root->AddChild(m_CloseButton);
+
+    m_BackpackBackGround = std::make_shared<Character>(RESOURCE_DIR"/UI/Backpack_BackGround.png");
+    m_BackpackBackGround->SetPosition({183, -100});
+    m_BackpackBackGround->SetVisible(true);
+    m_BackpackBackGround->SetZIndex(37);
+    m_Root->AddChild(m_BackpackBackGround);
 }
 
 
-void PlayerUI::Update() {
+void PlayerUI::Update(Util::Renderer *m_Root) {
     m_Name->SetPosition({-230+m_Name->GetScaledSize().x/2 ,223+m_Name->GetScaledSize().y/2});
 
     int HPRate=float(player->GetHP())/float(player->GetMaxHP())*100;
@@ -144,8 +171,20 @@ void PlayerUI::Update() {
 
     for (int i = 0; i < 4; i++) {
         if (m_Shortcuts[i]->IfClick()) {
-            m_Shortcuts[i]->ChangeImage(2);
-            
+            if (m_Shortcuts[i]->GetImageIndex() == 5) {
+                m_Shortcuts[i]->ChangeImage(4);
+                SelectedSlot = -1;
+            }
+            else {
+                m_Shortcuts[i]->ChangeImage(5);
+                SelectedSlot = i;
+            }
+
+            for (int j = 0; j < 4; j++) {
+                if (j != i) {
+                    m_Shortcuts[j]->ChangeImage(1);
+                }
+            }
         }
         else if (m_Shortcuts[i]->IfFocus()) {
             if (m_Shortcuts[i]->GetImageIndex() <= 3) {
@@ -157,35 +196,119 @@ void PlayerUI::Update() {
         }
     }
 
-    for (int i = 0; i < 8; i++) {
-        if (m_Inventory[i]->IfClick()) {
-            m_Inventory[i]->ChangeImage(2);
-            SelectedSlot = i;
-        }
-        else if (m_Inventory[i]->IfFocus()) {
-            if (m_Inventory[i]->GetImageIndex() <= 3) {
-                m_Inventory[i]->ChangeImage(m_Inventory[i]->GetImageIndex() + 3);
+    if (m_Backpack->IfClick()) {
+        if (m_Backpack->GetImageIndex() == 3) {
+            m_Backpack->ChangeImage(2);
+            m_CloseButton->SetVisible(false);
+
+            for (int i = 0; i < 8; i++) {
+                m_Inventory[i]->ChangeImage(1);
+                if (m_InventoryItems[i]) {
+                    m_InventoryItems[i]->SetVisible(false);
+                }
             }
         }
-        else if (m_Inventory[i]->GetImageIndex() > 3) {
-            m_Inventory[i]->ChangeImage(m_Inventory[i]->GetImageIndex() - 3);
+        else { // 打開
+            m_Backpack->ChangeImage(3);
+            m_CloseButton->SetVisible(true);
+
+            for (int i = 0; i < 8; i++) {
+                m_Inventory[i]->ChangeImage(2);
+                if (m_InventoryItems[i]) {
+                    m_InventoryItems[i]->SetVisible(true);
+                }
+            }
+        }
+    }
+    else if (m_Backpack->IfFocus() && m_Backpack->GetImageIndex() != 3) {
+        m_Backpack->ChangeImage(2);
+        m_BackpackBackGround->SetVisible(true);
+
+        for (int i = 0; i < 8; i++) {
+            m_Inventory[i]->SetVisible(true);
+            m_Inventory[i]->ChangeImage(2);
+            if (m_InventoryItems[i]) {
+                m_InventoryItems[i]->SetVisible(true);
+            }
+        }
+    }
+    else if (m_Backpack->GetImageIndex() != 3) {
+        m_Backpack->ChangeImage(1);
+        m_BackpackBackGround->SetVisible(false);
+
+        for (int i = 0; i < 8; i++) {
+            m_Inventory[i]->SetVisible(false);
+            m_Inventory[i]->ChangeImage(1);
+            if (m_InventoryItems[i]) {
+                m_InventoryItems[i]->SetVisible(false);
+            }
+        }
+    }
+
+    if (m_CloseButton->IfClick()) {
+        m_Backpack->ChangeImage(1);
+        m_CloseButton->SetVisible(false);
+        m_BackpackBackGround->SetVisible(false);
+
+        for (int i = 0; i < 8; i++) {
+            m_Inventory[i]->SetVisible(false);
+            if (m_InventoryItems[i]) {
+                m_InventoryItems[i]->SetVisible(false);
+            }
+            m_Inventory[i]->ChangeImage(1);
+        }
+    }
+    else if (m_CloseButton->IfPressed()) {
+        m_CloseButton->ChangeImage(3);
+    }
+    else if (m_CloseButton->IfFocus()) {
+        m_CloseButton->ChangeImage(2);
+    }
+    else {
+        m_CloseButton->ChangeImage(1);
+    }
+
+    for (int i = 0; i < 8; i++) {
+        if (m_Inventory[i]->IfClick() && m_InventoryItems[i]) {
+            for (int j = 0; j < 4; j++) {
+                if (!m_ShortcutsItems[j]) {
+                    m_ShortcutsItems[j] = m_InventoryItems[i];
+                    m_ShortcutsItems[j]->SetPosition(m_Shortcuts[j]->GetPosition());
+                    m_InventoryItems[i] = nullptr;
+                    break;
+                    // 進背包後要CD
+                }
+            }
+        }
+        else if (m_Inventory[i]->IfFocus()) {
+            m_Inventory[i]->ChangeImage(3);
+        }
+        else if (m_Backpack->GetImageIndex() == 3) {
+            m_Inventory[i]->ChangeImage(2);
+        }
+        else {
+            m_Inventory[i]->ChangeImage(1);
         }
     }
 
     if (Util::Input::IsKeyDown(Util::Keycode::NUM_1) && m_ShortcutsItems[0]) {
         m_ShortcutsItems[0]->Use();
+        m_Root->RemoveChild(m_ShortcutsItems[0]);
         m_ShortcutsItems[0] = nullptr;
     }
     else if (Util::Input::IsKeyDown(Util::Keycode::NUM_2) && m_ShortcutsItems[1]) {
         m_ShortcutsItems[1]->Use();
+        m_Root->RemoveChild(m_ShortcutsItems[1]);
         m_ShortcutsItems[1] = nullptr;
     }
     else if (Util::Input::IsKeyDown(Util::Keycode::NUM_3) && m_ShortcutsItems[2]) {
         m_ShortcutsItems[2]->Use();
+        m_Root->RemoveChild(m_ShortcutsItems[2]);
         m_ShortcutsItems[2] = nullptr;
     }
     else if (Util::Input::IsKeyDown(Util::Keycode::NUM_4) && m_ShortcutsItems[3]) {
         m_ShortcutsItems[3]->Use();
+        m_Root->RemoveChild(m_ShortcutsItems[3]);
         m_ShortcutsItems[3] = nullptr;
     }
 }
@@ -194,6 +317,8 @@ bool PlayerUI::PeekItem(std::shared_ptr<Item> item) {
     for (int i=0; i<4; i++) {
         if (!m_ShortcutsItems[i]) {
             m_ShortcutsItems[i] = item;
+            item->SetPosition(m_Shortcuts[i]->GetPosition());
+            item->SetZIndex(40);
             return true;
         }
     }
@@ -201,6 +326,11 @@ bool PlayerUI::PeekItem(std::shared_ptr<Item> item) {
     for (int i=0; i<8; i++) {
         if (!m_InventoryItems[i]) {
             m_InventoryItems[i] = item;
+            item->SetPosition(m_Inventory[i]->GetPosition());
+            item->SetZIndex(40);
+            if (m_Backpack->GetImageIndex() != 3) {
+                item->SetVisible(false);
+            }
             return true;
         }
     }

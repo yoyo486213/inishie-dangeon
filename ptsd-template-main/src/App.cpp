@@ -14,6 +14,8 @@
 #include "Player.hpp"
 #include "Character.hpp"
 
+
+Util::Renderer App::m_Root;
 void App::Start() {
     LOG_TRACE("Start");
 
@@ -90,7 +92,7 @@ void App::Update() {
      */
     if (m_map && m_Player->GetVisibility()) {
         m_map->Update(m_Player, m_UI, &m_Root);
-        m_UI->Update();
+        m_UI->Update(&m_Root);
         
         float displacement = 2;
         if (Util::Input::IsKeyPressed(Util::Keycode::W)) {

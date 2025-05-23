@@ -21,7 +21,7 @@ public:
 
     virtual ~PlayerUI() = default;
 
-    void Update();
+    void Update(Util::Renderer *m_Root);
 
     bool PeekItem(std::shared_ptr<Item> item);
 private:
@@ -37,6 +37,9 @@ private:
     std::shared_ptr<AnimatedCharacter> m_MP;
     std::shared_ptr<AnimatedCharacter> m_EXP;
 
+    std::shared_ptr<Button> m_Backpack;
+    std::shared_ptr<Character> m_BackpackBackGround;
+    std::shared_ptr<Button> m_CloseButton;
     int SelectedSlot = -1;
     std::vector<std::shared_ptr<Item>> m_ShortcutsItems{4, nullptr}; // 4 格
     std::vector<std::shared_ptr<Button>> m_Shortcuts{4, nullptr}; // 4 格
@@ -46,3 +49,8 @@ private:
 };
 
 #endif //PLAYERUI_HPP
+
+//   O      O         O
+//   |v   o-|     --┐-|
+//   ^      ^         ^
+//  / \    / \       / \  
