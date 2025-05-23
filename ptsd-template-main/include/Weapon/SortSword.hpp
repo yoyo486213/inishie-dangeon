@@ -4,13 +4,14 @@
 #include "pch.hpp"
 #include "Weapon/Weapon.hpp"
 #include "IUsable.hpp"
-#include "Weapon/Projectile.hpp"
+#include "IEquipable.hpp"
+#include "Items/Item.hpp"
 
 class SortSword : public Weapon, public IUsable {
 public:
     SortSword();
 
-    void Use() override;
+    void Use() override {};
 
     // void Equip() override;
 

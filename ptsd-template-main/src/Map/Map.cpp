@@ -65,7 +65,7 @@ void Map::CreateMap(Util::Renderer *m_Root) {
     // Monster
     std::random_device rd;
     std::mt19937 engine(rd());
-    std::uniform_int_distribution<int> mapindex(1, 2);
+    std::uniform_int_distribution<int> mapindex(4, 4);
     int index = mapindex(engine);
 
     std::ifstream file(std::string(RESOURCE_DIR) + "/Map/TiledProject/Area1_" + std::to_string(index) + ".json");

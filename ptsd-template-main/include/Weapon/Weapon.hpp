@@ -19,8 +19,6 @@ public:
     
     virtual ~Weapon() = default;
 
-    virtual bool useOnSelect() const override { return true; }
-
     virtual void Skill() = 0;
 private:
     glm::vec2 m_Attack;

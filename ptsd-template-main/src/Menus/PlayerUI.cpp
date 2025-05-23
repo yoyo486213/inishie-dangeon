@@ -7,6 +7,8 @@
 #include "Button.hpp"
 #include "Items/Item.hpp"
 #include "Items/Potion.hpp"
+#include "IUsable.hpp"
+#include "IEquipable.hpp"
 #include "App.hpp"
 
 PlayerUI::PlayerUI(std::shared_ptr<Player> playerRef, std::shared_ptr<Text> NameRef, Util::Renderer *m_Root) : player(playerRef),m_Name(NameRef) {
@@ -146,6 +148,30 @@ PlayerUI::PlayerUI(std::shared_ptr<Player> playerRef, std::shared_ptr<Text> Name
     m_BackpackBackGround->SetVisible(true);
     m_BackpackBackGround->SetZIndex(37);
     m_Root->AddChild(m_BackpackBackGround);
+}
+
+bool PlayerUI::PeekItem(std::shared_ptr<Item> item) {
+    for (int i=0; i<4; i++) {
+        if (!m_ShortcutsItems[i]) {
+            m_ShortcutsItems[i] = item;
+            item->SetPosition(m_Shortcuts[i]->GetPosition());
+            item->SetZIndex(40);
+            return true;
+        }
+    }
+
+    for (int i=0; i<8; i++) {
+        if (!m_InventoryItems[i]) {
+            m_InventoryItems[i] = item;
+            item->SetPosition(m_Inventory[i]->GetPosition());
+            item->SetZIndex(40);
+            if (m_Backpack->GetImageIndex() != 3) {
+                item->SetVisible(false);
+            }
+            return true;
+        }
+    }
+    return false;
 }
 
 
@@ -294,46 +320,60 @@ void PlayerUI::Update(Util::Renderer *m_Root) {
     }
 
     if (Util::Input::IsKeyDown(Util::Keycode::NUM_1) && m_ShortcutsItems[0]) {
-        m_ShortcutsItems[0]->Use();
-        m_Root->RemoveChild(m_ShortcutsItems[0]);
-        m_ShortcutsItems[0] = nullptr;
+        if (auto e = std::dynamic_pointer_cast<IEquipable>(m_ShortcutsItems[0])) {
+            e->Equip();
+        }
+        if (m_ShortcutsItems[0]->useOnSelect()) {
+            if (auto u = std::dynamic_pointer_cast<IUsable>(m_ShortcutsItems[0])) {
+                u->Use();
+                m_Root->RemoveChild(m_ShortcutsItems[0]);
+                m_ShortcutsItems[0] = nullptr;
+            }
+        } 
+        else {
+        }
     }
     else if (Util::Input::IsKeyDown(Util::Keycode::NUM_2) && m_ShortcutsItems[1]) {
-        m_ShortcutsItems[1]->Use();
-        m_Root->RemoveChild(m_ShortcutsItems[1]);
-        m_ShortcutsItems[1] = nullptr;
+        if (auto e = std::dynamic_pointer_cast<IEquipable>(m_ShortcutsItems[1])) {
+            e->Equip();
+        }
+        if (m_ShortcutsItems[1]->useOnSelect()) {
+            if (auto u = std::dynamic_pointer_cast<IUsable>(m_ShortcutsItems[1])) {
+                u->Use();
+                m_Root->RemoveChild(m_ShortcutsItems[1]);
+                m_ShortcutsItems[1] = nullptr;
+            }
+        } 
+        else {
+        }
     }
     else if (Util::Input::IsKeyDown(Util::Keycode::NUM_3) && m_ShortcutsItems[2]) {
-        m_ShortcutsItems[2]->Use();
-        m_Root->RemoveChild(m_ShortcutsItems[2]);
-        m_ShortcutsItems[2] = nullptr;
+        if (auto e = std::dynamic_pointer_cast<IEquipable>(m_ShortcutsItems[2])) {
+            e->Equip();
+        }
+        if (m_ShortcutsItems[2]->useOnSelect()) {
+            if (auto u = std::dynamic_pointer_cast<IUsable>(m_ShortcutsItems[2])) {
+                u->Use();
+                m_Root->RemoveChild(m_ShortcutsItems[2]);
+                m_ShortcutsItems[2] = nullptr;
+            }
+        } 
+        else {
+        }
     }
     else if (Util::Input::IsKeyDown(Util::Keycode::NUM_4) && m_ShortcutsItems[3]) {
-        m_ShortcutsItems[3]->Use();
-        m_Root->RemoveChild(m_ShortcutsItems[3]);
-        m_ShortcutsItems[3] = nullptr;
-    }
-}
-
-bool PlayerUI::PeekItem(std::shared_ptr<Item> item) {
-    for (int i=0; i<4; i++) {
-        if (!m_ShortcutsItems[i]) {
-            m_ShortcutsItems[i] = item;
-            item->SetPosition(m_Shortcuts[i]->GetPosition());
-            item->SetZIndex(40);
-            return true;
+        if (auto e = std::dynamic_pointer_cast<IEquipable>(m_ShortcutsItems[3])) {
+            e->Equip();
         }
-    }
-
-    for (int i=0; i<8; i++) {
-        if (!m_InventoryItems[i]) {
-            m_InventoryItems[i] = item;
-            item->SetPosition(m_Inventory[i]->GetPosition());
-            item->SetZIndex(40);
-            if (m_Backpack->GetImageIndex() != 3) {
-                item->SetVisible(false);
+        if (m_ShortcutsItems[3]->useOnSelect()) {
+            if (auto u = std::dynamic_pointer_cast<IUsable>(m_ShortcutsItems[3])) {
+                u->Use();
+                m_Root->RemoveChild(m_ShortcutsItems[3]);
+                m_ShortcutsItems[3] = nullptr;
             }
-            return true;
+        } 
+        else {
         }
     }
 }
+
