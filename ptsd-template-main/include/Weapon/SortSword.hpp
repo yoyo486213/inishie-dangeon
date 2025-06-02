@@ -3,19 +3,17 @@
 
 #include "pch.hpp"
 #include "Weapon/Weapon.hpp"
-#include "IUsable.hpp"
 #include "IEquipable.hpp"
-#include "Items/Item.hpp"
 
-class SortSword : public Weapon, public IUsable {
+class SortSword : public IEquipable, public Weapon {
 public:
     SortSword();
 
-    void Use() override {};
+    void Equip(std::shared_ptr<Player> &m_Player) override;
 
-    // void Equip() override;
+    void UnEquip(std::shared_ptr<Player> &m_Player) override;
 
-    void Skill() override;
+    void Skill(std::shared_ptr<Map> m_map, Util::Renderer *m_Root) override;
 };
 
 #endif // SORTSWORD_HPP

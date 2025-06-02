@@ -1,6 +1,7 @@
 #include "Map/Map.hpp"
 #include <fstream>
 #include "Util/Time.hpp"
+#include "Util/Input.hpp"
 #include "Util/Renderer.hpp"
 #include "ICollidable.hpp"
 #include "Calculation.hpp"
@@ -60,7 +61,18 @@ void Map::CreateMap(Util::Renderer *m_Root) {
     AllCollidableObjects.clear();
     AllObjects.clear();
     m_Monsters.clear();
-    
+
+    m_FloorText = std::make_shared<Text>(FloorImages[0]);
+    m_FloorText->SetZIndex(60);
+    m_FloorText->SetPosition({250, 200});
+    m_FloorText->SetVisible(true);
+    m_Root->AddChild(m_FloorText);
+
+    m_FloorIndex = std::make_shared<Text>(FloorImages[floor]);
+    m_FloorIndex->SetZIndex(60);
+    m_FloorIndex->SetPosition(m_FloorText->GetPosition() + glm::vec2(30, 0));
+    m_FloorIndex->SetVisible(true);
+    m_Root->AddChild(m_FloorIndex);
 
     // Monster
     std::random_device rd;
@@ -250,7 +262,7 @@ void Map::CreateItems(glm::vec2 pos, std::shared_ptr<Player> &m_Player, Util::Re
         }
     }
 
-    if (dis(gen) < 100) {
+    if (dis(gen) < 20) {
         std::shared_ptr<Potion> potion = std::make_shared<Potion>(m_Player);
         potion->SetPosition(pos);
         potion->SetVisible(true);
@@ -259,7 +271,7 @@ void Map::CreateItems(glm::vec2 pos, std::shared_ptr<Player> &m_Player, Util::Re
         m_Potion.push_back(potion);
         AllObjects.push_back(potion);
     }
-    else if (dis(gen) < 50) {
+    else if (dis(gen) < 20) {
         std::shared_ptr<Orb> orb = std::make_shared<Orb>(m_Player);
         orb->SetPosition(pos);
         orb->SetVisible(true);
@@ -268,7 +280,7 @@ void Map::CreateItems(glm::vec2 pos, std::shared_ptr<Player> &m_Player, Util::Re
         m_Orbs.push_back(orb);
         AllObjects.push_back(orb);
     }
-    else if (dis(gen) < 50) {
+    else if (dis(gen) < 100) {
         std::uniform_int_distribution<int> weaponDist(0, 0);
         switch (weaponDist(gen)) {
             case 0:
@@ -320,6 +332,26 @@ void Map::Update(std::shared_ptr<Player> &m_Player, std::shared_ptr<PlayerUI> &m
     
         ++it;
     }
+    for (auto it = m_Weapons.begin(); it != m_Weapons.end(); ) {
+        auto& weapon = *it;
+        if (weapon->IfClick()) {
+            if (m_UI->PeekItem(std::dynamic_pointer_cast<Item>(weapon))) {
+                AllObjects.erase(std::remove(AllObjects.begin(), AllObjects.end(), weapon), AllObjects.end());
+                it = m_Weapons.erase(it);
+                continue;
+            }
+        }
+    
+        /*
+        if (potion->IfFocus()) {
+            // 給他背景
+        } else {
+            // 取消背景
+        }
+        */
+    
+        ++it;
+    }
     
 
     m_UpStairs->ChangeImage(m_UpStairs->IfFouse() ? 2 : 1);
@@ -338,6 +370,28 @@ void Map::Update(std::shared_ptr<Player> &m_Player, std::shared_ptr<PlayerUI> &m
     }
 
     m_Player->SetAttackCD(m_Player->GetAttackCD() - Util::Time::GetDeltaTimeMs() / 1000.0f);
+
+    // 實作武器技能
+    if (Util::Input::IsKeyDown(Util::Keycode::MOUSE_LB) && m_UI->IsEquip()) {
+        std::dynamic_pointer_cast<Weapon>(m_UI->GetWeapon())->Skill(shared_from_this(), m_Root);
+    }
+
+    for (const auto& projectile : m_Projectiles) {
+        projectile->Update();
+        for (const auto& object : AllCollidableObjects) {
+            if (object->IsCollision(projectile, glm::vec2(0, 0))) {
+                std::shared_ptr<Monster> monster = std::dynamic_pointer_cast<Monster>(object);
+                if (monster) {
+                    monster->TakeDamage(Calculation::CalcuAttack(projectile->GetDamage(), m_Player->GetCriticalrate()));
+                    // if (monster->GetHP() >= -10000 && monster->GetHP() <= 0) {
+                    //     this->CreateItems(Calculation::GetRelativeCoordinates(m_UpStairs->GetPosition(), monster->GetPosition()), m_Player, m_Root);
+                    //     monster->Restore_HP(-99999);
+                    // }
+                }
+                projectile->SetVisible(false);
+            }
+        }
+    }
 }
 
 void Map::Move(glm::vec2 displacement, std::shared_ptr<Player> &m_Player, Util::Renderer *m_Root) {    

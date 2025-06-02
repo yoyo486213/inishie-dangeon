@@ -44,28 +44,50 @@ public:
     }
 
     glm::vec2 GetAttack() { return m_Attack; }
-
-    int GetDefense() { return m_Defense; }
-
-    int GetHitrate() { return m_Hitrate; }
-
-    int GetDodgerate() { return m_Dodgerate;}
-
-    int GetCriticalrate() { return m_Criticalrate; }
-
-    int GetBlockrate() { return m_Blockrate; }
-
-    std::vector<int> GetResistance() { return m_Resistance; }
-
     void SetAttack(const glm::vec2 &attack) { m_Attack = attack; }
 
-    void SetAttackCD(float cd) { m_AttackCD = cd; }
+    int GetDefense() { return m_Defense; }
+    void SetDefense(int defense) { m_Defense = defense; }
+
+    int GetHitrate() { return m_Hitrate; }
+    void SetHitrate(int hitrate) { m_Hitrate = hitrate; }
+
+    int GetDodgerate() { return m_Dodgerate;}
+    void SetDodgerate(int dodgerate) { m_Dodgerate = dodgerate; }
+
+    int GetCriticalrate() { return m_Criticalrate; }
+    void SetCriticalrate(int criticalrate) { m_Criticalrate = criticalrate; }
+
+    int GetBlockrate() { return m_Blockrate; }
+    void SetBlockrate(int blockrate) { m_Blockrate = blockrate; }
+
+    std::vector<int> GetResistance() { return m_Resistance; }
+    void SetResistance(const std::vector<int> &resistance) { m_Resistance = resistance; }
 
     float GetAttackCD() const { return m_AttackCD; }
+    void SetAttackCD(float cd) { m_AttackCD = cd; }
 
     int GetGold() { return m_Gold; }
+    void SetGold(int gold) { 
+        m_Gold += gold; 
+        if (m_Gold < 0) {
+            m_Gold = 0;
+        }
+    }
 
     int GetExp() { return m_Exp; }
+    void SetExp(int exp) { 
+        m_Exp += exp; 
+        if (m_Exp < 0) {
+            m_Exp = 0;
+        }
+        while (m_Exp >= m_MaxExp) {
+            m_Exp -= m_MaxExp;
+            m_MaxExp += 100; // 每次升級增加100經驗值上限
+            m_MaxHP += 100; // 每次升級增加100最大生命值
+            m_HP = m_MaxHP; // 升級後恢復到最大生命值
+        }
+    }
     int GetMaxExp() { return m_MaxExp; }
 private:
     int m_HP = 10000;

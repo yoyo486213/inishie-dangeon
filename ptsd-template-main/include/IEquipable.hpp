@@ -3,9 +3,13 @@
 
 #include "pch.hpp"
 
+class Player;
+
 class IEquipable {
 public:
-    virtual void Equip() = 0;
+    virtual void Equip(std::shared_ptr<Player> &m_Player) = 0;
+
+    virtual void UnEquip(std::shared_ptr<Player> &m_Player) = 0;
 
     virtual ~IEquipable() = default;
 };

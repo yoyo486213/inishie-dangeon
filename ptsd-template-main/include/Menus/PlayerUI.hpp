@@ -21,11 +21,15 @@ public:
 
     virtual ~PlayerUI() = default;
 
-    void Update(Util::Renderer *m_Root);
+    void Update(std::shared_ptr<Player> &m_Player, Util::Renderer *m_Root);
 
     bool PeekItem(std::shared_ptr<Item> item);
 
     void RejoinRander(Util::Renderer *m_Root);
+
+    bool IsEquip() { return SelectedSlot != -1; }
+    
+    std::shared_ptr<Item> GetWeapon() { return m_ShortcutsItems[SelectedSlot]; }
 private:
     std::shared_ptr<Player> player;
 

@@ -1,4 +1,5 @@
 #include "Items/Item.hpp"
+#include "Util/Input.hpp"
 #include "Util/Renderer.hpp"
 #include "Character.hpp"
 

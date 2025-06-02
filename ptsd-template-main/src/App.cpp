@@ -92,10 +92,9 @@ void App::Update() {
      */
     if (m_map && m_Player->GetVisibility()) {
         m_map->Update(m_Player, m_UI, &m_Root);
-        m_UI->Update(&m_Root);
+        m_UI->Update(m_Player, &m_Root);
         
         float displacement = 2;
-        
         for (int i = 0; i < displacement; i++) {
             if (Util::Input::IsKeyPressed(Util::Keycode::W)) {
                     m_map->Move({0, -1}, m_Player, &m_Root);

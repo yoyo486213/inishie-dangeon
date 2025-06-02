@@ -7,8 +7,9 @@
 #include "Button.hpp"
 #include "Items/Item.hpp"
 #include "Items/Potion.hpp"
-#include "IUsable.hpp"
 #include "IEquipable.hpp"
+#include "IUsable.hpp"
+#include "Weapon/Weapon.hpp"
 #include "App.hpp"
 
 PlayerUI::PlayerUI(std::shared_ptr<Player> playerRef, std::shared_ptr<Text> NameRef, Util::Renderer *m_Root) : player(playerRef),m_Name(NameRef) {
@@ -204,7 +205,7 @@ void PlayerUI::RejoinRander(Util::Renderer *m_Root){
 
 
 
-void PlayerUI::Update(Util::Renderer *m_Root) {
+void PlayerUI::Update(std::shared_ptr<Player> &m_Player, Util::Renderer *m_Root) {
     int HPRate=float(player->GetHP())/float(player->GetMaxHP())*100;
     if (HPRate >= 1)
         m_HP->SetCurrentFrame(HPRate-1);
@@ -299,30 +300,15 @@ void PlayerUI::Update(Util::Renderer *m_Root) {
 
     for (int i = 0; i < 8; i++) {
         if (m_Inventory[i]->IfClick() && m_InventoryItems[i]) {
-            if (auto e = std::dynamic_pointer_cast<IEquipable>(m_InventoryItems[i])) {
-                e->Equip();
-            }
-            if (m_InventoryItems[i]->useOnSelect()) {
-                if (auto u = std::dynamic_pointer_cast<IUsable>(m_InventoryItems[i])) {
-                    u->Use();
-                    m_Root->RemoveChild(m_InventoryItems[i]);
+            for (int j = 0; j < 4; j++) {
+                if (!m_ShortcutsItems[j]) {
+                    m_ShortcutsItems[j] = m_InventoryItems[i];
+                    m_ShortcutsItems[j]->SetPosition(m_Shortcuts[j]->GetPosition());
                     m_InventoryItems[i] = nullptr;
-                }
-            } 
-            else {
-                for (int j = 0; j < 4; j++) {
-                    if (!m_ShortcutsItems[j]) {
-                        m_ShortcutsItems[j] = m_InventoryItems[i];
-                        m_ShortcutsItems[j]->SetPosition(m_Shortcuts[j]->GetPosition());
-                        m_InventoryItems[i] = nullptr;
-                        break;
-                        // 進背包後要CD
-                    }
+                    break;
+                    // 進背包後要CD
                 }
             }
-
-
-            
         }
         else if (m_Inventory[i]->IfFocus()) {
             m_Inventory[i]->ChangeImage(3);
@@ -335,68 +321,37 @@ void PlayerUI::Update(Util::Renderer *m_Root) {
         }
     }
 
-    if ((Util::Input::IsKeyDown(Util::Keycode::NUM_1) || m_Shortcuts[0]->IfClick()) && m_ShortcutsItems[0]) {
-        if (auto e = std::dynamic_pointer_cast<IEquipable>(m_ShortcutsItems[0])) {
-            e->Equip();
-        }
-        if (m_ShortcutsItems[0]->useOnSelect()) {
-            if (auto u = std::dynamic_pointer_cast<IUsable>(m_ShortcutsItems[0])) {
-                u->Use();
-                m_Root->RemoveChild(m_ShortcutsItems[0]);
-                m_ShortcutsItems[0] = nullptr;
-            }
-        } 
-        else {
-        }
-    }
-    else if ((Util::Input::IsKeyDown(Util::Keycode::NUM_2) || m_Shortcuts[1]->IfClick()) && m_ShortcutsItems[1]) {
-        if (auto e = std::dynamic_pointer_cast<IEquipable>(m_ShortcutsItems[1])) {
-            e->Equip();
-        }
-        if (m_ShortcutsItems[1]->useOnSelect()) {
-            if (auto u = std::dynamic_pointer_cast<IUsable>(m_ShortcutsItems[1])) {
-                u->Use();
-                m_Root->RemoveChild(m_ShortcutsItems[1]);
-                m_ShortcutsItems[1] = nullptr;
-            }
-        } 
-        else {
-        }
-    }
-    else if ((Util::Input::IsKeyDown(Util::Keycode::NUM_3) || m_Shortcuts[2]->IfClick()) && m_ShortcutsItems[2]) {
-        if (auto e = std::dynamic_pointer_cast<IEquipable>(m_ShortcutsItems[2])) {
-            e->Equip();
-        }
-        if (m_ShortcutsItems[2]->useOnSelect()) {
-            if (auto u = std::dynamic_pointer_cast<IUsable>(m_ShortcutsItems[2])) {
-                u->Use();
-                m_Root->RemoveChild(m_ShortcutsItems[2]);
-                m_ShortcutsItems[2] = nullptr;
-            }
-        } 
-        else {
-        }
-    }
-    else if ((Util::Input::IsKeyDown(Util::Keycode::NUM_4) || m_Shortcuts[3]->IfClick()) && m_ShortcutsItems[3]) {
-        if (auto e = std::dynamic_pointer_cast<IEquipable>(m_ShortcutsItems[3])) {
-            e->Equip();
-        }
-        if (m_ShortcutsItems[3]->useOnSelect()) {
-            if (auto u = std::dynamic_pointer_cast<IUsable>(m_ShortcutsItems[3])) {
-                u->Use();
-                m_Root->RemoveChild(m_ShortcutsItems[3]);
-                m_ShortcutsItems[3] = nullptr;
-            }
-        } 
-        else {
-        }
-    }
+    Util::Keycode keycodes[] = {
+    Util::Keycode::NUM_1,
+    Util::Keycode::NUM_2,
+    Util::Keycode::NUM_3,
+    Util::Keycode::NUM_4
+    };
 
+    for (int i = 0; i < 4; ++i) {
+        if ((Util::Input::IsKeyDown(keycodes[i]) || m_Shortcuts[i]->IfClick()) && m_ShortcutsItems[i]) {
+            if (this->SelectedSlot == -1) {
+                if (auto e = std::dynamic_pointer_cast<IEquipable>(m_ShortcutsItems[i])) {
+                    e->Equip(m_Player);
+                }
+                if (auto u = std::dynamic_pointer_cast<IUsable>(m_ShortcutsItems[i])) {
+                    u->Use();
+                    m_Root->RemoveChild(m_ShortcutsItems[i]);
+                    m_ShortcutsItems[i] = nullptr;
+                }
+            }
+            else {
+                if (auto e = std::dynamic_pointer_cast<IEquipable>(m_ShortcutsItems[i])) {
+                    e->UnEquip(m_Player);
+                }
+            }
+        }
+    }
     
     for (int i = 0; i < 4; i++) {
-        if (m_Shortcuts[i]->IfClick()) {
-            if (m_Shortcuts[i]->GetImageIndex() == 5) {
-                m_Shortcuts[i]->ChangeImage(4);
+        if ((Util::Input::IsKeyDown(keycodes[i]) || m_Shortcuts[i]->IfClick()) && m_ShortcutsItems[i]) {
+            if (m_Shortcuts[i]->GetImageIndex() == 2 || m_Shortcuts[i]->GetImageIndex() == 5) {
+                m_Shortcuts[i]->ChangeImage(1);
                 SelectedSlot = -1;
             }
             else {

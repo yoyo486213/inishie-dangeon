@@ -10,6 +10,7 @@ Player::Player(const std::string &ImagePath, Util::Renderer *m_Root) : Character
     this->SetPosition({0, 0});
     this->SetVisible(true);
     this->SetZIndex(15);
+    (void)m_Root;
 
     // char buffer[200];
     // std::vector<std::string> ShortcutsImages;  

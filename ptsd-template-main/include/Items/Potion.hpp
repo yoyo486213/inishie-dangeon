@@ -2,14 +2,13 @@
 #define POTION_HPP
 
 #include "pch.hpp"
-#include "IMoveable.hpp"
 #include "IClickable.hpp"
 #include "IUsable.hpp"
 #include "Item.hpp"
 
 class Player;
 
-class Potion : public IClickable, public Item , public IUsable {
+class Potion : public IUsable, public IClickable, public Item {
 public:
     enum class Type {
         Hp,
@@ -27,8 +26,6 @@ public:
     bool IfClick() override;
 
     bool IfPressed() override;
-
-    bool useOnSelect() const override { return true; }
 private:
     std::shared_ptr<Player> m_Player;
 

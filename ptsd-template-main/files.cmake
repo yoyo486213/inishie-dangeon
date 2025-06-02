@@ -44,7 +44,9 @@ set(SRC_FILES
 
 set(INCLUDE_FILES
     IClickable.hpp
+    ICollidable.hpp
     IMoveable.hpp
+    
     App.hpp
     MyBGM.hpp
     Character.hpp
@@ -62,6 +64,7 @@ set(INCLUDE_FILES
     Items/Potion.hpp
     Items/Orb.hpp
 
+    Weapon/Projectile.hpp
     Weapon/Weapon.hpp
     Weapon/SortSword.hpp
 

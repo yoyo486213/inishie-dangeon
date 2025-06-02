@@ -2,12 +2,14 @@
 #define WEAPON_HPP
 
 #include "pch.hpp"
-#include "IEquipable.hpp"
+#include "IClickable.hpp"
+#include "Weapon/Projectile.hpp"
 #include "Items/Item.hpp"
 
 class Player;
+class Map;
 
-class Weapon : public Item {
+class Weapon : public IClickable, public Item {
 public:
     Weapon(std::string ImagePath, glm::vec2 attack,
            float attackCD, float skillMultiplier, int skillRange,
@@ -19,8 +21,16 @@ public:
     
     virtual ~Weapon() = default;
 
-    virtual void Skill() = 0;
-private:
+    bool IfFocus() override;
+
+    bool IfClick() override;
+
+    bool IfPressed() override;
+
+    virtual void Skill(std::shared_ptr<Map> m_map, Util::Renderer *m_Root) = 0;
+
+    virtual void Equip(std::shared_ptr<Player> &m_Player) = 0;
+protected:
     glm::vec2 m_Attack;
     float m_AttackCD;
     float m_SkillMultiplier;

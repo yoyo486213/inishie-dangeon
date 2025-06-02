@@ -3,11 +3,14 @@
 
 #include "pch.hpp"
 #include "Util/GameObject.hpp"
+#include "Character.hpp"
+#include "Weapon/Projectile.hpp"
+#include "Text.hpp"
+#include <memory>
 
 namespace Util {
     class Renderer;
 }
-class Character;
 class ICollidable;
 class InvisibleWall;
 class Unexplored;
@@ -23,7 +26,7 @@ class Player;
 class PlayerUI;
 class Monster;
 
-class Map : public Util::GameObject {
+class Map : public Util::GameObject, public std::enable_shared_from_this<Map> {
 public:
     Map(Util::Renderer *m_Root);
 
@@ -36,10 +39,23 @@ public:
     void Move(glm::vec2 displacement, std::shared_ptr<Player> &m_Player, Util::Renderer *m_Root);
 
     void Update(std::shared_ptr<Player> &m_Player, std::shared_ptr<PlayerUI> &m_UI, Util::Renderer *m_Root);
+
+    void AddProjectile(const std::shared_ptr<Projectile> &projectile) {
+        m_Projectiles.push_back(projectile);
+        AllObjects.push_back(std::dynamic_pointer_cast<Character>(projectile));
+    }
 private:
     // map
     int floor = 1;
-    int beforemapindex = 0;
+    int beforemapindex;
+    std::shared_ptr<Text> m_FloorText;
+    std::shared_ptr<Text> m_FloorIndex;
+    std::vector<std::string> FloorImages = {RESOURCE_DIR"/Text/BigLetter/B.png", RESOURCE_DIR"/Text/Number/1.png",
+                                            RESOURCE_DIR"/Text/Number/2.png", RESOURCE_DIR"/Text/Number/3.png",
+                                            RESOURCE_DIR"/Text/Number/4.png", RESOURCE_DIR"/Text/Number/5.png", 
+                                            RESOURCE_DIR"/Text/Number/6.png", RESOURCE_DIR"/Text/Number/7.png",
+                                            RESOURCE_DIR"/Text/Number/8.png", RESOURCE_DIR"/Text/Number/9.png",
+                                            RESOURCE_DIR"/Text/Number/10.png"};
 
     std::shared_ptr<Character> m_map;
     std::vector<std::shared_ptr<DestructibleObject>> m_DestructibleObjects;
@@ -59,6 +75,8 @@ private:
     std::shared_ptr<ICollidable> m_CurrentInteracting = nullptr;
 
     std::vector<std::shared_ptr<Monster>> m_Monsters;
+
+    std::vector<std::shared_ptr<Projectile>> m_Projectiles;
 };
 
 #endif //MAP_HPP

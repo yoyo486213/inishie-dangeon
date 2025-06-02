@@ -13,8 +13,6 @@ public:
     Item(std::string ImagePath);
 
     virtual ~Item() = default;
-
-    virtual bool useOnSelect() const { return false; }
 };
 
 #endif //ITEM_HPP

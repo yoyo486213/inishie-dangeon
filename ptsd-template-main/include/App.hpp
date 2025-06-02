@@ -32,7 +32,7 @@ public:
 
     void Update();
 
-    void End(); // NOLINT(readability-convert-member-functions-to-static)
+    void End();
 
     static void AddChild(std::shared_ptr<Util::GameObject> obj) {
         m_Root.AddChild(obj);
