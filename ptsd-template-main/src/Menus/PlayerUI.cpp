@@ -425,14 +425,5 @@ void PlayerUI::Update(std::shared_ptr<Player> &m_Player, Util::Renderer *m_Root)
             m_Shortcuts[i]->ChangeImage(m_Shortcuts[i]->GetImageIndex() - 3);
         }
     }
-
-    if (Util::Input::IsKeyDown(Util::Keycode::MOUSE_LB) && m_ShortcutsItems[SelectedSlot]) {
-        if (auto u = std::dynamic_pointer_cast<IUsable>(m_ShortcutsItems[SelectedSlot])) {
-            if (u->Use()) { // 只有當 Use() 回 true 時才移除
-                m_Root->RemoveChild(m_ShortcutsItems[SelectedSlot]);
-                m_ShortcutsItems[SelectedSlot] = nullptr;
-            }
-        }
-    }
 }
 

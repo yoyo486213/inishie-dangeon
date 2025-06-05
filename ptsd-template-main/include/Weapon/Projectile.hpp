@@ -17,7 +17,7 @@ enum class ProjectileBehaviorType {
     Default,
     AxeSpin,
     HealingCircle,
-    OrbitingBoomerang
+    FreeOrbiting
 };
 
 class Projectile : public ICollidable, public Character {
@@ -49,14 +49,6 @@ public:
     void Update() {
         switch (m_State) {
             case State::Flying:
-                m_Position += m_Direction * m_Speed;
-                this->SetPosition(m_Position);
-
-                // 針對飛出去的斧頭旋轉
-                if (m_BehaviorType == ProjectileBehaviorType::AxeSpin) {
-                    m_Transform.rotation += 0.3f;
-                }
-
                 if (glm::length(m_Position - m_Start) >= m_MaxDistance) {
                     if (m_StayDuration > 0.0f) {
                         m_State = State::Staying;
@@ -65,6 +57,14 @@ public:
                         m_State = State::Ended;
                         this->SetVisible(false);
                     }
+                }
+
+                m_Position += m_Direction * m_Speed;
+                this->SetPosition(m_Position);
+
+                // 針對飛出去的斧頭旋轉
+                if (m_BehaviorType == ProjectileBehaviorType::AxeSpin) {
+                    m_Transform.rotation += 0.3f;
                 }
                 break;
             case State::Staying:
@@ -89,9 +89,34 @@ public:
             case ProjectileBehaviorType::HealingCircle:
                 m_Transform.rotation += 0.1f;
                 break;
-            case ProjectileBehaviorType::OrbitingBoomerang:
-                std::cout << "TEst" <<std::endl;
+            case ProjectileBehaviorType::FreeOrbiting: {
+                float targetAngle = atan2(sin(m_OrbitAngle), cos(m_OrbitAngle));
+                float currentAngle = glm::radians(m_Transform.rotation);
+
+                // 用插值慢慢旋轉（0.001 旋轉跟隨速度）
+                float smoothAngle = currentAngle + (targetAngle - currentAngle) * 0.001f;
+
+                m_Transform.rotation = glm::degrees(smoothAngle);
+
+
+                float deltaTime = Util::Time::GetDeltaTimeMs() / 1000.f;
+                float timeSec = Util::Time::GetElapsedTimeMs() / 1000.f;
+
+                // 忽近忽遠的半徑
+                float dynamicRadius = m_OrbitBaseRadius + sin(timeSec * 2.0f + m_OrbitPhaseOffset) * m_OrbitRadiusRange;
+
+                // 讓線速度保持穩定 => ω = v / r
+                float targetLinearSpeed = 300.0f; // 每秒在圓上移動的長度（單位長度/秒）
+                float angularSpeed = (dynamicRadius > 1e-3f) ? targetLinearSpeed / dynamicRadius : 0.0f;
+
+                m_OrbitAngle += angularSpeed * deltaTime;
+
+                glm::vec2 offset = glm::vec2(cos(m_OrbitAngle), sin(m_OrbitAngle)) * dynamicRadius;
+                m_Position = m_OrbitCenter + offset;
+
+                this->SetPosition(m_Position);
                 break;
+            }
             case ProjectileBehaviorType::Default:
             default:
                 // 無特殊停留技能
@@ -111,6 +136,9 @@ public:
 
     void SetSpeed(float speed) { m_Speed = speed; }
     void SetState(State state) { m_State = state; }
+
+    void SetOrbitAngle(float angle) { m_OrbitAngle = angle; }
+    void SetOrbitPhaseOffset(float offset) { m_OrbitPhaseOffset = offset; }
 
     bool IsCollision(const std::shared_ptr<Character> &other, glm::vec2 displacement) override {
         glm::vec2 thisSize = this->GetScaledSize();
@@ -141,6 +169,13 @@ private:
     ProjectileBehaviorType m_BehaviorType;
     bool m_Collide;
     bool m_Disappear;
+    
+    // 針對繞圈技能的額外參數
+    float m_OrbitBaseRadius = 48.0f;      // 中心基準距離
+    float m_OrbitRadiusRange = 8.0f;     // 最大忽遠忽近變化範圍（±28）
+    float m_OrbitAngle = 0.0f;            // 當前角度
+    float m_OrbitPhaseOffset = 0.0f;      // 每顆飛鏢角度偏移（避免三顆一起變）
+    glm::vec2 m_OrbitCenter = {0.0f, 0.0f};  // 中心位置
 };
 
 

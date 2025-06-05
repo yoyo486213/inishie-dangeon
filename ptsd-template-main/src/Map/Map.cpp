@@ -509,6 +509,7 @@ void Map::Update(std::shared_ptr<Player> &m_Player, std::shared_ptr<PlayerUI> &m
                                 m_Player->Restore_EXP(monster->GetExp());
                                 this->CreateItems(Calculation::GetRelativeCoordinates(m_UpStairs->GetPosition(), monster->GetPosition()), m_Player, m_Root);
                                 monster->Restore_HP(-99999);
+                                monster->SetHPVisible(false);
                                 m_Monsters.erase(std::remove(m_Monsters.begin(), m_Monsters.end(), monster), m_Monsters.end());
                             }
                         }
@@ -521,6 +522,7 @@ void Map::Update(std::shared_ptr<Player> &m_Player, std::shared_ptr<PlayerUI> &m
                             m_Player->Restore_EXP(monster->GetExp());
                             this->CreateItems(Calculation::GetRelativeCoordinates(m_UpStairs->GetPosition(), monster->GetPosition()), m_Player, m_Root);
                             monster->Restore_HP(-99999);
+                            monster->SetHPVisible(false);
                             m_Monsters.erase(std::remove(m_Monsters.begin(), m_Monsters.end(), monster), m_Monsters.end());
                         }
                     }
@@ -562,6 +564,7 @@ void Map::Move(glm::vec2 displacement, std::shared_ptr<Player> &m_Player, Util::
 
                     this->CreateItems(Calculation::GetRelativeCoordinates(m_UpStairs->GetPosition(), monster->GetPosition()), m_Player, m_Root);
                     monster->Restore_HP(-99999);
+                    monster->SetHPVisible(false);
                     m_Monsters.erase(std::remove(m_Monsters.begin(), m_Monsters.end(), monster), m_Monsters.end());
                 }
                 m_Player->SetAttackCD(m_Player->GetDefaultAttackCD());

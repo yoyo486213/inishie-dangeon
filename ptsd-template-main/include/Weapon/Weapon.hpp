@@ -3,8 +3,6 @@
 
 #include "pch.hpp"
 #include "IClickable.hpp"
-#include "IEquipable.hpp"
-#include "IUsable.hpp"
 #include "Weapon/Projectile.hpp"
 #include "Items/Item.hpp"
 #include <iostream>
@@ -14,7 +12,7 @@
 class Player;
 class Map;
 
-class Weapon : public IClickable, public IEquipable, public IUsable, public Item {
+class Weapon : public IClickable, public Item {
 public:
     Weapon(std::string ImagePath, glm::vec2 attack,
            float attackCD, float skillMultiplier, int flightdistance,
@@ -36,6 +34,8 @@ public:
 
     virtual void Equip(std::shared_ptr<Player> &m_Player) = 0;
 
+    virtual void UnEquip(std::shared_ptr<Player> &m_Player) = 0;
+
     int GetSkillCost() { return m_SkillCost; }
 
     float GetSkillCD() { return m_SkillCD; }
@@ -48,7 +48,6 @@ protected:
     int m_FlightDistance;
     int m_SkillCost;
     float m_SkillCD;
-    std::chrono::time_point<std::chrono::high_resolution_clock> Use_time;
     std::shared_ptr<Map> m_map;
     Util::Renderer *m_Root;
 };

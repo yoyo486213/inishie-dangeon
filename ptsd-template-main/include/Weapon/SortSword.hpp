@@ -6,7 +6,7 @@
 
 class SortSword : public Weapon {
 public:
-    SortSword(std::shared_ptr<Map> m_map, Util::Renderer *m_Root);
+    SortSword();
 
     void Equip(std::shared_ptr<Player> &m_Player) override;
 
