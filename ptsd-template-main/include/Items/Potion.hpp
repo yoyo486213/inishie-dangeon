@@ -19,7 +19,7 @@ public:
 
     virtual ~Potion() = default;
     
-    void Use() override;
+    bool Use() override;
 
     bool IfFocus() override;
 

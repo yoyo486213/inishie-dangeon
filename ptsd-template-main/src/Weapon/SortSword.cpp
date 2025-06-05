@@ -5,8 +5,8 @@
 #include "Map/Map.hpp"
 #include "App.hpp"
 
-SortSword::SortSword()
-    : Weapon(RESOURCE_DIR"/Weapon/SortSword/SortSword.png", glm::vec2{4, 7}, 1, 1.2f, 3, 7, 0.6f) {}
+SortSword::SortSword(std::shared_ptr<Map> m_map, Util::Renderer *m_Root)
+    : Weapon(RESOURCE_DIR"/Weapon/SortSword/SortSword.png", glm::vec2{4, 7}, 1, 1.2f, 3, 7, 0.6f, m_map, m_Root) {}
 
 void SortSword::Equip(std::shared_ptr<Player> &m_Player) {
     m_Player->SetAttack(m_Player->GetAttack() + m_Attack);

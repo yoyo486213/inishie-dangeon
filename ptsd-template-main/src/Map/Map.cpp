@@ -471,6 +471,7 @@ void Map::Update(std::shared_ptr<Player> &m_Player, std::shared_ptr<PlayerUI> &m
     // 實作武器技能
     if (Util::Input::IsKeyDown(Util::Keycode::MOUSE_LB) && m_UI->IsEquip() && !std::dynamic_pointer_cast<Buckler>(m_UI->GetWeapon())) {
         auto bow = std::dynamic_pointer_cast<Bow>(m_UI->GetWeapon());
+        auto hunterBow = std::dynamic_pointer_cast<HunterBow>(m_UI->GetWeapon());
         if (m_UI->GetSkillCD() <= 0 && m_Player->GetMP() - m_UI->GetWeapon()->GetSkillCost() >= 0) {
             m_UI->SetSkillCD(m_UI->GetWeapon()->GetSkillCD());
             m_Player->Restore_MP(-m_UI->GetWeapon()->GetSkillCost());
@@ -479,6 +480,10 @@ void Map::Update(std::shared_ptr<Player> &m_Player, std::shared_ptr<PlayerUI> &m
         else if (bow && m_Player->GetAttackCD() <= 0) {
             m_Player->SetAttackCD(m_Player->GetDefaultAttackCD());
             bow->Attack(shared_from_this(), m_Player, m_Root);
+        }
+        else if (hunterBow && m_Player->GetAttackCD() <= 0) {
+            m_Player->SetAttackCD(m_Player->GetDefaultAttackCD());
+            hunterBow->Attack(shared_from_this(), m_Player, m_Root);
         }
     }
     // 判斷武器碰撞

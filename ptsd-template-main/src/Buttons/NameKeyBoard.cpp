@@ -338,7 +338,7 @@ void NameKeyBoard::Update() {
             m_ButtonBGM->Play(0);
             auto duration = (std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - Click_time));
             if (duration.count() > 50) {
-                Click_time = std::chrono::high_resolution_clock::now();;
+                Click_time = std::chrono::high_resolution_clock::now();
                 this->ToEnglishType();
             }
         }

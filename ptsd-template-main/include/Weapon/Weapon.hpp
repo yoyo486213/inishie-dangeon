@@ -3,13 +3,18 @@
 
 #include "pch.hpp"
 #include "IClickable.hpp"
+#include "IEquipable.hpp"
+#include "IUsable.hpp"
 #include "Weapon/Projectile.hpp"
 #include "Items/Item.hpp"
+#include <iostream>
+#include <time.h>
+#include <chrono>
 
 class Player;
 class Map;
 
-class Weapon : public IClickable, public Item {
+class Weapon : public IClickable, public IEquipable, public IUsable, public Item {
 public:
     Weapon(std::string ImagePath, glm::vec2 attack,
            float attackCD, float skillMultiplier, int flightdistance,
@@ -43,6 +48,9 @@ protected:
     int m_FlightDistance;
     int m_SkillCost;
     float m_SkillCD;
+    std::chrono::time_point<std::chrono::high_resolution_clock> Use_time;
+    std::shared_ptr<Map> m_map;
+    Util::Renderer *m_Root;
 };
 
 #endif // WEAPON_HPP

@@ -21,7 +21,7 @@ Potion::Potion(std::shared_ptr<Player> &m_Player) : Item(RESOURCE_DIR"/Potion/Hp
     }
 }
 
-void Potion::Use() {
+bool Potion::Use() {
     switch (this->type) {
         case Type::Hp:
             std::cout << m_Player->GetHP() << std::endl;
@@ -31,6 +31,7 @@ void Potion::Use() {
             m_Player->Restore_MP(50);
             break;
     }
+    return true;
 }
 
 bool Potion::IfFocus() {
