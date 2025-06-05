@@ -27,6 +27,7 @@ set(SRC_FILES
     Weapon/Dagger.cpp
     Weapon/HandAx.cpp
     Weapon/Dark.cpp
+    Weapon/Mace.cpp
 
     Monster/Monster.cpp
     Monster/Rat.cpp
@@ -85,6 +86,7 @@ set(INCLUDE_FILES
     Weapon/Dagger.hpp
     Weapon/HandAx.hpp
     Weapon/Dark.hpp
+    Weapon.Mace.hpp
 
     Monster/Monster.hpp
     Monster/Rat.hpp

@@ -5,6 +5,7 @@
 #include "Util/Time.hpp"
 #include "Character.hpp"
 #include "ICollidable.hpp"
+#include "Player.hpp"
 #include <iostream>
 
 enum class State { 
@@ -17,7 +18,8 @@ enum class ProjectileBehaviorType {
     Default,
     AxeSpin,
     HealingCircle,
-    FreeOrbiting
+    FreeOrbiting,
+    DefenseEffects
 };
 
 class Projectile : public ICollidable, public Character {
@@ -46,7 +48,7 @@ public:
         this->SetZIndex(60);
     }
 
-    void Update() {
+    void Update(std::shared_ptr<Player> &m_Player) {
         switch (m_State) {
             case State::Flying:
                 if (glm::length(m_Position - m_Start) >= m_MaxDistance) {
@@ -74,6 +76,13 @@ public:
                 if (m_StayDuration <= 0) {
                     m_State = State::Ended;
                     this->SetVisible(false);
+
+                    if (m_BehaviorType == ProjectileBehaviorType::DefenseEffects) {
+                        auto res = m_Player->GetResistance();
+                        int extra = std::min(50, (int)((m_Player->GetAttack().x + m_Player->GetAttack().y) / 4) + 20);
+                        res[4] -= extra;
+                        m_Player->SetResistance(res);
+                    }
                 }
                 break;
             case State::Ended:
@@ -117,9 +126,16 @@ public:
                 this->SetPosition(m_Position);
                 break;
             }
+            case ProjectileBehaviorType::DefenseEffects:
+                m_FrameCounter++;
+                if (m_FrameCounter >= 7) {
+                    m_FrameCounter = 0;
+                    m_ImageIndex = (m_ImageIndex + 1) % ImagePaths.size();
+                    this->SetImage(ImagePaths[m_ImageIndex]);
+                }
+                break;
             case ProjectileBehaviorType::Default:
             default:
-                // 無特殊停留技能
                 break;
         }
     }
@@ -176,6 +192,16 @@ private:
     float m_OrbitAngle = 0.0f;            // 當前角度
     float m_OrbitPhaseOffset = 0.0f;      // 每顆飛鏢角度偏移（避免三顆一起變）
     glm::vec2 m_OrbitCenter = {0.0f, 0.0f};  // 中心位置
+
+    // 針對物防棒
+    int m_FrameCounter = 0;
+    int m_ImageIndex = 0;
+    std::vector<std::string> ImagePaths = {
+        RESOURCE_DIR"/Weapon/Mace/Effects-1.png",
+        RESOURCE_DIR"/Weapon/Mace/Effects-2.png",
+        RESOURCE_DIR"/Weapon/Mace/Effects-3.png",
+        RESOURCE_DIR"/Weapon/Mace/Effects-4.png"
+    };
 };
 
 

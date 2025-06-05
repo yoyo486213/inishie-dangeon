@@ -30,6 +30,7 @@
 #include "Weapon/Dagger.hpp"
 #include "Weapon/HandAx.hpp"
 #include "Weapon/Dark.hpp"
+#include "Weapon/Mace.hpp"
 
 #include "Player.hpp"
 #include "Menus/PlayerUI.hpp"
@@ -203,6 +204,7 @@ void Map::CreateMap(Util::Renderer *m_Root) {
         if (floor >= 1) {
             list.push_back([]() { return std::make_shared<Rat>(); });
             list.push_back([]() { return std::make_shared<Snake>(); });
+            list.push_back([]() { return std::make_shared<Bat>(); });
             list.push_back([]() { return std::make_shared<Worm>(); });
         }
         if (floor >= 4) {
@@ -273,7 +275,7 @@ void Map::CreateMap(Util::Renderer *m_Root) {
                 } else {
                     // 一般樓層怪物生成
                     auto monsterList = getMonsterFactoryList(floor);
-                    if (!monsterList.empty() && chanceDist(engine) < 20) {
+                    if (!monsterList.empty() && chanceDist(engine) < 10) {
                         std::uniform_int_distribution<int> monsterDist(0, monsterList.size() - 1);
                         auto obj = monsterList[monsterDist(engine)]();
 
@@ -339,7 +341,7 @@ void Map::CreateItems(glm::vec2 pos, std::shared_ptr<Player> &m_Player, Util::Re
         AllObjects.push_back(orb);
     }
     else if (dis(gen) < 100) {
-        std::uniform_int_distribution<int> weaponDist(9, 9);
+        std::uniform_int_distribution<int> weaponDist(10, 10);
         std::shared_ptr<Weapon> weapon;
 
         switch (weaponDist(gen)) {
@@ -372,6 +374,9 @@ void Map::CreateItems(glm::vec2 pos, std::shared_ptr<Player> &m_Player, Util::Re
                 break;
             case 9:
                 weapon = std::make_shared<Dark>();
+                break;
+            case 10:
+                weapon = std::make_shared<Mace>();
                 break;
         }
 
@@ -486,10 +491,11 @@ void Map::Update(std::shared_ptr<Player> &m_Player, std::shared_ptr<PlayerUI> &m
             hunterBow->Attack(shared_from_this(), m_Player, m_Root);
         }
     }
+    
     // 判斷武器碰撞
     for (auto it = m_Projectiles.begin(); it != m_Projectiles.end(); ) {
         auto& projectile = *it;
-        projectile->Update();
+        projectile->Update(m_Player);
 
         if (!projectile->CanCollide()) { 
             ++it;

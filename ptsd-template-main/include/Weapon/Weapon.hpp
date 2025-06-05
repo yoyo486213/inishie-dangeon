@@ -32,10 +32,6 @@ public:
 
     virtual void Skill(std::shared_ptr<Map> m_map, std::shared_ptr<Player> &m_Player, Util::Renderer *m_Root) = 0;
 
-    virtual void Equip(std::shared_ptr<Player> &m_Player) = 0;
-
-    virtual void UnEquip(std::shared_ptr<Player> &m_Player) = 0;
-
     int GetSkillCost() { return m_SkillCost; }
 
     float GetSkillCD() { return m_SkillCD; }
