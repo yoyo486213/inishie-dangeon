@@ -18,9 +18,9 @@ public:
            float attackCD, float skillMultiplier, int flightdistance,
            int skillCost, float skillCD)
         : Item(ImagePath), m_Attack(attack),
-          m_AttackCD(attackCD), m_SkillMultiplier(skillMultiplier),
+          m_SkillMultiplier(skillMultiplier),
           m_FlightDistance(flightdistance), m_SkillCost(skillCost),
-          m_SkillCD(skillCD) {};
+          m_SkillCD(skillCD) { this->m_AttackCD = attackCD / 2;};
     
     virtual ~Weapon() = default;
 

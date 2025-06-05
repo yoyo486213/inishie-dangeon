@@ -322,7 +322,7 @@ void Map::CreateItems(glm::vec2 pos, std::shared_ptr<Player> &m_Player, Util::Re
         }
     }
 
-    if (dis(gen) < 0) {
+    if (dis(gen) < 10) {
         std::shared_ptr<Potion> potion = std::make_shared<Potion>(m_Player);
         potion->SetPosition(pos);
         potion->SetVisible(true);
@@ -331,7 +331,7 @@ void Map::CreateItems(glm::vec2 pos, std::shared_ptr<Player> &m_Player, Util::Re
         m_Potion.push_back(potion);
         AllObjects.push_back(potion);
     }
-    else if (dis(gen) < 0) {
+    else if (dis(gen) < 10) {
         std::shared_ptr<Orb> orb = std::make_shared<Orb>(m_Player);
         orb->SetPosition(pos);
         orb->SetVisible(true);
@@ -340,8 +340,8 @@ void Map::CreateItems(glm::vec2 pos, std::shared_ptr<Player> &m_Player, Util::Re
         m_Orbs.push_back(orb);
         AllObjects.push_back(orb);
     }
-    else if (dis(gen) < 100) {
-        std::uniform_int_distribution<int> weaponDist(10, 10);
+    else if (dis(gen) < 10) {
+        std::uniform_int_distribution<int> weaponDist(0, 10);
         std::shared_ptr<Weapon> weapon;
 
         switch (weaponDist(gen)) {
@@ -509,6 +509,7 @@ void Map::Update(std::shared_ptr<Player> &m_Player, std::shared_ptr<PlayerUI> &m
                 if (projectile->GetSkillRange() > 0) {
                     for (const auto& object2 : AllCollidableObjects) {
                         std::shared_ptr<Monster> monster = std::dynamic_pointer_cast<Monster>(object2);
+                        std::shared_ptr<DestructibleObject> destructibleobject = std::dynamic_pointer_cast<DestructibleObject>(object2);
                         if (monster && glm::distance(projectile->GetPosition(), monster->GetPosition()) <= projectile->GetSkillRange() * 28) {
                             monster->TakeDamage(Calculation::CalcuAttack(projectile->GetDamage(), m_Player->GetCriticalrate()));
                             if (monster->GetHP() >= -10000 && monster->GetHP() <= 0) {
@@ -519,9 +520,14 @@ void Map::Update(std::shared_ptr<Player> &m_Player, std::shared_ptr<PlayerUI> &m
                                 m_Monsters.erase(std::remove(m_Monsters.begin(), m_Monsters.end(), monster), m_Monsters.end());
                             }
                         }
+                        if (destructibleobject && glm::distance(projectile->GetPosition(), destructibleobject->GetPosition()) <= projectile->GetSkillRange() * 28) {
+                            destructibleobject->OnCollision();
+                            this->CreateItems(Calculation::GetRelativeCoordinates(m_UpStairs->GetPosition(), destructibleobject->GetPosition()), m_Player, m_Root);
+                        }
                     }
                 } else {
                     std::shared_ptr<Monster> monster = std::dynamic_pointer_cast<Monster>(object);
+                    std::shared_ptr<DestructibleObject> destructibleobject = std::dynamic_pointer_cast<DestructibleObject>(object);
                     if (monster) {
                         monster->TakeDamage(Calculation::CalcuAttack(projectile->GetDamage(), m_Player->GetCriticalrate()));
                         if (monster->GetHP() >= -10000 && monster->GetHP() <= 0) {
@@ -531,6 +537,10 @@ void Map::Update(std::shared_ptr<Player> &m_Player, std::shared_ptr<PlayerUI> &m
                             monster->SetHPVisible(false);
                             m_Monsters.erase(std::remove(m_Monsters.begin(), m_Monsters.end(), monster), m_Monsters.end());
                         }
+                    }
+                    if (destructibleobject) {
+                        destructibleobject->OnCollision();
+                        this->CreateItems(Calculation::GetRelativeCoordinates(m_UpStairs->GetPosition(), destructibleobject->GetPosition()), m_Player, m_Root);
                     }
                 }
 
@@ -574,6 +584,10 @@ void Map::Move(glm::vec2 displacement, std::shared_ptr<Player> &m_Player, Util::
                     m_Monsters.erase(std::remove(m_Monsters.begin(), m_Monsters.end(), monster), m_Monsters.end());
                 }
                 m_Player->SetAttackCD(m_Player->GetDefaultAttackCD());
+            }
+            std::shared_ptr<DestructibleObject> destructibleobject = std::dynamic_pointer_cast<DestructibleObject>(item);
+            if (destructibleobject) {
+                this->CreateItems(Calculation::GetRelativeCoordinates(m_UpStairs->GetPosition(), destructibleobject->GetPosition()), m_Player, m_Root);
             }
             
             m_CurrentInteracting = item;
