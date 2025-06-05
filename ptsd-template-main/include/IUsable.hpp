@@ -5,7 +5,7 @@
 
 class IUsable {
 public:
-    virtual void Use() = 0;
+    virtual bool Use() = 0; //回傳是否被消耗
 
     virtual ~IUsable() = default;
 };

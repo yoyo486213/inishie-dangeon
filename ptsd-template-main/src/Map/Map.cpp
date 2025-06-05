@@ -284,7 +284,7 @@ void Map::CreateItems(glm::vec2 pos, std::shared_ptr<Player> &m_Player, Util::Re
         std::uniform_int_distribution<int> weaponDist(0, 0);
         switch (weaponDist(gen)) {
             case 0:
-                std::shared_ptr<SortSword> weapon = std::make_shared<SortSword>();
+                std::shared_ptr<SortSword> weapon = std::make_shared<SortSword>(shared_from_this(), m_Root);
                 weapon->SetPosition(pos);
                 weapon->SetVisible(true);
                 weapon->SetZIndex(14);
@@ -372,9 +372,9 @@ void Map::Update(std::shared_ptr<Player> &m_Player, std::shared_ptr<PlayerUI> &m
     m_Player->SetAttackCD(m_Player->GetAttackCD() - Util::Time::GetDeltaTimeMs() / 1000.0f);
 
     // 實作武器技能
-    if (Util::Input::IsKeyDown(Util::Keycode::MOUSE_LB) && m_UI->IsEquip()) {
-        std::dynamic_pointer_cast<Weapon>(m_UI->GetWeapon())->Skill(shared_from_this(), m_Root);
-    }
+    // if (Util::Input::IsKeyDown(Util::Keycode::MOUSE_LB) && m_UI->IsEquip()) {
+    //     std::dynamic_pointer_cast<Weapon>(m_UI->GetWeapon())->Skill(shared_from_this(), m_Root);
+    // }
 
     for (const auto& projectile : m_Projectiles) {
         projectile->Update();

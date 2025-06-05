@@ -330,21 +330,22 @@ void PlayerUI::Update(std::shared_ptr<Player> &m_Player, Util::Renderer *m_Root)
 
     for (int i = 0; i < 4; ++i) {
         if ((Util::Input::IsKeyDown(keycodes[i]) || m_Shortcuts[i]->IfClick()) && m_ShortcutsItems[i]) {
-            if (this->SelectedSlot == -1) {
+            // if (this->SelectedSlot == -1) {
                 if (auto e = std::dynamic_pointer_cast<IEquipable>(m_ShortcutsItems[i])) {
                     e->Equip(m_Player);
                 }
                 if (auto u = std::dynamic_pointer_cast<IUsable>(m_ShortcutsItems[i])) {
-                    u->Use();
-                    m_Root->RemoveChild(m_ShortcutsItems[i]);
-                    m_ShortcutsItems[i] = nullptr;
+                    if (u->Use()) { // 只有當 Use() 回 true 時才移除
+                        m_Root->RemoveChild(m_ShortcutsItems[i]);
+                        m_ShortcutsItems[i] = nullptr;
+                    }
                 }
-            }
-            else {
-                if (auto e = std::dynamic_pointer_cast<IEquipable>(m_ShortcutsItems[i])) {
-                    e->UnEquip(m_Player);
-                }
-            }
+            // }
+            // else {
+            //     if (auto e = std::dynamic_pointer_cast<IEquipable>(m_ShortcutsItems[i])) {
+            //         e->UnEquip(m_Player);
+            //     }
+            // }
         }
     }
     
@@ -372,6 +373,15 @@ void PlayerUI::Update(std::shared_ptr<Player> &m_Player, Util::Renderer *m_Root)
         }
         else if (m_Shortcuts[i]->GetImageIndex() > 3) {
             m_Shortcuts[i]->ChangeImage(m_Shortcuts[i]->GetImageIndex() - 3);
+        }
+    }
+
+    if (Util::Input::IsKeyDown(Util::Keycode::MOUSE_LB) && m_ShortcutsItems[SelectedSlot]) {
+        if (auto u = std::dynamic_pointer_cast<IUsable>(m_ShortcutsItems[SelectedSlot])) {
+            if (u->Use()) { // 只有當 Use() 回 true 時才移除
+                m_Root->RemoveChild(m_ShortcutsItems[SelectedSlot]);
+                m_ShortcutsItems[SelectedSlot] = nullptr;
+            }
         }
     }
 }
