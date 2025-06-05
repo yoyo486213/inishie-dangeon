@@ -1,6 +1,7 @@
 #include "Menus/PlayerUI.hpp"
 #include "Util/Renderer.hpp"
 #include "Util/Input.hpp"
+#include "Util/Time.hpp"
 #include "AnimatedCharacter.hpp"
 #include "Text.hpp"
 #include "Player.hpp"
@@ -9,16 +10,21 @@
 #include "Items/Potion.hpp"
 #include "IEquipable.hpp"
 #include "IUsable.hpp"
+#include "Util/Time.hpp"
 #include "Weapon/Weapon.hpp"
 #include "App.hpp"
+#include <iostream>
 
 PlayerUI::PlayerUI(std::shared_ptr<Player> playerRef, std::shared_ptr<Text> NameRef, Util::Renderer *m_Root) : player(playerRef),m_Name(NameRef) {
+    int leftdownmove = -75;
+    
     m_Name->SetZIndex(40);
     m_Name->SetVisible(true);
+    m_Name->SetPosition({-283+m_Name->GetScaledSize().x/2 ,190+m_Name->GetScaledSize().y/2});
 
     char buffer[200];
     m_HPBox = std::make_shared<Character>(RESOURCE_DIR"/UI/HPBox.png");
-    m_HPBox->SetPosition({-133 , -188});
+    m_HPBox->SetPosition({-133 + leftdownmove, -188});
     m_HPBox->SetVisible(true);
     m_HPBox->SetZIndex(39);
     m_Root->AddChild(m_HPBox);
@@ -30,7 +36,7 @@ PlayerUI::PlayerUI(std::shared_ptr<Player> playerRef, std::shared_ptr<Text> Name
         HPImages.emplace_back(buffer);
     }
     m_HP = std::make_shared<AnimatedCharacter>(HPImages);
-    m_HP->SetPosition({-117 , -188});
+    m_HP->SetPosition({-117 + leftdownmove, -188});
     m_HP->SetVisible(true);
     m_HP->SetLooping(false);
     m_HP->SetZIndex(40);
@@ -38,7 +44,7 @@ PlayerUI::PlayerUI(std::shared_ptr<Player> playerRef, std::shared_ptr<Text> Name
 
 
     m_MPBox = std::make_shared<Character>(RESOURCE_DIR"/UI/MPBox.png");
-    m_MPBox->SetPosition({-133 , -208});
+    m_MPBox->SetPosition({-133 + leftdownmove, -208});
     m_MPBox->SetVisible(true);
     m_MPBox->SetZIndex(39);
     m_Root->AddChild(m_MPBox);
@@ -50,16 +56,32 @@ PlayerUI::PlayerUI(std::shared_ptr<Player> playerRef, std::shared_ptr<Text> Name
         MPImages.emplace_back(buffer);
     }
     m_MP = std::make_shared<AnimatedCharacter>(MPImages);
-    m_MP->SetPosition({-116 , -208});
+    m_MP->SetPosition({-116 + leftdownmove, -208});
     m_MP->SetVisible(true);
     m_MP->SetLooping(false);
     m_MP->SetZIndex(40);
     m_Root->AddChild(m_MP);
 
-    m_Name->SetPosition({-263+m_Name->GetScaledSize().x/2 ,193+m_Name->GetScaledSize().y/2});
+    m_EXPText = std::make_shared<Character>(RESOURCE_DIR"/UI/Lv.png");
+    m_EXPText->SetPosition({m_Name->GetPosition().x + m_Name->GetScaledSize().x / 2 + 20, m_Name->GetPosition().y});
+    m_EXPText->SetVisible(true);
+    m_EXPText->SetZIndex(39);
+    m_Root->AddChild(m_EXPText);
+
+    m_LevelTensDigits = std::make_shared<Text>(ExpImages[(int)(player->GetLevel() / 10)]);
+    m_LevelTensDigits->SetPosition({m_EXPText->GetPosition().x + 25, m_Name->GetPosition().y});
+    m_LevelTensDigits->SetVisible(false);
+    m_LevelTensDigits->SetZIndex(39);
+    m_Root->AddChild(m_LevelTensDigits);
+
+    m_LevelSingleDigits = std::make_shared<Text>(ExpImages[player->GetLevel() % 10]);
+    m_LevelSingleDigits->SetPosition({m_EXPText->GetPosition().x + 25, m_Name->GetPosition().y});
+    m_LevelSingleDigits->SetVisible(true);
+    m_LevelSingleDigits->SetZIndex(39);
+    m_Root->AddChild(m_LevelSingleDigits);
 
     m_EXPBox = std::make_shared<Character>(RESOURCE_DIR"/UI/XPBox.png");
-    m_EXPBox->SetPosition({m_Name->GetPosition().x + m_Name->GetScaledSize().x / 2 + m_EXPBox->GetScaledSize().x / 2 + 5, m_Name->GetPosition().y});
+    m_EXPBox->SetPosition({m_LevelSingleDigits->GetPosition().x + 60, m_Name->GetPosition().y});
     m_EXPBox->SetVisible(true);
     m_EXPBox->SetZIndex(39);
     m_Root->AddChild(m_EXPBox);
@@ -71,8 +93,7 @@ PlayerUI::PlayerUI(std::shared_ptr<Player> playerRef, std::shared_ptr<Text> Name
         EXPImages.emplace_back(buffer);
     }
     m_EXP = std::make_shared<AnimatedCharacter>(EXPImages);
-    m_EXP->SetPosition({-130 , 208});
-    m_EXP->SetCurrentFrame(74);
+    m_EXP->SetPosition({m_LevelSingleDigits->GetPosition().x + 60, m_Name->GetPosition().y});
     m_EXP->SetVisible(true);
     m_EXP->SetLooping(false);
     m_EXP->SetZIndex(40);
@@ -184,6 +205,9 @@ void PlayerUI::RejoinRander(Util::Renderer *m_Root){
     m_Root->AddChild(m_MP);
     m_Root->AddChild(m_EXPBox);
     m_Root->AddChild(m_EXP);
+    m_Root->AddChild(m_EXPText);
+    m_Root->AddChild(m_LevelTensDigits);
+    m_Root->AddChild(m_LevelSingleDigits);
     for (int i = 0; i < 4; i++) {
         m_Root->AddChild(m_Shortcuts[i]);
         m_Root->AddChild(m_ShortcutsBackGrounds[i]);
@@ -206,6 +230,11 @@ void PlayerUI::RejoinRander(Util::Renderer *m_Root){
 
 
 void PlayerUI::Update(std::shared_ptr<Player> &m_Player, Util::Renderer *m_Root) {
+    float deltaTime = Util::Time::GetDeltaTimeMs() / 1000.f; // 獲取每幀時間差
+    m_SkillCD -= deltaTime; // 減少技能冷卻時間
+    m_Player->Restore_HP(500 * deltaTime);
+    m_Player->Restore_MP(200 * deltaTime);
+
     int HPRate=float(player->GetHP())/float(player->GetMaxHP())*100;
     if (HPRate >= 1)
         m_HP->SetCurrentFrame(HPRate-1);
@@ -225,6 +254,20 @@ void PlayerUI::Update(std::shared_ptr<Player> &m_Player, Util::Renderer *m_Root)
         m_EXP->SetCurrentFrame(expRate);
     }
 
+    // 更新玩家等級顯示
+    if (m_Player->GetLevel() >= 10) {
+        m_LevelTensDigits->SetVisible(true);
+        m_LevelTensDigits->SetImage(ExpImages[(int)(m_Player->GetLevel() / 10)]);
+
+        m_LevelSingleDigits->SetImage(ExpImages[(int)(m_Player->GetLevel() % 10)]);
+        m_LevelSingleDigits->SetPosition({m_LevelTensDigits->GetPosition().x + 20, m_Name->GetPosition().y});
+        
+        m_EXP->SetPosition({m_LevelSingleDigits->GetPosition().x + 60, m_Name->GetPosition().y});
+        m_EXPBox->SetPosition({m_LevelSingleDigits->GetPosition().x + 60, m_Name->GetPosition().y});
+    }
+    else {
+        m_LevelSingleDigits->SetImage(ExpImages[m_Player->GetLevel()]);
+    }
 
     if (m_Backpack->IfClick()) {
         if (m_Backpack->GetImageIndex() == 3) {
@@ -302,12 +345,28 @@ void PlayerUI::Update(std::shared_ptr<Player> &m_Player, Util::Renderer *m_Root)
         if (m_Inventory[i]->IfClick() && m_InventoryItems[i]) {
             for (int j = 0; j < 4; j++) {
                 if (!m_ShortcutsItems[j]) {
-                    m_ShortcutsItems[j] = m_InventoryItems[i];
-                    m_ShortcutsItems[j]->SetPosition(m_Shortcuts[j]->GetPosition());
-                    m_InventoryItems[i] = nullptr;
+                    if (auto e = std::dynamic_pointer_cast<IEquipable>(m_InventoryItems[i])) {
+                        if (SelectedSlot != -1) {
+                            std::dynamic_pointer_cast<IEquipable>(m_ShortcutsItems[SelectedSlot])->UnEquip(m_Player);
+                        }
+                        e->Equip(m_Player);
+                        m_ShortcutsItems[j] = m_InventoryItems[i];
+                        m_ShortcutsItems[j]->SetPosition(m_Shortcuts[j]->GetPosition());
+                        m_InventoryItems[i] = nullptr;
+                        m_SkillCD = std::dynamic_pointer_cast<Weapon>(m_ShortcutsItems[j])->GetSkillCD();
+                        SelectedSlot = j;
+                        for (const auto& shortcut : m_Shortcuts) {
+                            shortcut->ChangeImage(1);
+                        }
+                        m_Shortcuts[j]->ChangeImage(5);
+                    }
                     break;
-                    // 進背包後要CD
                 }
+            }
+            if (auto u = std::dynamic_pointer_cast<IUsable>(m_InventoryItems[i])) {
+                u->Use();
+                m_Root->RemoveChild(m_InventoryItems[i]);
+                m_InventoryItems[i] = nullptr;
             }
         }
         else if (m_Inventory[i]->IfFocus()) {
@@ -330,39 +389,31 @@ void PlayerUI::Update(std::shared_ptr<Player> &m_Player, Util::Renderer *m_Root)
 
     for (int i = 0; i < 4; ++i) {
         if ((Util::Input::IsKeyDown(keycodes[i]) || m_Shortcuts[i]->IfClick()) && m_ShortcutsItems[i]) {
-            if (this->SelectedSlot == -1) {
-                if (auto e = std::dynamic_pointer_cast<IEquipable>(m_ShortcutsItems[i])) {
-                    e->Equip(m_Player);
+            if (auto e = std::dynamic_pointer_cast<IEquipable>(m_ShortcutsItems[i])) {
+                if (SelectedSlot != -1) {
+                    std::dynamic_pointer_cast<IEquipable>(m_ShortcutsItems[SelectedSlot])->UnEquip(m_Player);
                 }
-                if (auto u = std::dynamic_pointer_cast<IUsable>(m_ShortcutsItems[i])) {
-                    u->Use();
-                    m_Root->RemoveChild(m_ShortcutsItems[i]);
-                    m_ShortcutsItems[i] = nullptr;
-                }
-            }
-            else {
-                if (auto e = std::dynamic_pointer_cast<IEquipable>(m_ShortcutsItems[i])) {
-                    e->UnEquip(m_Player);
-                }
-            }
-        }
-    }
-    
-    for (int i = 0; i < 4; i++) {
-        if ((Util::Input::IsKeyDown(keycodes[i]) || m_Shortcuts[i]->IfClick()) && m_ShortcutsItems[i]) {
-            if (m_Shortcuts[i]->GetImageIndex() == 2 || m_Shortcuts[i]->GetImageIndex() == 5) {
-                m_Shortcuts[i]->ChangeImage(1);
-                SelectedSlot = -1;
-            }
-            else {
-                m_Shortcuts[i]->ChangeImage(5);
-                SelectedSlot = i;
-            }
+                e->Equip(m_Player);
 
-            for (int j = 0; j < 4; j++) {
-                if (j != i) {
-                    m_Shortcuts[j]->ChangeImage(1);
+                if (m_Shortcuts[i]->GetImageIndex() == 2 || m_Shortcuts[i]->GetImageIndex() == 5) {
+                    m_Shortcuts[i]->ChangeImage(1);
+                    SelectedSlot = -1;
                 }
+                else {
+                    m_Shortcuts[i]->ChangeImage(5);
+                    SelectedSlot = i;
+                }
+
+                for (int j = 0; j < 4; j++) {
+                    if (j != i) {
+                        m_Shortcuts[j]->ChangeImage(1);
+                    }
+                }
+            }
+            if (auto u = std::dynamic_pointer_cast<IUsable>(m_ShortcutsItems[i])) {
+                u->Use();
+                m_Root->RemoveChild(m_ShortcutsItems[i]);
+                m_ShortcutsItems[i] = nullptr;
             }
         }
         else if (m_Shortcuts[i]->IfFocus()) {

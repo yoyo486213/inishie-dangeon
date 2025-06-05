@@ -34,21 +34,19 @@ public:
     virtual void TakeDamage(int damage);
 
     int GetHP() const { return m_HP; }
-
     int GetMaxHP() const { return m_MaxHP; }
-
     void Restore_HP(int hp) { m_HP = hp; }
 
     int GetMP() const { return m_MP; }
-
+    int GetMaxMP() const { return m_MaxMP; }
     void Restore_MP(int mp) { m_MP = mp; }
 
-    void SetChangeImageCD(float cd) { m_ChangeImageCD = cd; }
+    int GetExp() const { return m_Exp; }
 
+    void SetChangeImageCD(float cd) { m_ChangeImageCD = cd; }
     float GetChangeImageCD() const { return m_ChangeImageCD; }
 
     void SetAttackCD(float cd) { m_AttackCD = cd; }
-
     float GetAttackCD() const { return m_AttackCD; }
 
     bool IsCollision(const std::shared_ptr<Character> &other, glm::vec2 displacement) override;
@@ -64,15 +62,12 @@ public:
     }
 
     glm::vec2 GetGoalPosition() { return this->goalpos; }
-
     void SetGoalPosition(glm::vec2 goal) { this->goalpos = goal; }
 
     glm::vec2 GetPosPosition() { return this->pos; }
-
     void SetPosPosition(glm::vec2 pos) { this->pos = pos; }
 
     std::shared_ptr<Util::GameObject> GetHPBox() { return std::static_pointer_cast<Util::GameObject>(m_HPBox); }
-    
     std::shared_ptr<Util::GameObject> GetHPBar() { return std::static_pointer_cast<Util::GameObject>(m_HPBar); }
 private:
     int m_HP;

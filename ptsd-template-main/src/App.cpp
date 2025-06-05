@@ -110,6 +110,9 @@ void App::Update() {
             }
         }
 
+        if (Util::Input::IsKeyUp(Util::Keycode::L)) {
+            m_Player->RestoreLever();
+        }
         if (Util::Input::IsKeyPressed(Util::Keycode::P)) {
             m_Player->SetAttack({1000, 1000});
         }

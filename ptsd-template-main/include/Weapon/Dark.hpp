@@ -1,13 +1,13 @@
-#ifndef SORTSWORD_HPP
-#define SORTSWORD_HPP
+#ifndef DARK_HPP
+#define DARK_HPP
 
 #include "pch.hpp"
 #include "Weapon/Weapon.hpp"
 #include "IEquipable.hpp"
 
-class SortSword : public IEquipable, public Weapon {
+class Dark : public IEquipable, public Weapon {
 public:
-    SortSword();
+    Dark();
 
     void Equip(std::shared_ptr<Player> &m_Player) override;
 
@@ -16,4 +16,4 @@ public:
     void Skill(std::shared_ptr<Map> m_map, std::shared_ptr<Player> &m_Player, Util::Renderer *m_Root) override;
 };
 
-#endif // SORTSWORD_HPP
+#endif // DARK_HPP

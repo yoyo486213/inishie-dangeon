@@ -115,7 +115,7 @@ void Mage::Update(std::shared_ptr<Player> &m_Player, std::vector<std::shared_ptr
     std::uniform_int_distribution<int> walkRate(1, 60); // 移動機率
     this->SetChangeImageCD(this->GetChangeImageCD() - Util::Time::GetDeltaTimeMs() / 1000.0f);
     this->SetAttackCD(this->GetAttackCD() - Util::Time::GetDeltaTimeMs() / 1000.0f);
-    if (this->GetHP() > 0 && m_Player->GetHP() > 0 && this->state == State::Stop && static_cast<int>(glm::distance(this->GetPosition(), m_Player->GetPosition())) <= 168 ) {
+    if (this->GetHP() > 0 && m_Player->GetHP() > 0 && this->state == State::Stop && static_cast<int>(glm::distance(this->GetPosition(), m_Player->GetPosition())) <= 168) {
         // 往旁邊走攻擊距離看有沒有碰到玩家
         if (this->GetAttackCD() <= 0) {
             std::uniform_real_distribution<double> hitrate(0, 100.0);
