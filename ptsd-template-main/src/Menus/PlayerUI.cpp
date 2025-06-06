@@ -13,9 +13,11 @@
 #include "Util/Time.hpp"
 #include "Weapon/Weapon.hpp"
 #include "App.hpp"
+#include "Map/Map.hpp"
 #include <iostream>
 
-PlayerUI::PlayerUI(std::shared_ptr<Player> playerRef, std::shared_ptr<Text> NameRef, Util::Renderer *m_Root) : player(playerRef),m_Name(NameRef) {
+PlayerUI::PlayerUI(std::shared_ptr<Map> MapRef, std::shared_ptr<Player> playerRef, std::shared_ptr<Text> NameRef, Util::Renderer *m_Root) : map(MapRef),player(playerRef),m_Name(NameRef) {
+    Click_time = std::chrono::high_resolution_clock::now();
     int leftdownmove = -75;
     
     m_Name->SetZIndex(40);
@@ -98,6 +100,11 @@ PlayerUI::PlayerUI(std::shared_ptr<Player> playerRef, std::shared_ptr<Text> Name
     m_EXP->SetLooping(false);
     m_EXP->SetZIndex(40);
     m_Root->AddChild(m_EXP);
+
+    m_SelectedBlockBox = std::make_shared<Character>(RESOURCE_DIR"/UI/SelectedBlock.png");
+    m_SelectedBlockBox->SetVisible(false);
+    m_SelectedBlockBox->SetZIndex(39);
+    m_Root->AddChild(m_SelectedBlockBox);
 
     for (int i = 0; i < 4; i++) {
         m_Shortcuts[i] = std::make_shared<Button>(
@@ -196,6 +203,44 @@ bool PlayerUI::PeekItem(std::shared_ptr<Item> item) {
     return false;
 }
 
+void PlayerUI::DropItem() {
+
+}
+
+void PlayerUI::DraggingItem() {
+    
+    if(!m_DraggingItem) {
+        for (int i = 0; i < 4; i++) {
+            if (Util::Input::IsKeyDown(Util::Keycode::MOUSE_LB) && m_Shortcuts[i]->IfFocus()) {
+                Click_time = std::chrono::high_resolution_clock::now();
+                std::cout << "Pressed " << std::endl ;
+                m_Pressing = true;
+            }
+            auto duration = (std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - Click_time));
+            if (m_Pressing) {
+                if (Util::Input::IsKeyPressed(Util::Keycode::MOUSE_LB)) {
+                    std::cout << "Pressed 2" ;
+                    auto duration = (std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - Click_time));
+                    if (duration.count() > 200) {
+                        if (auto e = std::dynamic_pointer_cast<IEquipable>(m_ShortcutsItems[i])) {
+                            e->UnEquip(player);
+                        }
+                        if (i == SelectedSlot)
+                            SelectedSlot = -1;
+                        m_DraggingItem = m_ShortcutsItems[i];
+                        m_DraggingFromSlot = i;
+                        m_ShortcutsItems[i] = nullptr;
+                        std::cout << "Hold" << std::endl;
+                        m_Pressing = false;
+                    }
+                }
+            }
+        }
+    }
+    else {
+        m_DraggingItem->SetPosition(Util::Input::GetCursorPosition());
+    }
+}
 
 void PlayerUI::RejoinRander(Util::Renderer *m_Root){
     m_Root->AddChild(m_Name);
@@ -253,6 +298,8 @@ void PlayerUI::Update(std::shared_ptr<Player> &m_Player, Util::Renderer *m_Root)
     else {
         m_EXP->SetCurrentFrame(expRate);
     }
+
+    DraggingItem();
 
     // 更新玩家等級顯示
     if (m_Player->GetLevel() >= 10) {

@@ -71,7 +71,7 @@ void App::Update() {
             m_Root.AddChild(m_Player);
 
             m_map = std::make_shared<Map>(&m_Root);
-            m_UI = std::make_shared<PlayerUI>(m_Player, m_CreateCharacterMenu->GetName(), &m_Root);
+            m_UI = std::make_shared<PlayerUI>(m_map, m_Player, m_CreateCharacterMenu->GetName(), &m_Root);
         }
     
     if(m_CreateCharacterMenu->GetState() != Menu::State::Close) {

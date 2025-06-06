@@ -426,6 +426,18 @@ void Map::CreateItems(glm::vec2 pos, std::shared_ptr<Player> &m_Player, Util::Re
     }
 }
 
+void Map::DropItems(glm::vec2 Mouse_pos, std::shared_ptr<Item> &Item) {
+    glm::vec2 pos = Calculation::GetRelativeCoordinates(m_UpStairs->GetPosition(), Mouse_pos);
+    Item->SetPosition(pos);
+    Item->SetVisible(true);
+    Item->SetZIndex(14);
+    if (auto p = std::dynamic_pointer_cast<Potion>(Item))
+        m_Potion.push_back(p);
+    else if (auto w = std::dynamic_pointer_cast<Weapon>(Item))
+        m_Weapons.push_back(w);
+    AllObjects.push_back(Item);
+}
+
 void Map::Update(std::shared_ptr<Player> &m_Player, std::shared_ptr<PlayerUI> &m_UI, Util::Renderer *m_Root) {
     if (m_CurrentInteracting) {
         m_CurrentInteracting->OnCollision();

@@ -25,6 +25,7 @@ class Weapon;
 class Player;
 class PlayerUI;
 class Monster;
+class Item;
 
 class Map : public Util::GameObject, public std::enable_shared_from_this<Map> {
 public:
@@ -33,6 +34,8 @@ public:
     void CreateMap(Util::Renderer *m_Root);
 
     void CreateItems(glm::vec2 pos, std::shared_ptr<Player> &m_Player, Util::Renderer *m_Root);
+
+    void DropItems(glm::vec2 pos, std::shared_ptr<Item> &Item);
 
     virtual ~Map() = default;
 
