@@ -316,7 +316,8 @@ void NameKeyBoard::Update() {
         }
         else {
             ToNum->ChangeImage(1);
-        }auto duration = (std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - Click_time));
+        }
+        auto duration = (std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - Click_time));
         if (duration.count() > 50) {
             if (ToNum->IfClick()) {
                 m_ButtonBGM->Play(0);
