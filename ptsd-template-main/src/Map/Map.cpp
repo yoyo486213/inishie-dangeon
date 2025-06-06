@@ -284,7 +284,7 @@ void Map::CreateItems(glm::vec2 pos, std::shared_ptr<Player> &m_Player, Util::Re
         std::uniform_int_distribution<int> weaponDist(0, 0);
         switch (weaponDist(gen)) {
             case 0:
-                std::shared_ptr<SortSword> weapon = std::make_shared<SortSword>(shared_from_this(), m_Root);
+                std::shared_ptr<SortSword> weapon = std::make_shared<SortSword>(shared_from_this(), m_Player, m_Root);
                 weapon->SetPosition(pos);
                 weapon->SetVisible(true);
                 weapon->SetZIndex(14);
@@ -362,6 +362,7 @@ void Map::Update(std::shared_ptr<Player> &m_Player, std::shared_ptr<PlayerUI> &m
         m_UI->RejoinRander(m_Root);
         m_Root->AddChild(m_Player);
         this->CreateMap(m_Root);
+        m_Player->Restore_MP(m_Player->GetMaxMP());
     }
 
     for (const auto& monster : m_Monsters) {

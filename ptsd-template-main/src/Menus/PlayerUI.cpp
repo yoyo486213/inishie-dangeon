@@ -332,7 +332,7 @@ void PlayerUI::Update(std::shared_ptr<Player> &m_Player, Util::Renderer *m_Root)
         if ((Util::Input::IsKeyDown(keycodes[i]) || m_Shortcuts[i]->IfClick()) && m_ShortcutsItems[i]) {
             // if (this->SelectedSlot == -1) {
                 if (auto e = std::dynamic_pointer_cast<IEquipable>(m_ShortcutsItems[i])) {
-                    e->Equip(m_Player);
+                    e->Equip();
                 }
                 if (auto u = std::dynamic_pointer_cast<IUsable>(m_ShortcutsItems[i])) {
                     if (u->Use()) { // 只有當 Use() 回 true 時才移除

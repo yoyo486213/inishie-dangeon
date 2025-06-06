@@ -1,4 +1,5 @@
 #include "Weapon/Weapon.hpp"
+#include "Player.hpp"
 #include "Util/Input.hpp"
 
 bool Weapon::IfFocus() {
@@ -24,7 +25,8 @@ bool Weapon::IfPressed() {
 
 bool Weapon::Use(){
     auto duration = (std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - Use_time));
-    if (duration.count() > m_SkillCD*1000 && m_) {
+    if (duration.count() > m_SkillCD*1000 && m_Player->GetMP() > m_SkillCost) {
+        m_Player->Restore_MP(-m_SkillCost);
         Use_time = std::chrono::high_resolution_clock::now();
         Skill(m_map, m_Root);
     }
