@@ -45,6 +45,7 @@ protected:
     int m_SkillCost;
     float m_SkillCD;
     std::shared_ptr<Map> m_map;
+    std::shared_ptr<Player> m_Player;
     Util::Renderer *m_Root;
 };
 

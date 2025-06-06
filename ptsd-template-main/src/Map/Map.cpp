@@ -468,6 +468,7 @@ void Map::Update(std::shared_ptr<Player> &m_Player, std::shared_ptr<PlayerUI> &m
         m_UI->RejoinRander(m_Root);
         m_Root->AddChild(m_Player);
         this->CreateMap(m_Root);
+        m_Player->Restore_MP(m_Player->GetMaxMP());
     }
     else if (m_UpStairs->IfClick()) {
         m_Root->ClearChildren();

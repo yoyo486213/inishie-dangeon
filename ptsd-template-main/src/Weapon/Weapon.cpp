@@ -1,4 +1,5 @@
 #include "Weapon/Weapon.hpp"
+#include "Player.hpp"
 #include "Util/Input.hpp"
 
 bool Weapon::IfFocus() {
