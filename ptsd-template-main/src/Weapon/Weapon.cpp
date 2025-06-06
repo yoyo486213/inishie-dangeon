@@ -22,17 +22,3 @@ bool Weapon::IfClick() {
 bool Weapon::IfPressed() {
     return Util::Input::IsKeyPressed(Util::Keycode::MOUSE_LB) && IfFocus();
 }
-
-bool Weapon::Use(){
-    auto duration = (std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - Use_time));
-    if (duration.count() > m_SkillCD*1000 && m_Player->GetMP() > m_SkillCost) {
-        m_Player->Restore_MP(-m_SkillCost);
-        Use_time = std::chrono::high_resolution_clock::now();
-        Skill(m_map, m_Root);
-    }
-    return false;
-}
-
-int Weapon::GetCooldownPercent() {
-
-}

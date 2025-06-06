@@ -18,6 +18,16 @@ set(SRC_FILES
 
     Weapon/Weapon.cpp
     Weapon/SortSword.cpp
+    Weapon/Bow.cpp
+    Weapon/Buckler.cpp
+    Weapon/FireRod.cpp
+    Weapon/IceRod.cpp
+    Weapon/HunterBow.cpp
+    Weapon/Club.cpp
+    Weapon/Dagger.cpp
+    Weapon/HandAx.cpp
+    Weapon/Dark.cpp
+    Weapon/Mace.cpp
 
     Monster/Monster.cpp
     Monster/Rat.cpp
@@ -67,6 +77,16 @@ set(INCLUDE_FILES
     Weapon/Projectile.hpp
     Weapon/Weapon.hpp
     Weapon/SortSword.hpp
+    Weapon/Bow.hpp
+    Weapon/Buckler.hpp
+    Weapon/FireRod.hpp
+    Weapon/IceRod.hpp
+    Weapon/HunterBow.hpp
+    Weapon/Club.hpp
+    Weapon/Dagger.hpp
+    Weapon/HandAx.hpp
+    Weapon/Dark.hpp
+    Weapon.Mace.hpp
 
     Monster/Monster.hpp
     Monster/Rat.hpp

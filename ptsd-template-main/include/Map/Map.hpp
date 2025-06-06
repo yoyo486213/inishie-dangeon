@@ -40,22 +40,25 @@ public:
 
     void Update(std::shared_ptr<Player> &m_Player, std::shared_ptr<PlayerUI> &m_UI, Util::Renderer *m_Root);
 
+    void AddAllObjects(const std::shared_ptr<Character> &object) {
+        AllObjects.push_back(std::dynamic_pointer_cast<Character>(object));
+    }
+
     void AddProjectile(const std::shared_ptr<Projectile> &projectile) {
         m_Projectiles.push_back(projectile);
-        AllObjects.push_back(std::dynamic_pointer_cast<Character>(projectile));
     }
 private:
     // map
     int floor = 1;
     int beforemapindex;
     std::shared_ptr<Text> m_FloorText;
-    std::shared_ptr<Text> m_FloorIndex;
+    std::shared_ptr<Text> m_FloorTensDigits;
+    std::shared_ptr<Text> m_FloorSingleDigits;
     std::vector<std::string> FloorImages = {RESOURCE_DIR"/Text/BigLetter/B.png", RESOURCE_DIR"/Text/Number/1.png",
                                             RESOURCE_DIR"/Text/Number/2.png", RESOURCE_DIR"/Text/Number/3.png",
                                             RESOURCE_DIR"/Text/Number/4.png", RESOURCE_DIR"/Text/Number/5.png", 
                                             RESOURCE_DIR"/Text/Number/6.png", RESOURCE_DIR"/Text/Number/7.png",
-                                            RESOURCE_DIR"/Text/Number/8.png", RESOURCE_DIR"/Text/Number/9.png",
-                                            RESOURCE_DIR"/Text/Number/10.png"};
+                                            RESOURCE_DIR"/Text/Number/8.png", RESOURCE_DIR"/Text/Number/9.png"};
 
     std::shared_ptr<Character> m_map;
     std::vector<std::shared_ptr<DestructibleObject>> m_DestructibleObjects;

@@ -13,9 +13,9 @@ public:
 
     bool IsCollision(const std::shared_ptr<Character> &other, glm::vec2 displacement);
 
-    void OnCollision();
+    void OnCollision() override;
 
-    void OffCollision();
+    void OffCollision() override;
 };
 
 #endif //DESTRUCTIBLEOBJECT_HPP

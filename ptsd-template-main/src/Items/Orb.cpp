@@ -39,16 +39,16 @@ bool Orb::IsCollision(const std::shared_ptr<Character> &other, glm::vec2 displac
     bool xOverlap = thisPos.x + thisSize.x > otherPos.x && otherPos.x + otherSize.x > thisPos.x;
     bool yOverlap = thisPos.y + thisSize.y > otherPos.y && otherPos.y + otherSize.y > thisPos.y;
 
-    return xOverlap && yOverlap && this->GetVisibility();
+    return xOverlap && yOverlap && this->GetVisibility() && other->GetVisibility();
 }
 
 void Orb::OnCollision(std::shared_ptr<Player> &m_Player) {
     switch (this->type) {
         case Type::Hp:
-            m_Player->Restore_HP(m_Player->GetHP() + 50);
+            m_Player->Restore_HP(m_Player->GetMaxHP() * 0.2f);
             break;
         case Type::Mp:
-            m_Player->Restore_MP(m_Player->GetMP() + 50);
+            m_Player->Restore_MP(m_Player->GetMaxMP() * 0.2f);
             break;
     }
 }
