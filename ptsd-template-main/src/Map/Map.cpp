@@ -96,14 +96,22 @@ void Map::CreateMap(Util::Renderer *m_Root) {
     // Monster
     std::random_device rd;
     std::mt19937 engine(rd());
-    std::uniform_int_distribution<int> mapindex(1, 1);
+    std::uniform_int_distribution<int> mapindex(1, 10);
     int index = mapindex(engine);
     while (index == beforemapindex) {
         index = mapindex(engine);
     }
     beforemapindex = index;
 
-    std::ifstream file(std::string(RESOURCE_DIR) + "/Map/TiledProject/Area2_" + std::to_string(index) + ".json");
+    if (floor < 5) {
+        std::ifstream file(std::string(RESOURCE_DIR) + "/Map/TiledProject/Area1_" + std::to_string(index) + ".json");
+    }
+    else if (floor < 10) {
+        std::ifstream file(std::string(RESOURCE_DIR) + "/Map/TiledProject/Area2_" + std::to_string(index) + ".json");
+    }
+    else {
+        std::ifstream file(std::string(RESOURCE_DIR) + "/Map/TiledProject/AreaBoss.json");
+    }
     nlohmann::json mapData;
     file >> mapData;
 
@@ -116,7 +124,16 @@ void Map::CreateMap(Util::Renderer *m_Root) {
     float respawnpointX = mapData["layers"][4]["objects"][0]["x"].get<float>() - centerX;
     float respawnpointY = -(mapData["layers"][4]["objects"][0]["y"].get<float>() - centerY);
 
-    m_map = std::make_shared<Character>(std::string(RESOURCE_DIR) + "/Map/TiledProject/Area2_" + std::to_string(index) + ".png");
+    if (floor < 5) {
+        m_map = std::make_shared<Character>(std::string(RESOURCE_DIR) + "/Map/TiledProject/Area1_" + std::to_string(index) + ".png");
+    }
+    else if (floor < 10) {
+        m_map = std::make_shared<Character>(std::string(RESOURCE_DIR) + "/Map/TiledProject/Area2_" + std::to_string(index) + ".png");
+    }
+    else {
+        m_map = std::make_shared<Character>(std::string(RESOURCE_DIR) + "/Map/TiledProject/AreaBoss.png");
+    }
+    
     m_map->SetZIndex(10);
     m_map->SetPosition({-respawnpointX - 14, -respawnpointY + 14});
     m_map->SetVisible(true);
@@ -181,6 +198,10 @@ void Map::CreateMap(Util::Renderer *m_Root) {
             m_DownStairs = std::dynamic_pointer_cast<DownStairs>(obj);
             AllObjects.push_back(std::dynamic_pointer_cast<DownStairs>(obj));
         }
+        else if (object["name"].get<std::string>() == "Railing") {
+            obj = std::make_shared<Character>(RESOURCE_DIR"/Map/TiledProject/Area1_Resources/" + object["name"].get<std::string>() + ".png");
+            AllObjects.push_back(obj);
+        }
         else {
             obj = std::make_shared<DestructibleObject>(RESOURCE_DIR"/Map/TiledProject/Area1_Resources/" + object["name"].get<std::string>() + ".png");
             m_DestructibleObjects.push_back(std::dynamic_pointer_cast<DestructibleObject>(obj));
@@ -223,9 +244,9 @@ void Map::CreateMap(Util::Renderer *m_Root) {
     };
 
     // 掃地圖生成怪物
-    for (int y = 0; y < 36; y++) {
-        for (int x = 0; x < 36; x++) {
-            if (mapData["layers"][0]["data"][y * 36 + x] == 7) {
+    for (int y = 0; y < mapData["height"].get<int>(); y++) {
+        for (int x = 0; x < mapData["height"].get<int>(); x++) {
+            if (mapData["layers"][0]["data"][y * mapData["height"].get<int>() + x] == 7) {
                 glm::vec2 pos = { x * 28 - centerX - respawnpointX, -(y * 28 - centerY) - respawnpointY };
 
                 for (const auto& destructibleobject : m_DestructibleObjects) {
@@ -252,27 +273,30 @@ void Map::CreateMap(Util::Renderer *m_Root) {
 
                 // 第 10 層為 BOSS 房間
                 if (floor == 10) {
-                    // if (mapData["layers"][1]["data"][y * 36 + x] == BOSS_SPAWN_TILE) {
-                    //     auto boss = std::make_shared<Boss>();
-                    //     m_Root->AddChild(boss);
-                    //     m_Root->AddChild(boss->GetHPBox());
-                    //     m_Root->AddChild(boss->GetHPBar());
-                    //     boss->SetPosition(pos);
-                    //     boss->SetVisible(true);
-                    //     boss->SetZIndex(15);
-                    //     m_Monsters.push_back(boss);
-                    //     AllCollidableObjects.push_back(boss);
-                    // } else if (chanceDist(engine) < 20) {
-                    //     auto rat = std::make_shared<Rat>();
-                    //     m_Root->AddChild(rat);
-                    //     m_Root->AddChild(rat->GetHPBox());
-                    //     m_Root->AddChild(rat->GetHPBar());
-                    //     rat->SetPosition(pos);
-                    //     rat->SetVisible(true);
-                    //     rat->SetZIndex(15);
-                    //     m_Monsters.push_back(rat);
-                    //     AllCollidableObjects.push_back(rat);
-                    // }
+                    auto boss = std::make_shared<Ghoul>();
+
+                    m_Root->AddChild(boss);
+                    m_Root->AddChild(boss->GetHPBox());
+                    m_Root->AddChild(boss->GetHPBar());
+                    boss->SetPosition({-280, 280});
+                    boss->SetVisible(true);
+                    boss->SetZIndex(15);
+
+                    m_Monsters.push_back(boss);
+                    AllCollidableObjects.push_back(boss);
+                    if (chanceDist(engine) < 20) {
+                        auto rat = std::make_shared<Rat>();
+
+                        m_Root->AddChild(rat);
+                        m_Root->AddChild(rat->GetHPBox());
+                        m_Root->AddChild(rat->GetHPBar());
+                        rat->SetPosition(pos);
+                        rat->SetVisible(true);
+                        rat->SetZIndex(15);
+
+                        m_Monsters.push_back(rat);
+                        AllCollidableObjects.push_back(rat);
+                    }
                 } else {
                     // 一般樓層怪物生成
                     auto monsterList = getMonsterFactoryList(floor);
@@ -294,18 +318,6 @@ void Map::CreateMap(Util::Renderer *m_Root) {
             }
         }
     }
-
-    // std::shared_ptr<Ghoul> obj = std::make_shared<Ghoul>();
-
-    // m_Root->AddChild(obj);
-    // m_Root->AddChild(obj->GetHPBox());
-    // m_Root->AddChild(obj->GetHPBar());
-    // obj->SetPosition({-134, -14});
-    // obj->SetVisible(true);d
-    // obj->SetZIndex(15);
-
-    // m_Monsters.push_back(obj);
-    // AllCollidableObjects.push_back(obj);
 
     for (const auto& monster : m_Monsters) {
         monster->SetGoalPosition(monster->GetPosition());

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="36" height="36" tilewidth="28" tileheight="28" infinite="0" nextlayerid="8" nextobjectid="135">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="36" height="36" tilewidth="28" tileheight="28" infinite="0" nextlayerid="8" nextobjectid="136">
  <editorsettings>
   <export target="Area1_10.json" format="json"/>
  </editorsettings>
@@ -182,7 +182,7 @@
   <object id="132" x="504" y="616" width="28" height="56"/>
  </objectgroup>
  <objectgroup id="6" name="Respawnpoint">
-  <object id="133" x="392" y="308">
+  <object id="135" x="532" y="392">
    <point/>
   </object>
  </objectgroup>
