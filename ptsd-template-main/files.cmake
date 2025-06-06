@@ -38,6 +38,7 @@ set(SRC_FILES
     Monster/Zombie.cpp
     Monster/Skeleton.cpp
     Monster/Mage.cpp
+    Monster/Ghoul.cpp
 
     Player.cpp
 
@@ -97,6 +98,7 @@ set(INCLUDE_FILES
     Monster/Zombie.hpp
     Monster/Skeleton.hpp
     Monster/Mage.hpp
+    Monster/Ghoul.hpp
 
     Player.hpp
 

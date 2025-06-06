@@ -44,6 +44,7 @@
 #include "Monster/Zombie.hpp"
 #include "Monster/Skeleton.hpp"
 #include "Monster/Mage.hpp"
+#include "Monster/Ghoul.hpp"
 
 #include "nlohmann/json.hpp"
 #include <iostream>
@@ -95,14 +96,14 @@ void Map::CreateMap(Util::Renderer *m_Root) {
     // Monster
     std::random_device rd;
     std::mt19937 engine(rd());
-    std::uniform_int_distribution<int> mapindex(1, 9);
+    std::uniform_int_distribution<int> mapindex(1, 1);
     int index = mapindex(engine);
     while (index == beforemapindex) {
         index = mapindex(engine);
     }
     beforemapindex = index;
 
-    std::ifstream file(std::string(RESOURCE_DIR) + "/Map/TiledProject/Area1_" + std::to_string(index) + ".json");
+    std::ifstream file(std::string(RESOURCE_DIR) + "/Map/TiledProject/Area2_" + std::to_string(index) + ".json");
     nlohmann::json mapData;
     file >> mapData;
 
@@ -115,7 +116,7 @@ void Map::CreateMap(Util::Renderer *m_Root) {
     float respawnpointX = mapData["layers"][4]["objects"][0]["x"].get<float>() - centerX;
     float respawnpointY = -(mapData["layers"][4]["objects"][0]["y"].get<float>() - centerY);
 
-    m_map = std::make_shared<Character>(std::string(RESOURCE_DIR) + "/Map/TiledProject/Area1_" + std::to_string(index) + ".png");
+    m_map = std::make_shared<Character>(std::string(RESOURCE_DIR) + "/Map/TiledProject/Area2_" + std::to_string(index) + ".png");
     m_map->SetZIndex(10);
     m_map->SetPosition({-respawnpointX - 14, -respawnpointY + 14});
     m_map->SetVisible(true);
@@ -158,7 +159,7 @@ void Map::CreateMap(Util::Renderer *m_Root) {
 
         // 創建物件並設置屬性
         std::shared_ptr<Character> obj;
-        if (object["name"].get<std::string>() == "Door") {
+        if (object["name"].get<std::string>() == "Door" || object["name"].get<std::string>() == "IronDoor" || object["name"].get<std::string>() == "IronDoor2") {
             obj = std::make_shared<Door>(RESOURCE_DIR"/Map/TiledProject/Area1_Resources/" + object["name"].get<std::string>() + ".png", m_Unexploreds);
             m_Doors.push_back(std::dynamic_pointer_cast<Door>(obj));
             AllObjects.push_back(std::dynamic_pointer_cast<Door>(obj));
@@ -293,6 +294,18 @@ void Map::CreateMap(Util::Renderer *m_Root) {
             }
         }
     }
+
+    // std::shared_ptr<Ghoul> obj = std::make_shared<Ghoul>();
+
+    // m_Root->AddChild(obj);
+    // m_Root->AddChild(obj->GetHPBox());
+    // m_Root->AddChild(obj->GetHPBar());
+    // obj->SetPosition({-134, -14});
+    // obj->SetVisible(true);d
+    // obj->SetZIndex(15);
+
+    // m_Monsters.push_back(obj);
+    // AllCollidableObjects.push_back(obj);
 
     for (const auto& monster : m_Monsters) {
         monster->SetGoalPosition(monster->GetPosition());
@@ -521,7 +534,7 @@ void Map::Update(std::shared_ptr<Player> &m_Player, std::shared_ptr<PlayerUI> &m
                             }
                         }
                         if (destructibleobject && glm::distance(projectile->GetPosition(), destructibleobject->GetPosition()) <= projectile->GetSkillRange() * 28) {
-                            destructibleobject->OnCollision();
+                            destructibleobject->SetVisible(false);
                             this->CreateItems(Calculation::GetRelativeCoordinates(m_UpStairs->GetPosition(), destructibleobject->GetPosition()), m_Player, m_Root);
                         }
                     }
@@ -539,7 +552,7 @@ void Map::Update(std::shared_ptr<Player> &m_Player, std::shared_ptr<PlayerUI> &m
                         }
                     }
                     if (destructibleobject) {
-                        destructibleobject->OnCollision();
+                        destructibleobject->SetVisible(false);
                         this->CreateItems(Calculation::GetRelativeCoordinates(m_UpStairs->GetPosition(), destructibleobject->GetPosition()), m_Player, m_Root);
                     }
                 }
@@ -587,6 +600,7 @@ void Map::Move(glm::vec2 displacement, std::shared_ptr<Player> &m_Player, Util::
             }
             std::shared_ptr<DestructibleObject> destructibleobject = std::dynamic_pointer_cast<DestructibleObject>(item);
             if (destructibleobject) {
+                destructibleobject->SetVisible(false);
                 this->CreateItems(Calculation::GetRelativeCoordinates(m_UpStairs->GetPosition(), destructibleobject->GetPosition()), m_Player, m_Root);
             }
             

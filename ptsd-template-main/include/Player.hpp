@@ -111,7 +111,7 @@ private:
     int m_MaxHP = m_HP;
     int m_MP = 20;
     int m_MaxMP = m_MP;
-    glm::vec2 m_Attack = {1, 4};
+    glm::vec2 m_Attack = {10, 40};
     int m_Defense = 0;
     int m_Hitrate = 100;
     int m_Dodgerate = 0;

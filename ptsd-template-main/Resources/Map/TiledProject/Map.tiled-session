@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "Area1_5.tmx",
+    "activeFile": "Resource.tsx",
     "expandedProjectPaths": [
         "."
     ],
@@ -107,30 +107,44 @@
         },
         "Area1_1.tmx": {
             "expandedObjectLayers": [
-                8,
+                9,
                 7,
-                3,
-                9
+                8,
+                3
             ],
             "scale": 1,
             "selectedLayer": 3,
             "viewCenter": {
-                "x": 393,
-                "y": 527.5
+                "x": 504,
+                "y": 503.5
+            }
+        },
+        "Area1_10.tmx": {
+            "expandedObjectLayers": [
+                2,
+                5,
+                6,
+                3
+            ],
+            "scale": 1.5,
+            "selectedLayer": 4,
+            "viewCenter": {
+                "x": 490.3333333333333,
+                "y": 546.3333333333333
             }
         },
         "Area1_2.tmx": {
             "expandedObjectLayers": [
-                5,
-                4,
                 2,
+                4,
+                5,
                 3
             ],
             "scale": 0.75,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 457.33333333333337,
-                "y": 327.3333333333333
+                "x": 504,
+                "y": 504.66666666666663
             }
         },
         "Area1_3.json": {
@@ -160,72 +174,81 @@
         },
         "Area1_4.tmx": {
             "expandedObjectLayers": [
-                4,
                 2,
+                4,
                 3
             ],
             "scale": 1.5,
             "selectedLayer": 3,
             "viewCenter": {
-                "x": 551.3333333333333,
-                "y": 513.6666666666667
+                "x": 504,
+                "y": 504.3333333333333
             }
         },
         "Area1_5.tmx": {
             "expandedObjectLayers": [
-                5,
-                4,
                 2,
+                4,
+                5,
                 3
             ],
-            "scale": 3,
+            "scale": 0.75,
             "selectedLayer": 3,
             "viewCenter": {
-                "x": 490.16666666666663,
-                "y": 546.1666666666666
+                "x": 445.9999999999999,
+                "y": 796.6666666666666
             }
         },
         "Area1_6.tmx": {
             "scale": 2,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 557,
-                "y": 290.75
+                "x": 504,
+                "y": 504.25
             }
         },
         "Area1_7.tmx": {
             "scale": 0.8614087301587301,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 503.8258666359554,
-                "y": 504.4063111827709
+                "x": 503.8258666359553,
+                "y": 504.40631118277093
             }
         },
         "Area1_8.tmx": {
             "scale": 1,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 496,
-                "y": 720.5
+                "x": 504,
+                "y": 504.5
             }
         },
         "Area1_9.tmx": {
             "scale": 0.8614087301587301,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 503.8258666359554,
+                "x": 503.24542208913977,
                 "y": 504.4063111827709
+            }
+        },
+        "Area2_1.tmx": {
+            "scale": 0.75,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 626.6666666666666,
+                "y": 706
             }
         },
         "Resource.tsx": {
             "dynamicWrapping": false,
             "scaleInDock": 1.5,
-            "scaleInEditor": 1
+            "scaleInEditor": 3
         }
     },
     "last.exportedFilePath": "C:/Users/yoyo/Desktop/Project/inishie-dangeon/ptsd-template-main/Resources/Map/TiledProject",
+    "last.imagePath": "C:/Users/yoyo/Desktop/Project/inishie-dangeon/ptsd-template-main/Resources/Map/TiledProject/Area1_Resources",
     "map.height": 36,
-    "map.lastUsedExportFilter": "全部檔案 (*)",
+    "map.lastUsedExportFilter": "JSON map files (*.tmj *.json)",
     "map.lastUsedFormat": "tmx",
     "map.tileHeight": 28,
     "map.tileWidth": 28,
@@ -238,21 +261,24 @@
         "Area1_6.tmx",
         "Area1_7.tmx",
         "Area1_8.tmx",
-        "Area1_9.tmx"
+        "Area1_9.tmx",
+        "Area1_10.tmx",
+        "Area2_1.tmx",
+        "Resource.tsx"
     ],
     "project": "Map.tiled-project",
     "recentFiles": [
         "Area1_1.tmx",
         "Area1_2.tmx",
         "Area1_4.tmx",
-        "Area1_9.tmx",
-        "Area1_8.tmx",
-        "Area1_7.tmx",
-        "Area1_6.tmx",
         "Area1_5.tmx",
+        "Area1_6.tmx",
+        "Area1_7.tmx",
+        "Area1_8.tmx",
+        "Area1_9.tmx",
+        "Area1_10.tmx",
+        "Area2_1.tmx",
         "Resource.tsx",
-        "Area1-9.tmx",
-        "Area1-8.tmx",
-        "Area1-7.tmx"
+        "Area1-9.tmx"
     ]
 }

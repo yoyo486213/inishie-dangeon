@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tileset version="1.10" tiledversion="1.11.2" name="Resource" tilewidth="28" tileheight="28" tilecount="15" columns="0">
+<tileset version="1.10" tiledversion="1.11.2" name="Resource" tilewidth="28" tileheight="28" tilecount="24" columns="0">
  <grid orientation="orthogonal" width="1" height="1"/>
  <tile id="0">
   <image source="Area1_Resources/BigWall_LU.png" width="28" height="28"/>
@@ -45,5 +45,32 @@
  </tile>
  <tile id="14">
   <image source="Area1_Resources/Door.png" width="28" height="28"/>
+ </tile>
+ <tile id="15">
+  <image source="Area1_Resources/Brick.png" width="28" height="28"/>
+ </tile>
+ <tile id="16" probability="0.07">
+  <image source="Area1_Resources/SpecialBrick.png" width="28" height="28"/>
+ </tile>
+ <tile id="17">
+  <image source="Area1_Resources/DarkWall.png" width="28" height="28"/>
+ </tile>
+ <tile id="18">
+  <image source="Area1_Resources/IronDoor.png" width="28" height="28"/>
+ </tile>
+ <tile id="24">
+  <image source="Area1_Resources/IronDoor2.png" width="28" height="28"/>
+ </tile>
+ <tile id="26">
+  <image source="Area1_Resources/Railing.png" width="28" height="28"/>
+ </tile>
+ <tile id="21">
+  <image source="Area1_Resources/BossDoor-L.png" width="28" height="28"/>
+ </tile>
+ <tile id="22">
+  <image source="Area1_Resources/BossDoor-M.png" width="28" height="28"/>
+ </tile>
+ <tile id="23">
+  <image source="Area1_Resources/BossDoor-R.png" width="28" height="28"/>
  </tile>
 </tileset>
