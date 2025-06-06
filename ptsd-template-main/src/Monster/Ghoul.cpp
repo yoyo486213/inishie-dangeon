@@ -57,48 +57,12 @@ void Ghoul::Move(glm::vec2 displacement, glm::vec2 goal, std::vector<std::shared
                 this->ChangeImage(0);
                 this->m_ImageIndex = 0;
             }
-            else if (m_ImageIndex == 2) {
-                this->ChangeImage(3);
-                this->m_ImageIndex = 3;
-            }
-            else if (m_ImageIndex == 3) {
-                this->ChangeImage(2);
-                this->m_ImageIndex = 2;
-            }
-        }
-        else if (displacement == glm::vec2{0, -1}) {
-            if (m_ImageIndex == 0) { 
-                this->ChangeImage(1);
-                this->m_ImageIndex = 1;
-            }
-            else if (m_ImageIndex == 1) {
-                this->ChangeImage(0);
-                this->m_ImageIndex = 0;
-            }
-            else if (m_ImageIndex == 2) {
-                this->ChangeImage(3);
-                this->m_ImageIndex = 3;
-            }
-            else if (m_ImageIndex == 3) {
-                this->ChangeImage(2);
-                this->m_ImageIndex = 2;
-            }
-        }
-        else if (displacement == glm::vec2{-1, 0}) {
-            if (m_ImageIndex == 0) { 
-                this->ChangeImage(1);
-                this->m_ImageIndex = 1;
-            }
-            else if (m_ImageIndex == 1) {
-                this->ChangeImage(0);
-                this->m_ImageIndex = 0;
-            }
             else {
                 this->ChangeImage(0);
                 this->m_ImageIndex = 0;
             }
         }
-        else if (displacement == glm::vec2{1, 0}) {
+        else if (displacement == glm::vec2{0, -1}) {
             if (m_ImageIndex == 2) { 
                 this->ChangeImage(3);
                 this->m_ImageIndex = 3;
@@ -110,6 +74,34 @@ void Ghoul::Move(glm::vec2 displacement, glm::vec2 goal, std::vector<std::shared
             else {
                 this->ChangeImage(2);
                 this->m_ImageIndex = 2;
+            }
+        }
+        else if (displacement == glm::vec2{-1, 0} || displacement == glm::vec2{-1, 1} || displacement == glm::vec2{-1, -1}) {
+            if (m_ImageIndex == 4) { 
+                this->ChangeImage(5);
+                this->m_ImageIndex = 5;
+            }
+            else if (m_ImageIndex == 5) {
+                this->ChangeImage(4);
+                this->m_ImageIndex = 4;
+            }
+            else {
+                this->ChangeImage(4);
+                this->m_ImageIndex = 4;
+            }
+        }
+        else if (displacement == glm::vec2{1, 0} || displacement == glm::vec2{1, 1} || displacement == glm::vec2{1, -1}) {
+            if (m_ImageIndex == 6) { 
+                this->ChangeImage(7);
+                this->m_ImageIndex = 7;
+            }
+            else if (m_ImageIndex == 7) {
+                this->ChangeImage(6);
+                this->m_ImageIndex = 6;
+            }
+            else {
+                this->ChangeImage(6);
+                this->m_ImageIndex = 6;
             }
         }
     }
