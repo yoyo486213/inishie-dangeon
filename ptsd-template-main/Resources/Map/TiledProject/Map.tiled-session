@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "Resource.tsx",
+    "activeFile": "Area2_10.tmx",
     "expandedProjectPaths": [
         "."
     ],
@@ -107,43 +107,43 @@
         },
         "Area1_1.tmx": {
             "expandedObjectLayers": [
-                9,
-                7,
                 8,
+                7,
+                9,
                 3
             ],
             "scale": 1,
             "selectedLayer": 3,
             "viewCenter": {
-                "x": 504,
+                "x": 503.5,
                 "y": 503.5
             }
         },
         "Area1_10.tmx": {
             "expandedObjectLayers": [
-                2,
+                3,
                 5,
-                6,
-                3
+                2,
+                6
             ],
             "scale": 1.5,
             "selectedLayer": 4,
             "viewCenter": {
-                "x": 490.3333333333333,
-                "y": 546.3333333333333
+                "x": 391.6666666666667,
+                "y": 308.3333333333333
             }
         },
         "Area1_2.tmx": {
             "expandedObjectLayers": [
-                2,
+                3,
                 4,
                 5,
-                3
+                2
             ],
             "scale": 0.75,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 504,
+                "x": 503.33333333333337,
                 "y": 504.66666666666663
             }
         },
@@ -174,36 +174,36 @@
         },
         "Area1_4.tmx": {
             "expandedObjectLayers": [
-                2,
+                3,
                 4,
-                3
+                2
             ],
             "scale": 1.5,
             "selectedLayer": 3,
             "viewCenter": {
-                "x": 504,
+                "x": 504.33333333333326,
                 "y": 504.3333333333333
             }
         },
         "Area1_5.tmx": {
             "expandedObjectLayers": [
-                2,
+                3,
                 4,
                 5,
-                3
+                2
             ],
-            "scale": 0.75,
+            "scale": 1.5,
             "selectedLayer": 3,
             "viewCenter": {
-                "x": 445.9999999999999,
-                "y": 796.6666666666666
+                "x": 419,
+                "y": 471.6666666666667
             }
         },
         "Area1_6.tmx": {
             "scale": 2,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 504,
+                "x": 504.25,
                 "y": 504.25
             }
         },
@@ -211,16 +211,16 @@
             "scale": 0.8614087301587301,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 503.8258666359553,
-                "y": 504.40631118277093
+                "x": 503.24542208913977,
+                "y": 504.4063111827709
             }
         },
         "Area1_8.tmx": {
-            "scale": 1,
+            "scale": 2,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 504,
-                "y": 504.5
+                "x": 471.75,
+                "y": 480.75
             }
         },
         "Area1_9.tmx": {
@@ -232,11 +232,147 @@
             }
         },
         "Area2_1.tmx": {
-            "scale": 0.75,
-            "selectedLayer": 0,
+            "expandedObjectLayers": [
+                3
+            ],
+            "scale": 1.5,
+            "selectedLayer": 2,
             "viewCenter": {
-                "x": 626.6666666666666,
-                "y": 706
+                "x": 546.3333333333333,
+                "y": 662.3333333333333
+            }
+        },
+        "Area2_10.tmx": {
+            "scale": 1,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 826.5,
+                "y": 433.5
+            }
+        },
+        "Area2_2.tmx": {
+            "expandedObjectLayers": [
+                4,
+                5,
+                2,
+                6
+            ],
+            "scale": 1,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 770.5,
+                "y": 714.5
+            }
+        },
+        "Area2_3.tmx": {
+            "expandedObjectLayers": [
+                3,
+                4,
+                5,
+                2
+            ],
+            "scale": 1,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 461.5,
+                "y": 405.5
+            }
+        },
+        "Area2_4.tmx": {
+            "expandedObjectLayers": [
+                3,
+                4,
+                5,
+                2
+            ],
+            "scale": 1,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 882.5,
+                "y": 349.5
+            }
+        },
+        "Area2_5.tmx": {
+            "expandedObjectLayers": [
+                3,
+                4,
+                5,
+                2
+            ],
+            "scale": 1,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 461.5,
+                "y": 666.5
+            }
+        },
+        "Area2_6.tmx": {
+            "expandedObjectLayers": [
+                4,
+                5,
+                2,
+                6
+            ],
+            "scale": 1,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 630.5,
+                "y": 630.5
+            }
+        },
+        "Area2_7.tmx": {
+            "expandedObjectLayers": [
+                4,
+                5,
+                2
+            ],
+            "scale": 1,
+            "selectedLayer": 4,
+            "viewCenter": {
+                "x": 436.5,
+                "y": 544.5
+            }
+        },
+        "Area2_8.tmx": {
+            "expandedObjectLayers": [
+                3,
+                4,
+                5,
+                2
+            ],
+            "scale": 1,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 573.5,
+                "y": 641.5
+            }
+        },
+        "Area2_9.tmx": {
+            "expandedObjectLayers": [
+                3,
+                4,
+                5,
+                2
+            ],
+            "scale": 1,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 545.5,
+                "y": 321.5
+            }
+        },
+        "AreaBoss.tmx": {
+            "expandedObjectLayers": [
+                3,
+                4,
+                5,
+                2
+            ],
+            "scale": 1,
+            "selectedLayer": 4,
+            "viewCenter": {
+                "x": 423.5,
+                "y": 544.5
             }
         },
         "Resource.tsx": {
@@ -247,38 +383,39 @@
     },
     "last.exportedFilePath": "C:/Users/yoyo/Desktop/Project/inishie-dangeon/ptsd-template-main/Resources/Map/TiledProject",
     "last.imagePath": "C:/Users/yoyo/Desktop/Project/inishie-dangeon/ptsd-template-main/Resources/Map/TiledProject/Area1_Resources",
-    "map.height": 36,
+    "map.height": 42,
     "map.lastUsedExportFilter": "JSON map files (*.tmj *.json)",
     "map.lastUsedFormat": "tmx",
     "map.tileHeight": 28,
     "map.tileWidth": 28,
-    "map.width": 36,
+    "map.width": 42,
     "openFiles": [
-        "Area1_1.tmx",
-        "Area1_2.tmx",
-        "Area1_4.tmx",
-        "Area1_5.tmx",
-        "Area1_6.tmx",
-        "Area1_7.tmx",
-        "Area1_8.tmx",
-        "Area1_9.tmx",
-        "Area1_10.tmx",
+        "Resource.tsx",
         "Area2_1.tmx",
-        "Resource.tsx"
+        "Area2_2.tmx",
+        "Area2_3.tmx",
+        "Area2_4.tmx",
+        "Area2_5.tmx",
+        "Area2_6.tmx",
+        "Area2_7.tmx",
+        "Area2_8.tmx",
+        "Area2_9.tmx",
+        "Area2_10.tmx",
+        "AreaBoss.tmx"
     ],
     "project": "Map.tiled-project",
     "recentFiles": [
-        "Area1_1.tmx",
-        "Area1_2.tmx",
-        "Area1_4.tmx",
-        "Area1_5.tmx",
-        "Area1_6.tmx",
-        "Area1_7.tmx",
-        "Area1_8.tmx",
-        "Area1_9.tmx",
-        "Area1_10.tmx",
-        "Area2_1.tmx",
         "Resource.tsx",
-        "Area1-9.tmx"
+        "Area2_1.tmx",
+        "Area2_2.tmx",
+        "Area2_3.tmx",
+        "Area2_4.tmx",
+        "Area2_5.tmx",
+        "Area2_6.tmx",
+        "Area2_7.tmx",
+        "Area2_8.tmx",
+        "Area2_9.tmx",
+        "AreaBoss.tmx",
+        "Area2_10.tmx"
     ]
 }

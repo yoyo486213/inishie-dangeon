@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="42" height="42" tilewidth="28" tileheight="28" infinite="0" nextlayerid="6" nextobjectid="245">
+ <editorsettings>
+  <export target="Area2_4.json" format="json"/>
+ </editorsettings>
+ <tileset firstgid="1" source="Resource.tsx"/>
+ <layer id="1" name="Map" width="42" height="42">
+  <data encoding="csv">
+16,16,17,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,17,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,
+16,16,16,16,16,16,16,16,16,16,16,16,16,17,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,17,16,16,16,16,16,16,16,16,16,16,16,16,
+16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,17,16,16,16,16,
+16,16,16,16,16,16,16,16,16,16,16,16,16,16,17,16,16,17,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,17,16,16,16,16,17,16,
+16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,17,16,16,16,16,16,
+16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,17,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,
+16,16,17,16,16,17,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,
+16,16,16,16,16,16,16,16,16,17,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,17,17,
+16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,
+16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,17,16,16,16,16,16,16,16,16,
+16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,17,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,
+16,16,16,16,16,16,16,16,16,16,16,17,7,7,7,7,7,7,16,7,7,7,7,7,7,16,7,7,7,7,7,7,16,17,16,16,16,16,16,16,16,16,
+16,16,16,16,16,16,16,16,16,16,16,16,7,7,7,7,7,7,16,7,7,7,7,7,7,16,7,7,7,7,7,7,16,16,17,16,16,16,16,16,16,16,
+16,16,16,16,16,16,16,17,16,16,16,16,7,7,7,7,7,7,16,7,7,7,7,7,7,16,7,7,7,7,7,7,16,16,16,16,16,16,16,16,16,16,
+16,17,17,16,16,16,16,16,16,16,16,16,7,7,7,7,7,7,16,7,7,7,7,7,7,16,7,7,7,7,7,7,16,16,16,16,16,16,16,16,16,16,
+16,16,16,16,16,16,16,16,16,16,16,16,7,7,7,7,7,7,16,27,27,27,7,27,27,16,27,27,7,27,27,27,16,16,17,16,17,16,16,16,16,16,
+16,16,16,16,16,16,16,16,16,17,16,16,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,16,16,16,16,16,16,16,16,16,16,
+17,16,16,17,16,17,16,16,16,16,16,16,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,16,16,16,16,16,16,16,16,16,16,
+16,16,16,16,16,16,16,16,17,17,17,16,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,16,16,16,16,16,16,16,16,16,16,
+16,16,16,17,16,16,17,16,16,16,17,16,16,16,7,16,16,16,17,16,16,16,16,16,16,17,16,16,16,7,16,16,16,16,16,16,16,16,16,16,16,16,
+16,16,16,16,16,16,16,17,16,16,16,16,7,7,7,7,16,7,7,7,27,7,7,7,7,7,7,16,7,7,7,7,16,17,16,16,16,16,17,16,16,16,
+16,16,16,16,16,16,16,16,16,16,16,16,7,7,7,7,16,7,7,7,27,7,7,7,7,7,7,16,7,7,7,7,16,16,16,16,16,16,16,16,16,16,
+16,16,16,17,16,16,16,16,16,16,17,17,7,7,7,7,16,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,16,16,17,16,17,16,16,16,16,16,
+16,16,16,16,16,16,16,16,16,16,16,16,7,7,7,7,16,7,7,7,27,7,7,7,7,7,7,16,7,7,7,7,16,16,16,16,16,16,16,16,16,16,
+16,16,17,16,16,17,16,16,16,16,16,16,7,7,7,7,16,7,7,7,27,7,7,7,7,7,7,16,7,7,7,7,16,16,16,16,16,16,16,16,16,16,
+17,16,16,16,16,16,17,17,16,16,16,16,7,7,7,7,16,7,7,7,27,7,7,7,7,7,7,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,
+16,16,16,16,16,16,16,16,16,16,16,16,7,7,7,7,17,17,16,16,16,16,7,16,17,7,7,27,7,7,7,7,16,16,16,16,16,16,16,16,16,16,
+16,16,16,16,16,16,16,16,16,16,16,16,7,7,7,7,16,7,7,7,7,7,7,7,16,7,7,27,7,7,7,7,16,16,16,16,16,16,16,16,16,16,
+16,16,16,16,16,16,16,16,16,16,16,16,7,7,7,7,7,7,7,7,7,7,7,7,16,7,7,7,7,7,7,7,16,16,16,16,16,16,16,17,17,16,
+16,16,16,16,16,16,16,16,16,16,16,16,7,7,7,7,16,7,7,7,7,7,7,7,16,7,7,27,7,7,7,7,16,17,16,16,16,16,16,16,17,17,
+16,16,16,16,16,16,16,16,16,17,16,16,7,7,7,7,16,7,7,7,7,7,7,7,16,7,7,27,7,7,7,7,17,17,16,16,16,16,16,16,16,16,
+16,16,16,16,16,16,16,16,16,16,16,17,16,16,16,17,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,17,16,16,16,16,16,16,16,16,
+16,16,16,16,16,16,16,17,16,16,16,16,17,16,16,16,16,16,17,16,16,16,16,16,16,17,16,16,16,16,16,17,17,16,16,16,17,16,16,16,16,16,
+16,16,16,16,16,16,16,16,17,16,16,16,16,16,16,17,16,16,17,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,
+16,16,16,16,16,16,16,16,16,16,17,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,17,16,16,16,16,16,16,16,16,16,16,16,16,16,16,
+16,16,17,16,16,17,16,16,16,16,16,16,16,16,16,16,16,16,16,16,17,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,
+16,16,17,16,16,16,17,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,17,16,17,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,
+16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,17,16,16,16,16,16,16,16,16,16,16,16,16,17,16,16,16,16,16,16,16,16,16,16,16,16,
+16,16,16,16,16,16,16,16,17,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,17,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,
+16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,
+16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,17,16,16,16,16,16,16,16,16,16,17,17,16,16,16,16,16,16,16,
+16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,17,17,16,16,16,16,16,16,16,16,16,16,16,16,16
+</data>
+ </layer>
+ <objectgroup id="2" name="Object">
+  <object id="1" name="DownStairs" gid="10" x="868" y="336" width="28" height="28"/>
+  <object id="2" name="UpStairs" gid="9" x="336" y="532" width="28" height="28"/>
+  <object id="3" name="Barrel" gid="13" x="336" y="504" width="28" height="28"/>
+  <object id="4" name="Barrel" gid="13" x="364" y="504" width="28" height="28"/>
+  <object id="5" name="Barrel" gid="13" x="392" y="504" width="28" height="28"/>
+  <object id="6" name="Barrel" gid="13" x="392" y="476" width="28" height="28"/>
+  <object id="7" name="Barrel" gid="13" x="364" y="476" width="28" height="28"/>
+  <object id="8" name="Barrel" gid="13" x="336" y="476" width="28" height="28"/>
+  <object id="9" name="Barrel" gid="13" x="336" y="448" width="28" height="28"/>
+  <object id="10" name="Barrel" gid="13" x="364" y="448" width="28" height="28"/>
+  <object id="11" name="Barrel" gid="13" x="392" y="448" width="28" height="28"/>
+  <object id="12" name="Barrel" gid="13" x="392" y="420" width="28" height="28"/>
+  <object id="13" name="Barrel" gid="13" x="364" y="420" width="28" height="28"/>
+  <object id="14" name="Barrel" gid="13" x="336" y="420" width="28" height="28"/>
+  <object id="15" name="Barrel" gid="13" x="700" y="588" width="28" height="28"/>
+  <object id="16" name="Barrel" gid="13" x="700" y="616" width="28" height="28"/>
+  <object id="17" name="Barrel" gid="13" x="672" y="616" width="28" height="28"/>
+  <object id="18" name="Barrel" gid="13" x="672" y="588" width="28" height="28"/>
+  <object id="19" name="Barrel" gid="13" x="644" y="588" width="28" height="28"/>
+  <object id="20" name="Barrel" gid="13" x="644" y="616" width="28" height="28"/>
+  <object id="21" name="CloseChest" gid="11" x="588" y="812" width="28" height="28"/>
+  <object id="22" name="IronDoor2" gid="25" x="448" y="812" width="28" height="28"/>
+  <object id="23" name="IronDoor2" gid="25" x="392" y="560" width="28" height="28"/>
+  <object id="24" name="IronDoor2" gid="25" x="812" y="560" width="28" height="28"/>
+  <object id="25" name="IronDoor2" gid="25" x="756" y="644" width="28" height="28"/>
+  <object id="26" name="IronDoor2" gid="25" x="616" y="756" width="28" height="28"/>
+  <object id="27" name="IronDoor" gid="19" x="616" y="448" width="28" height="28"/>
+  <object id="28" name="IronDoor" gid="19" x="784" y="448" width="28" height="28"/>
+  <object id="29" name="IronDoor" gid="19" x="560" y="644" width="28" height="28"/>
+  <object id="30" name="IronDoor" gid="19" x="756" y="812" width="28" height="28"/>
+ </objectgroup>
+ <objectgroup id="3" name="Unexplored">
+  <object id="31" name="Unexplored" gid="8" x="336" y="588" width="28" height="28"/>
+  <object id="32" name="Unexplored" gid="8" x="364" y="588" width="28" height="28"/>
+  <object id="33" name="Unexplored" gid="8" x="392" y="588" width="28" height="28"/>
+  <object id="34" name="Unexplored" gid="8" x="420" y="588" width="28" height="28"/>
+  <object id="35" name="Unexplored" gid="8" x="420" y="616" width="28" height="28"/>
+  <object id="36" name="Unexplored" gid="8" x="392" y="616" width="28" height="28"/>
+  <object id="37" name="Unexplored" gid="8" x="364" y="616" width="28" height="28"/>
+  <object id="38" name="Unexplored" gid="8" x="336" y="616" width="28" height="28"/>
+  <object id="39" name="Unexplored" gid="8" x="336" y="644" width="28" height="28"/>
+  <object id="40" name="Unexplored" gid="8" x="364" y="644" width="28" height="28"/>
+  <object id="41" name="Unexplored" gid="8" x="392" y="644" width="28" height="28"/>
+  <object id="42" name="Unexplored" gid="8" x="420" y="644" width="28" height="28"/>
+  <object id="43" name="Unexplored" gid="8" x="420" y="672" width="28" height="28"/>
+  <object id="44" name="Unexplored" gid="8" x="392" y="672" width="28" height="28"/>
+  <object id="45" name="Unexplored" gid="8" x="364" y="672" width="28" height="28"/>
+  <object id="46" name="Unexplored" gid="8" x="336" y="672" width="28" height="28"/>
+  <object id="47" name="Unexplored" gid="8" x="336" y="700" width="28" height="28"/>
+  <object id="48" name="Unexplored" gid="8" x="364" y="700" width="28" height="28"/>
+  <object id="49" name="Unexplored" gid="8" x="392" y="700" width="28" height="28"/>
+  <object id="50" name="Unexplored" gid="8" x="420" y="700" width="28" height="28"/>
+  <object id="51" name="Unexplored" gid="8" x="420" y="728" width="28" height="28"/>
+  <object id="52" name="Unexplored" gid="8" x="392" y="728" width="28" height="28"/>
+  <object id="53" name="Unexplored" gid="8" x="364" y="728" width="28" height="28"/>
+  <object id="54" name="Unexplored" gid="8" x="336" y="728" width="28" height="28"/>
+  <object id="55" name="Unexplored" gid="8" x="336" y="756" width="28" height="28"/>
+  <object id="56" name="Unexplored" gid="8" x="364" y="756" width="28" height="28"/>
+  <object id="57" name="Unexplored" gid="8" x="392" y="756" width="28" height="28"/>
+  <object id="58" name="Unexplored" gid="8" x="420" y="756" width="28" height="28"/>
+  <object id="59" name="Unexplored" gid="8" x="420" y="784" width="28" height="28"/>
+  <object id="60" name="Unexplored" gid="8" x="392" y="784" width="28" height="28"/>
+  <object id="61" name="Unexplored" gid="8" x="364" y="784" width="28" height="28"/>
+  <object id="62" name="Unexplored" gid="8" x="336" y="784" width="28" height="28"/>
+  <object id="63" name="Unexplored" gid="8" x="336" y="812" width="28" height="28"/>
+  <object id="64" name="Unexplored" gid="8" x="364" y="812" width="28" height="28"/>
+  <object id="65" name="Unexplored" gid="8" x="392" y="812" width="28" height="28"/>
+  <object id="66" name="Unexplored" gid="8" x="420" y="812" width="28" height="28"/>
+  <object id="67" name="Unexplored" gid="8" x="420" y="840" width="28" height="28"/>
+  <object id="68" name="Unexplored" gid="8" x="392" y="840" width="28" height="28"/>
+  <object id="69" name="Unexplored" gid="8" x="364" y="840" width="28" height="28"/>
+  <object id="70" name="Unexplored" gid="8" x="336" y="840" width="28" height="28"/>
+  <object id="71" name="Unexplored" gid="8" x="336" y="868" width="28" height="28"/>
+  <object id="72" name="Unexplored" gid="8" x="364" y="868" width="28" height="28"/>
+  <object id="73" name="Unexplored" gid="8" x="392" y="868" width="28" height="28"/>
+  <object id="74" name="Unexplored" gid="8" x="420" y="868" width="28" height="28"/>
+  <object id="75" name="Unexplored" gid="8" x="476" y="784" width="28" height="28"/>
+  <object id="76" name="Unexplored" gid="8" x="504" y="784" width="28" height="28"/>
+  <object id="77" name="Unexplored" gid="8" x="532" y="784" width="28" height="28"/>
+  <object id="78" name="Unexplored" gid="8" x="560" y="784" width="28" height="28"/>
+  <object id="79" name="Unexplored" gid="8" x="588" y="784" width="28" height="28"/>
+  <object id="80" name="Unexplored" gid="8" x="616" y="784" width="28" height="28"/>
+  <object id="81" name="Unexplored" gid="8" x="644" y="784" width="28" height="28"/>
+  <object id="82" name="Unexplored" gid="8" x="616" y="812" width="28" height="28"/>
+  <object id="83" name="Unexplored" gid="8" x="644" y="812" width="28" height="28"/>
+  <object id="84" name="Unexplored" gid="8" x="588" y="812" width="28" height="28"/>
+  <object id="85" name="Unexplored" gid="8" x="560" y="812" width="28" height="28"/>
+  <object id="86" name="Unexplored" gid="8" x="532" y="812" width="28" height="28"/>
+  <object id="87" name="Unexplored" gid="8" x="504" y="812" width="28" height="28"/>
+  <object id="88" name="Unexplored" gid="8" x="476" y="812" width="28" height="28"/>
+  <object id="89" name="Unexplored" gid="8" x="476" y="840" width="28" height="28"/>
+  <object id="90" name="Unexplored" gid="8" x="504" y="840" width="28" height="28"/>
+  <object id="91" name="Unexplored" gid="8" x="532" y="840" width="28" height="28"/>
+  <object id="92" name="Unexplored" gid="8" x="560" y="840" width="28" height="28"/>
+  <object id="93" name="Unexplored" gid="8" x="588" y="840" width="28" height="28"/>
+  <object id="94" name="Unexplored" gid="8" x="616" y="840" width="28" height="28"/>
+  <object id="95" name="Unexplored" gid="8" x="644" y="840" width="28" height="28"/>
+  <object id="96" name="Unexplored" gid="8" x="644" y="868" width="28" height="28"/>
+  <object id="97" name="Unexplored" gid="8" x="616" y="868" width="28" height="28"/>
+  <object id="98" name="Unexplored" gid="8" x="588" y="868" width="28" height="28"/>
+  <object id="99" name="Unexplored" gid="8" x="560" y="868" width="28" height="28"/>
+  <object id="100" name="Unexplored" gid="8" x="532" y="868" width="28" height="28"/>
+  <object id="101" name="Unexplored" gid="8" x="504" y="868" width="28" height="28"/>
+  <object id="102" name="Unexplored" gid="8" x="476" y="868" width="28" height="28"/>
+  <object id="103" name="Unexplored" gid="8" x="476" y="588" width="28" height="28"/>
+  <object id="104" name="Unexplored" gid="8" x="504" y="588" width="28" height="28"/>
+  <object id="105" name="Unexplored" gid="8" x="532" y="588" width="28" height="28"/>
+  <object id="106" name="Unexplored" gid="8" x="560" y="588" width="28" height="28"/>
+  <object id="107" name="Unexplored" gid="8" x="588" y="588" width="28" height="28"/>
+  <object id="108" name="Unexplored" gid="8" x="616" y="588" width="28" height="28"/>
+  <object id="109" name="Unexplored" gid="8" x="644" y="588" width="28" height="28"/>
+  <object id="110" name="Unexplored" gid="8" x="672" y="588" width="28" height="28"/>
+  <object id="111" name="Unexplored" gid="8" x="700" y="588" width="28" height="28"/>
+  <object id="112" name="Unexplored" gid="8" x="728" y="588" width="28" height="28"/>
+  <object id="113" name="Unexplored" gid="8" x="728" y="616" width="28" height="28"/>
+  <object id="114" name="Unexplored" gid="8" x="700" y="616" width="28" height="28"/>
+  <object id="115" name="Unexplored" gid="8" x="672" y="616" width="28" height="28"/>
+  <object id="116" name="Unexplored" gid="8" x="644" y="616" width="28" height="28"/>
+  <object id="117" name="Unexplored" gid="8" x="616" y="616" width="28" height="28"/>
+  <object id="118" name="Unexplored" gid="8" x="588" y="616" width="28" height="28"/>
+  <object id="119" name="Unexplored" gid="8" x="560" y="616" width="28" height="28"/>
+  <object id="120" name="Unexplored" gid="8" x="532" y="616" width="28" height="28"/>
+  <object id="121" name="Unexplored" gid="8" x="504" y="616" width="28" height="28"/>
+  <object id="122" name="Unexplored" gid="8" x="476" y="616" width="28" height="28"/>
+  <object id="123" name="Unexplored" gid="8" x="476" y="644" width="28" height="28"/>
+  <object id="124" name="Unexplored" gid="8" x="504" y="644" width="28" height="28"/>
+  <object id="125" name="Unexplored" gid="8" x="532" y="644" width="28" height="28"/>
+  <object id="126" name="Unexplored" gid="8" x="560" y="644" width="28" height="28"/>
+  <object id="127" name="Unexplored" gid="8" x="588" y="644" width="28" height="28"/>
+  <object id="128" name="Unexplored" gid="8" x="616" y="644" width="28" height="28"/>
+  <object id="129" name="Unexplored" gid="8" x="644" y="644" width="28" height="28"/>
+  <object id="130" name="Unexplored" gid="8" x="672" y="644" width="28" height="28"/>
+  <object id="131" name="Unexplored" gid="8" x="700" y="644" width="28" height="28"/>
+  <object id="132" name="Unexplored" gid="8" x="728" y="644" width="28" height="28"/>
+  <object id="133" name="Unexplored" gid="8" x="728" y="672" width="28" height="28"/>
+  <object id="134" name="Unexplored" gid="8" x="700" y="672" width="28" height="28"/>
+  <object id="135" name="Unexplored" gid="8" x="672" y="672" width="28" height="28"/>
+  <object id="136" name="Unexplored" gid="8" x="644" y="672" width="28" height="28"/>
+  <object id="137" name="Unexplored" gid="8" x="616" y="672" width="28" height="28"/>
+  <object id="138" name="Unexplored" gid="8" x="588" y="672" width="28" height="28"/>
+  <object id="139" name="Unexplored" gid="8" x="560" y="672" width="28" height="28"/>
+  <object id="140" name="Unexplored" gid="8" x="504" y="672" width="28" height="28"/>
+  <object id="141" name="Unexplored" gid="8" x="532" y="672" width="28" height="28"/>
+  <object id="142" name="Unexplored" gid="8" x="476" y="672" width="28" height="28"/>
+  <object id="143" name="Unexplored" gid="8" x="476" y="700" width="28" height="28"/>
+  <object id="144" name="Unexplored" gid="8" x="476" y="728" width="28" height="28"/>
+  <object id="145" name="Unexplored" gid="8" x="504" y="728" width="28" height="28"/>
+  <object id="146" name="Unexplored" gid="8" x="504" y="700" width="28" height="28"/>
+  <object id="147" name="Unexplored" gid="8" x="532" y="700" width="28" height="28"/>
+  <object id="148" name="Unexplored" gid="8" x="532" y="728" width="28" height="28"/>
+  <object id="149" name="Unexplored" gid="8" x="560" y="728" width="28" height="28"/>
+  <object id="150" name="Unexplored" gid="8" x="560" y="700" width="28" height="28"/>
+  <object id="151" name="Unexplored" gid="8" x="588" y="700" width="28" height="28"/>
+  <object id="152" name="Unexplored" gid="8" x="588" y="728" width="28" height="28"/>
+  <object id="153" name="Unexplored" gid="8" x="616" y="728" width="28" height="28"/>
+  <object id="154" name="Unexplored" gid="8" x="616" y="700" width="28" height="28"/>
+  <object id="155" name="Unexplored" gid="8" x="644" y="700" width="28" height="28"/>
+  <object id="156" name="Unexplored" gid="8" x="644" y="728" width="28" height="28"/>
+  <object id="157" name="Unexplored" gid="8" x="672" y="728" width="28" height="28"/>
+  <object id="158" name="Unexplored" gid="8" x="672" y="700" width="28" height="28"/>
+  <object id="159" name="Unexplored" gid="8" x="728" y="700" width="28" height="28"/>
+  <object id="160" name="Unexplored" gid="8" x="700" y="700" width="28" height="28"/>
+  <object id="161" name="Unexplored" gid="8" x="728" y="728" width="28" height="28"/>
+  <object id="162" name="Unexplored" gid="8" x="700" y="756" width="28" height="28"/>
+  <object id="163" name="Unexplored" gid="8" x="700" y="728" width="28" height="28"/>
+  <object id="164" name="Unexplored" gid="8" x="728" y="756" width="28" height="28"/>
+  <object id="165" name="Unexplored" gid="8" x="700" y="784" width="28" height="28"/>
+  <object id="166" name="Unexplored" gid="8" x="700" y="812" width="28" height="28"/>
+  <object id="167" name="Unexplored" gid="8" x="700" y="840" width="28" height="28"/>
+  <object id="168" name="Unexplored" gid="8" x="700" y="868" width="28" height="28"/>
+  <object id="169" name="Unexplored" gid="8" x="728" y="868" width="28" height="28"/>
+  <object id="170" name="Unexplored" gid="8" x="756" y="868" width="28" height="28"/>
+  <object id="171" name="Unexplored" gid="8" x="784" y="868" width="28" height="28"/>
+  <object id="172" name="Unexplored" gid="8" x="812" y="868" width="28" height="28"/>
+  <object id="173" name="Unexplored" gid="8" x="840" y="868" width="28" height="28"/>
+  <object id="174" name="Unexplored" gid="8" x="868" y="868" width="28" height="28"/>
+  <object id="175" name="Unexplored" gid="8" x="868" y="840" width="28" height="28"/>
+  <object id="176" name="Unexplored" gid="8" x="840" y="840" width="28" height="28"/>
+  <object id="177" name="Unexplored" gid="8" x="812" y="840" width="28" height="28"/>
+  <object id="178" name="Unexplored" gid="8" x="784" y="840" width="28" height="28"/>
+  <object id="179" name="Unexplored" gid="8" x="756" y="840" width="28" height="28"/>
+  <object id="180" name="Unexplored" gid="8" x="728" y="840" width="28" height="28"/>
+  <object id="181" name="Unexplored" gid="8" x="728" y="812" width="28" height="28"/>
+  <object id="182" name="Unexplored" gid="8" x="756" y="812" width="28" height="28"/>
+  <object id="183" name="Unexplored" gid="8" x="784" y="812" width="28" height="28"/>
+  <object id="184" name="Unexplored" gid="8" x="812" y="812" width="28" height="28"/>
+  <object id="185" name="Unexplored" gid="8" x="840" y="812" width="28" height="28"/>
+  <object id="186" name="Unexplored" gid="8" x="868" y="812" width="28" height="28"/>
+  <object id="187" name="Unexplored" gid="8" x="868" y="784" width="28" height="28"/>
+  <object id="188" name="Unexplored" gid="8" x="868" y="756" width="28" height="28"/>
+  <object id="189" name="Unexplored" gid="8" x="840" y="756" width="28" height="28"/>
+  <object id="190" name="Unexplored" gid="8" x="840" y="784" width="28" height="28"/>
+  <object id="191" name="Unexplored" gid="8" x="812" y="784" width="28" height="28"/>
+  <object id="192" name="Unexplored" gid="8" x="812" y="756" width="28" height="28"/>
+  <object id="193" name="Unexplored" gid="8" x="784" y="756" width="28" height="28"/>
+  <object id="194" name="Unexplored" gid="8" x="784" y="784" width="28" height="28"/>
+  <object id="195" name="Unexplored" gid="8" x="756" y="784" width="28" height="28"/>
+  <object id="196" name="Unexplored" gid="8" x="756" y="756" width="28" height="28"/>
+  <object id="197" name="Unexplored" gid="8" x="728" y="784" width="28" height="28"/>
+  <object id="198" name="Unexplored" gid="8" x="784" y="588" width="28" height="28"/>
+  <object id="199" name="Unexplored" gid="8" x="812" y="588" width="28" height="28"/>
+  <object id="200" name="Unexplored" gid="8" x="840" y="588" width="28" height="28"/>
+  <object id="201" name="Unexplored" gid="8" x="868" y="588" width="28" height="28"/>
+  <object id="202" name="Unexplored" gid="8" x="868" y="616" width="28" height="28"/>
+  <object id="203" name="Unexplored" gid="8" x="840" y="616" width="28" height="28"/>
+  <object id="204" name="Unexplored" gid="8" x="812" y="616" width="28" height="28"/>
+  <object id="205" name="Unexplored" gid="8" x="784" y="616" width="28" height="28"/>
+  <object id="206" name="Unexplored" gid="8" x="784" y="644" width="28" height="28"/>
+  <object id="207" name="Unexplored" gid="8" x="812" y="644" width="28" height="28"/>
+  <object id="208" name="Unexplored" gid="8" x="840" y="644" width="28" height="28"/>
+  <object id="209" name="Unexplored" gid="8" x="868" y="644" width="28" height="28"/>
+  <object id="210" name="Unexplored" gid="8" x="868" y="672" width="28" height="28"/>
+  <object id="211" name="Unexplored" gid="8" x="840" y="672" width="28" height="28"/>
+  <object id="212" name="Unexplored" gid="8" x="812" y="672" width="28" height="28"/>
+  <object id="213" name="Unexplored" gid="8" x="784" y="672" width="28" height="28"/>
+  <object id="214" name="Unexplored" gid="8" x="784" y="700" width="28" height="28"/>
+  <object id="215" name="Unexplored" gid="8" x="812" y="700" width="28" height="28"/>
+  <object id="216" name="Unexplored" gid="8" x="840" y="700" width="28" height="28"/>
+  <object id="217" name="Unexplored" gid="8" x="868" y="700" width="28" height="28"/>
+ </objectgroup>
+ <objectgroup id="4" name="InvisibleWall">
+  <object id="218" x="308" y="280" width="588" height="28"/>
+  <object id="219" x="896" y="280" width="28" height="588"/>
+  <object id="220" x="308" y="868" width="616" height="28"/>
+  <object id="223" x="308" y="308" width="28" height="560"/>
+  <object id="224" x="336" y="532" width="56" height="28"/>
+  <object id="225" x="420" y="532" width="392" height="28"/>
+  <object id="226" x="840" y="532" width="56" height="28"/>
+  <object id="227" x="504" y="308" width="28" height="140"/>
+  <object id="228" x="532" y="420" width="84" height="28"/>
+  <object id="229" x="644" y="420" width="140" height="28"/>
+  <object id="230" x="700" y="308" width="28" height="112"/>
+  <object id="231" x="812" y="420" width="84" height="28"/>
+  <object id="232" x="448" y="560" width="28" height="224"/>
+  <object id="233" x="448" y="812" width="28" height="56"/>
+  <object id="234" x="476" y="728" width="140" height="28"/>
+  <object id="235" x="644" y="728" width="56" height="28"/>
+  <object id="236" x="672" y="756" width="28" height="112"/>
+  <object id="237" x="756" y="560" width="28" height="56"/>
+  <object id="238" x="756" y="644" width="28" height="84"/>
+  <object id="239" x="784" y="700" width="112" height="28"/>
+  <object id="240" x="560" y="560" width="28" height="56"/>
+  <object id="241" x="560" y="644" width="28" height="84"/>
+  <object id="242" x="756" y="728" width="28" height="56"/>
+  <object id="243" x="756" y="812" width="28" height="56"/>
+ </objectgroup>
+ <objectgroup id="5" name="Respawnpoint">
+  <object id="244" x="336" y="504">
+   <point/>
+  </object>
+ </objectgroup>
+</map>
