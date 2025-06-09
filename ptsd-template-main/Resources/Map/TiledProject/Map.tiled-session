@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "Area2_10.tmx",
+    "activeFile": "AreaBoss.tmx",
     "expandedProjectPaths": [
         "."
     ],
@@ -238,141 +238,141 @@
             "scale": 1.5,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 546.3333333333333,
-                "y": 662.3333333333333
+                "x": 588,
+                "y": 587.6666666666666
             }
         },
         "Area2_10.tmx": {
             "scale": 1,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 826.5,
-                "y": 433.5
+                "x": 588,
+                "y": 588.5
             }
         },
         "Area2_2.tmx": {
             "expandedObjectLayers": [
-                4,
                 5,
-                2,
-                6
+                4,
+                6,
+                2
             ],
             "scale": 1,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 770.5,
-                "y": 714.5
+                "x": 588,
+                "y": 588.5
             }
         },
         "Area2_3.tmx": {
             "expandedObjectLayers": [
-                3,
-                4,
                 5,
+                4,
+                3,
                 2
             ],
             "scale": 1,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 461.5,
-                "y": 405.5
+                "x": 588,
+                "y": 588.5
             }
         },
         "Area2_4.tmx": {
             "expandedObjectLayers": [
-                3,
-                4,
                 5,
+                4,
+                3,
                 2
             ],
             "scale": 1,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 882.5,
-                "y": 349.5
+                "x": 588.5,
+                "y": 588.5
             }
         },
         "Area2_5.tmx": {
             "expandedObjectLayers": [
-                3,
-                4,
                 5,
+                4,
+                3,
                 2
             ],
             "scale": 1,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 461.5,
-                "y": 666.5
+                "x": 588,
+                "y": 588.5
             }
         },
         "Area2_6.tmx": {
             "expandedObjectLayers": [
-                4,
                 5,
-                2,
-                6
+                4,
+                6,
+                2
             ],
             "scale": 1,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 630.5,
-                "y": 630.5
+                "x": 588,
+                "y": 588.5
             }
         },
         "Area2_7.tmx": {
             "expandedObjectLayers": [
-                4,
                 5,
+                4,
                 2
             ],
             "scale": 1,
             "selectedLayer": 4,
             "viewCenter": {
-                "x": 436.5,
-                "y": 544.5
+                "x": 588,
+                "y": 588.5
             }
         },
         "Area2_8.tmx": {
             "expandedObjectLayers": [
-                3,
-                4,
                 5,
+                4,
+                3,
                 2
             ],
             "scale": 1,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 573.5,
-                "y": 641.5
+                "x": 588,
+                "y": 588.5
             }
         },
         "Area2_9.tmx": {
             "expandedObjectLayers": [
-                3,
-                4,
                 5,
+                4,
+                3,
                 2
             ],
             "scale": 1,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 545.5,
-                "y": 321.5
+                "x": 588,
+                "y": 588.5
             }
         },
         "AreaBoss.tmx": {
             "expandedObjectLayers": [
-                3,
-                4,
                 5,
+                4,
+                3,
                 2
             ],
-            "scale": 1,
+            "scale": 1.5,
             "selectedLayer": 4,
             "viewCenter": {
-                "x": 423.5,
-                "y": 544.5
+                "x": 552.3333333333333,
+                "y": 631.6666666666667
             }
         },
         "Resource.tsx": {
@@ -415,7 +415,7 @@
         "Area2_7.tmx",
         "Area2_8.tmx",
         "Area2_9.tmx",
-        "AreaBoss.tmx",
-        "Area2_10.tmx"
+        "Area2_10.tmx",
+        "AreaBoss.tmx"
     ]
 }

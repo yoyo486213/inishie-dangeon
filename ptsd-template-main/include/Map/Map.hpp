@@ -54,6 +54,7 @@ private:
     // map
     int floor = 1;
     int beforemapindex;
+    bool BossSpawned = false;
     std::shared_ptr<Text> m_FloorText;
     std::shared_ptr<Text> m_FloorTensDigits;
     std::shared_ptr<Text> m_FloorSingleDigits;

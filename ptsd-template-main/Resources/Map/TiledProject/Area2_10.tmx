@@ -47,7 +47,7 @@
 16,16,16,16,16,16,16,17,16,16,17,17,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16
 </data>
  </layer>
- <objectgroup id="2" name="Object">
+ <objectgroup id="2" name="Object" visible="0">
   <object id="1" name="IronDoor" gid="19" x="812" y="420" width="28" height="28"/>
   <object id="2" name="IronDoor" gid="19" x="364" y="420" width="28" height="28"/>
   <object id="4" name="IronDoor" gid="19" x="504" y="840" width="28" height="28"/>
@@ -59,7 +59,7 @@
   <object id="10" name="CloseChest" gid="11" x="476" y="364" width="28" height="28"/>
   <object id="11" name="CloseChest" gid="11" x="812" y="364" width="28" height="28"/>
  </objectgroup>
- <objectgroup id="3" name="Unexplored">
+ <objectgroup id="3" name="Unexplored" visible="0">
   <object id="12" name="Unexplored" gid="8" x="392" y="588" width="28" height="28"/>
   <object id="13" name="Unexplored" gid="8" x="420" y="588" width="28" height="28"/>
   <object id="14" name="Unexplored" gid="8" x="448" y="588" width="28" height="28"/>
@@ -369,7 +369,7 @@
   <object id="320" name="Unexplored" gid="8" x="784" y="784" width="28" height="28"/>
   <object id="321" name="Unexplored" gid="8" x="812" y="784" width="28" height="28"/>
  </objectgroup>
- <objectgroup id="4" name="InvisibleWall">
+ <objectgroup id="4" name="InvisibleWall" visible="0">
   <object id="322" x="280" y="280" width="588" height="28"/>
   <object id="323" x="868" y="280" width="28" height="588"/>
   <object id="324" x="308" y="868" width="588" height="28"/>
@@ -401,7 +401,7 @@
   <object id="350" x="616" y="756" width="168" height="28"/>
   <object id="351" x="756" y="700" width="28" height="56"/>
  </objectgroup>
- <objectgroup id="5" name="Respawnpoint">
+ <objectgroup id="5" name="Respawnpoint" visible="0">
   <object id="352" x="616" y="728">
    <point/>
   </object>

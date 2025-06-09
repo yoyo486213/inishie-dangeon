@@ -103,14 +103,15 @@ void Map::CreateMap(Util::Renderer *m_Root) {
     }
     beforemapindex = index;
 
-    if (floor < 5) {
-        std::ifstream file(std::string(RESOURCE_DIR) + "/Map/TiledProject/Area1_" + std::to_string(index) + ".json");
+    std::ifstream file;
+    if (floor <= 5) {
+        file.open(std::string(RESOURCE_DIR) + "/Map/TiledProject/Area1_" + std::to_string(index) + ".json");
     }
-    else if (floor < 10) {
-        std::ifstream file(std::string(RESOURCE_DIR) + "/Map/TiledProject/Area2_" + std::to_string(index) + ".json");
+    else if (floor != 10) {
+        file.open(std::string(RESOURCE_DIR) + "/Map/TiledProject/Area2_" + std::to_string(index) + ".json");
     }
     else {
-        std::ifstream file(std::string(RESOURCE_DIR) + "/Map/TiledProject/AreaBoss.json");
+        file.open(std::string(RESOURCE_DIR) + "/Map/TiledProject/AreaBoss.json");
     }
     nlohmann::json mapData;
     file >> mapData;
@@ -124,10 +125,10 @@ void Map::CreateMap(Util::Renderer *m_Root) {
     float respawnpointX = mapData["layers"][4]["objects"][0]["x"].get<float>() - centerX;
     float respawnpointY = -(mapData["layers"][4]["objects"][0]["y"].get<float>() - centerY);
 
-    if (floor < 5) {
+    if (floor <= 5) {
         m_map = std::make_shared<Character>(std::string(RESOURCE_DIR) + "/Map/TiledProject/Area1_" + std::to_string(index) + ".png");
     }
-    else if (floor < 10) {
+    else if (floor != 10) {
         m_map = std::make_shared<Character>(std::string(RESOURCE_DIR) + "/Map/TiledProject/Area2_" + std::to_string(index) + ".png");
     }
     else {
@@ -176,7 +177,8 @@ void Map::CreateMap(Util::Renderer *m_Root) {
 
         // 創建物件並設置屬性
         std::shared_ptr<Character> obj;
-        if (object["name"].get<std::string>() == "Door" || object["name"].get<std::string>() == "IronDoor" || object["name"].get<std::string>() == "IronDoor2") {
+        if (object["name"].get<std::string>() == "Door" || object["name"].get<std::string>() == "IronDoor" || object["name"].get<std::string>() == "IronDoor2" ||
+            object["name"].get<std::string>() == "BossDoor-L" || object["name"].get<std::string>() == "BossDoor-M" || object["name"].get<std::string>() == "BossDoor-R") {
             obj = std::make_shared<Door>(RESOURCE_DIR"/Map/TiledProject/Area1_Resources/" + object["name"].get<std::string>() + ".png", m_Unexploreds);
             m_Doors.push_back(std::dynamic_pointer_cast<Door>(obj));
             AllObjects.push_back(std::dynamic_pointer_cast<Door>(obj));
@@ -273,18 +275,27 @@ void Map::CreateMap(Util::Renderer *m_Root) {
 
                 // 第 10 層為 BOSS 房間
                 if (floor == 10) {
-                    auto boss = std::make_shared<Ghoul>();
+                    if (!BossSpawned) {
+                        BossSpawned = true;
+                        auto boss = std::make_shared<Ghoul>();
 
-                    m_Root->AddChild(boss);
-                    m_Root->AddChild(boss->GetHPBox());
-                    m_Root->AddChild(boss->GetHPBar());
-                    boss->SetPosition({-280, 280});
-                    boss->SetVisible(true);
-                    boss->SetZIndex(15);
+                        m_Root->AddChild(boss);
+                        m_Root->AddChild(boss->GetHPBox());
+                        m_Root->AddChild(boss->GetHPBar());
+                        boss->SetPosition({-70, 322});
+                        boss->SetVisible(true);
+                        boss->SetZIndex(15);
 
-                    m_Monsters.push_back(boss);
-                    AllCollidableObjects.push_back(boss);
-                    if (chanceDist(engine) < 20) {
+                        m_Monsters.push_back(boss);
+                        AllCollidableObjects.push_back(boss);
+                    }
+
+                    // 不可生成座標
+                    glm::vec2 leftTop = m_UpStairs->GetPosition() + glm::vec2(-7 * 28, 17 * 28);
+                    glm::vec2 rightBottom = m_DownStairs->GetPosition() + glm::vec2(13 * 28, -13 * 28);
+                    if (chanceDist(engine) < 5 &&
+                        !(pos.x >= leftTop.x && pos.x <= rightBottom.x &&
+                        pos.y >= rightBottom.y && pos.y <= leftTop.y)) {
                         auto rat = std::make_shared<Rat>();
 
                         m_Root->AddChild(rat);
@@ -300,6 +311,7 @@ void Map::CreateMap(Util::Renderer *m_Root) {
                 } else {
                     // 一般樓層怪物生成
                     auto monsterList = getMonsterFactoryList(floor);
+
                     if (!monsterList.empty() && chanceDist(engine) < 10) {
                         std::uniform_int_distribution<int> monsterDist(0, monsterList.size() - 1);
                         auto obj = monsterList[monsterDist(engine)]();

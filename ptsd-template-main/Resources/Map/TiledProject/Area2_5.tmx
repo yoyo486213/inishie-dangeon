@@ -51,7 +51,7 @@
 </data>
  </layer>
  <objectgroup id="2" name="Object">
-  <object id="1" name="d" gid="19" x="448" y="784" width="28" height="28"/>
+  <object id="1" name="IronDoor" gid="19" x="448" y="784" width="28" height="28"/>
   <object id="2" name="IronDoor" gid="19" x="448" y="560" width="28" height="28"/>
   <object id="3" name="IronDoor2" gid="25" x="532" y="448" width="28" height="28"/>
   <object id="4" name="IronDoor2" gid="25" x="756" y="532" width="28" height="28"/>
