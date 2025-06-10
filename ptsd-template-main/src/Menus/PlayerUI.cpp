@@ -207,64 +207,100 @@ void PlayerUI::DropItem() {
 
 }
 
+void PlayerUI::SwapItem(int from, int to) {
+    auto& fromItem = (from < 4) ? m_ShortcutsItems[from] : m_InventoryItems[from - 4];
+    auto& toItem = (to < 4) ? m_ShortcutsItems[to] : m_InventoryItems[to - 4];
+    std::swap(fromItem, toItem);
+}
+
 void PlayerUI::DraggingItem() {
-    
-    if(!m_DraggingItem) {
-        for (int i = 0; i < 12; i++) {
-            if (Util::Input::IsKeyDown(Util::Keycode::MOUSE_LB) && m_Shortcuts[i]->IfFocus()) {
-                Click_time = std::chrono::high_resolution_clock::now();
-                m_Pressing = true;
-            }
-            if (m_Pressing) {
-                if (Util::Input::IsKeyPressed(Util::Keycode::MOUSE_LB)) {
-                    auto duration = (std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - Click_time));
-                    if (duration.count() > 200) {
-                        if (i < 4) {
-                            if (auto e = std::dynamic_pointer_cast<IEquipable>(m_ShortcutsItems[i])) {
-                                e->UnEquip(player);
-                            }
-                            if (i == SelectedSlot)
-                                SelectedSlot = -1;
-                        }
-                        m_DraggingItem = m_ShortcutsItems[i];
-                        m_DraggingFromSlot = i;
-                        m_ShortcutsItems[i] = nullptr;
-                        m_Pressing = false;
+    if (!m_DraggingItem) {
+        if (!m_Pressing && Util::Input::IsKeyDown(Util::Keycode::MOUSE_LB)) {
+            for (int i = 0; i < 12; ++i) {
+                if (i < 4) {
+                    if (m_Shortcuts[i]->IfFocus() && m_ShortcutsItems[i]) {
+                        Click_time = std::chrono::high_resolution_clock::now();
+                        m_Pressing = true;
+                        m_CurrentPressingIndex = i;
+                        break;
+                    }
+                } else {
+                    if (m_Inventory[i - 4]->IfFocus() && m_InventoryItems[i - 4]) {
+                        Click_time = std::chrono::high_resolution_clock::now();
+                        m_Pressing = true;
+                        m_CurrentPressingIndex = i;
+                        break;
                     }
                 }
             }
         }
+
+        if (m_Pressing && Util::Input::IsKeyPressed(Util::Keycode::MOUSE_LB)) {
+            auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(
+                std::chrono::high_resolution_clock::now() - Click_time
+            );
+
+            if (duration.count() > 200) {
+                int i = m_CurrentPressingIndex;
+                if (i < 4) {
+                    if (auto e = std::dynamic_pointer_cast<IEquipable>(m_ShortcutsItems[i])) {
+                        e->UnEquip(player);
+                    }
+                    if (i == SelectedSlot)
+                        SelectedSlot = -1;
+
+                    m_DraggingItem = m_ShortcutsItems[i];
+                    m_ShortcutsItems[i] = nullptr;
+                } else {
+                    m_DraggingItem = m_InventoryItems[i - 4];
+                    m_InventoryItems[i - 4] = nullptr;
+                }
+
+                m_DraggingFromSlot = i;
+                m_Pressing = false;
+                m_CurrentPressingIndex = -1;
+            }
+        }
     }
-    else {
+
+    if (m_DraggingItem) {
         m_DraggingItem->SetPosition(Util::Input::GetCursorPosition());
-        for (int i = 0; i < 12; i++) {
-            if (Util::Input::IsKeyUp(Util::Keycode::MOUSE_LB)) {
-                if(i < 4) {
-                    if(m_Shortcuts[i]->IfFocus()) {
-                        if (m_ShortcutsItems[i]) {
-                            if (m_DraggingFromSlot <4)
-                                m_ShortcutsItems[m_DraggingFromSlot]=m_ShortcutsItems[i];
-                            else
-                                m_InventoryItems[m_DraggingFromSlot]=m_ShortcutsItems[i];
-                            m_ShortcutsItems[i]=m_DraggingItem;
-                        }
-                    }
+
+        if (Util::Input::IsKeyUp(Util::Keycode::MOUSE_LB)) {
+            bool dropped = false;
+
+            for (int i = 0; i < 12; ++i) {
+                bool isFocused = (i < 4) ? m_Shortcuts[i]->IfFocus() : m_Inventory[i - 4]->IfFocus();
+                if (isFocused) {
+                    // 將 m_DraggingItem 和目標格子物品交換
+                    auto& targetItem = (i < 4) ? m_ShortcutsItems[i] : m_InventoryItems[i - 4];
+                    std::swap(m_DraggingItem, targetItem);
+
+                    // 將拖曳回去的 item 塞回原本的格子（可能是 nullptr）
+                    if (m_DraggingFromSlot < 4)
+                        m_ShortcutsItems[m_DraggingFromSlot] = m_DraggingItem;
+                    else
+                        m_InventoryItems[m_DraggingFromSlot - 4] = m_DraggingItem;
+
+                    m_DraggingItem = nullptr;
+                    dropped = true;
+                    break;
                 }
-                else {
-                    if(m_Inventory[i-4]->IfFocus()) {
-                        if (m_ShortcutsItems[i]) {
-                            if (m_DraggingFromSlot <4)
-                                m_ShortcutsItems[m_DraggingFromSlot]=m_ShortcutsItems[i];
-                            else
-                                m_InventoryItems[m_DraggingFromSlot]=m_ShortcutsItems[i];
-                            m_ShortcutsItems[i]=m_DraggingItem;
-                        }
-                    }
-                }
+            }
+
+            // 如果沒有放到任何格子，放回原位
+            if (!dropped && m_DraggingItem) {
+                if (m_DraggingFromSlot < 4)
+                    m_ShortcutsItems[m_DraggingFromSlot] = m_DraggingItem;
+                else
+                    m_InventoryItems[m_DraggingFromSlot - 4] = m_DraggingItem;
+
+                m_DraggingItem = nullptr;
             }
         }
     }
 }
+
 
 void PlayerUI::RejoinRander(Util::Renderer *m_Root){
     m_Root->AddChild(m_Name);
@@ -294,11 +330,15 @@ void PlayerUI::RejoinRander(Util::Renderer *m_Root){
     m_Root->AddChild(m_Backpack);
     m_Root->AddChild(m_BackpackBackGround);
     m_Root->AddChild(m_CloseButton);
+    if (m_DraggingItem)
+        m_Root->AddChild(m_DraggingItem);
 }
 
 
 
 void PlayerUI::Update(std::shared_ptr<Player> &m_Player, Util::Renderer *m_Root) {
+    
+
     float deltaTime = Util::Time::GetDeltaTimeMs() / 1000.f; // 獲取每幀時間差
     m_SkillCD -= deltaTime; // 減少技能冷卻時間
     m_Player->Restore_HP(5 * deltaTime);
@@ -323,7 +363,6 @@ void PlayerUI::Update(std::shared_ptr<Player> &m_Player, Util::Renderer *m_Root)
         m_EXP->SetCurrentFrame(expRate);
     }
 
-    DraggingItem();
 
     // 更新玩家等級顯示
     if (m_Player->GetLevel() >= 10) {
@@ -413,7 +452,7 @@ void PlayerUI::Update(std::shared_ptr<Player> &m_Player, Util::Renderer *m_Root)
     }
 
     for (int i = 0; i < 8; i++) {
-        if (m_Inventory[i]->IfClick() && m_InventoryItems[i]) {
+        if (!m_DraggingItem && m_Inventory[i]->IfClick() && m_InventoryItems[i]) {
             for (int j = 0; j < 4; j++) {
                 if (!m_ShortcutsItems[j]) {
                     if (auto e = std::dynamic_pointer_cast<IEquipable>(m_InventoryItems[i])) {
@@ -459,7 +498,7 @@ void PlayerUI::Update(std::shared_ptr<Player> &m_Player, Util::Renderer *m_Root)
     };
 
     for (int i = 0; i < 4; ++i) {
-        if ((Util::Input::IsKeyDown(keycodes[i]) || m_Shortcuts[i]->IfClick()) && m_ShortcutsItems[i]) {
+        if (!m_DraggingItem && (Util::Input::IsKeyDown(keycodes[i]) || m_Shortcuts[i]->IfClick()) && m_ShortcutsItems[i]) {
             if (auto e = std::dynamic_pointer_cast<IEquipable>(m_ShortcutsItems[i])) {
                 if (SelectedSlot != -1) {
                     std::dynamic_pointer_cast<IEquipable>(m_ShortcutsItems[SelectedSlot])->UnEquip(m_Player);
@@ -496,5 +535,17 @@ void PlayerUI::Update(std::shared_ptr<Player> &m_Player, Util::Renderer *m_Root)
             m_Shortcuts[i]->ChangeImage(m_Shortcuts[i]->GetImageIndex() - 3);
         }
     }
-}
 
+    for (int i = 0; i < 4; i++)
+    {
+        if (m_ShortcutsItems[i])
+            m_ShortcutsItems[i]->SetPosition(m_Shortcuts[i]->GetPosition());
+    }
+    for (int i = 0; i < 8; i++)
+    {
+        if (m_InventoryItems[i])
+            m_InventoryItems[i]->SetPosition(m_Inventory[i]->GetPosition());
+    }
+    
+    DraggingItem();
+}

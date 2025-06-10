@@ -19,6 +19,12 @@ class Map;
 
 class PlayerUI {
 public:
+    enum class MouseActionState {
+        Idle,
+        Pressed,
+        Dragging,
+        Released
+    };
 
     PlayerUI(std::shared_ptr<Map> MapRef, std::shared_ptr<Player> playerRef, std::shared_ptr<Text> NameRef, Util::Renderer *m_Root);
 
@@ -34,6 +40,8 @@ public:
 
     void DropItem();
     
+    void SwapItem(int from, int to);
+
     void DraggingItem();
 
     std::shared_ptr<Weapon> GetWeapon() { return std::dynamic_pointer_cast<Weapon>(m_ShortcutsItems[SelectedSlot]); }
@@ -45,8 +53,10 @@ private:
     std::shared_ptr<Player> player;
     std::chrono::time_point<std::chrono::high_resolution_clock> Click_time;
 
+    MouseActionState m_MouseState = MouseActionState::Idle;
     std::shared_ptr<Item> m_DraggingItem = nullptr;
     int m_DraggingFromSlot = -1;
+    int m_CurrentPressingIndex;
     bool m_Pressing = false;
     std::shared_ptr<Text> m_Name;
 

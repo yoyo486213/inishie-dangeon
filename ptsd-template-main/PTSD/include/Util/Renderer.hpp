@@ -51,7 +51,7 @@ public:
      * @note The user is not recommended to modify this function.
      */
     void Update();
-
+    
     void ClearChildren() {
         m_Children.clear();
     };
