@@ -10,6 +10,8 @@ namespace Util {
     class Renderer;
 }
 
+class MyBGM;
+
 class UpStairs : public ICollidable, public Character {
 public:
     UpStairs(const std::string& ImagePath, Util::Renderer *m_Root);

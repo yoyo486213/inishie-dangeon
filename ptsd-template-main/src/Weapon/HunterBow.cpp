@@ -26,6 +26,7 @@ void HunterBow::Attack(std::shared_ptr<Map> m_map, std::shared_ptr<Player> &m_Pl
 }
 
 void HunterBow::Skill(std::shared_ptr<Map> m_map, std::shared_ptr<Player> &m_Player, Util::Renderer* m_Root) {
+    PlayWaveSFX();
     auto projectile = std::make_shared<Projectile>(RESOURCE_DIR"/Weapon/HunterBow/SkillProjectile.png", Util::Input::GetCursorPosition(), 4, m_Player->GetAttack() + glm::vec2((int)(m_Player->GetLevel() / 2)), m_FlightDistance, 2);
     m_map->AddAllObjects(projectile);
     m_map->AddProjectile(projectile);

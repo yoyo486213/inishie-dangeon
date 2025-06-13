@@ -84,9 +84,6 @@ NameKeyBoard::NameKeyBoard(Util::Renderer *m_Root) {
     m_ControlBtn.emplace_back(Cancel);
     m_Root->AddChild(Cancel);
 
-    //初始化BGM
-    m_ButtonBGM = std::make_shared<MyBGM>(RESOURCE_DIR"/BGM/MenuOpenSnd.wav");
-
     m_Name = std::make_shared<Text>(RESOURCE_DIR"/Text/space.png");
     m_Name->SetZIndex(8);
     m_Name->SetPosition({-3.5, 50});
@@ -113,7 +110,6 @@ void NameKeyBoard::Open(){
     }
     Back->SetVisible(true);
     Cancel->SetVisible(true);
-    Enter->SetVisible(true);
     m_Name->SetVisible(true);
 }
 void NameKeyBoard::Closing() {
@@ -276,7 +272,7 @@ void NameKeyBoard::Update() {
     {
         if (m_ControlBtn[i]->IfFocus()) {
             m_ControlBtn[i]->ChangeImage(2);
-            m_ControlBtn[i]->SetVisible(true);
+            // m_ControlBtn[i]->SetVisible(true);
         }
         else {
             m_ControlBtn[i]->ChangeImage(1);
@@ -309,6 +305,13 @@ void NameKeyBoard::Update() {
         
     }
 
+    if (output.size() > 0 && state == State::Open && EnterEnable) {
+        Enter->SetVisible(true);
+    }
+    else if (output.size() <= 0 || !EnterEnable) {
+        Enter->SetVisible(false);
+    }
+    
     if (Type == KeyBoardType::Eng) {
         if (ToNum->IfFocus()) {
             ToNum->ChangeImage(2);

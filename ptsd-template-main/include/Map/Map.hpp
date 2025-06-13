@@ -26,6 +26,7 @@ class Player;
 class PlayerUI;
 class Monster;
 class Item;
+class MyBGM;
 
 class Map : public Util::GameObject, public std::enable_shared_from_this<Map> {
 public:
@@ -35,7 +36,7 @@ public:
 
     void CreateItems(glm::vec2 pos, std::shared_ptr<Player> &m_Player, Util::Renderer *m_Root);
 
-    void DropItems(glm::vec2 pos, std::shared_ptr<Item> &Item);
+    void DropItems(glm::vec2 Mouse_pos, std::shared_ptr<Item> Item);
 
     virtual ~Map() = default;
 
@@ -84,6 +85,12 @@ private:
     std::vector<std::shared_ptr<Monster>> m_Monsters;
 
     std::vector<std::shared_ptr<Projectile>> m_Projectiles;
+
+    
+    std::shared_ptr<MyBGM> m_StairsSFX;
+    std::shared_ptr<MyBGM> m_ChestSFX;
+    std::shared_ptr<MyBGM> m_ItemDropSFX = std::make_shared<MyBGM>(RESOURCE_DIR"/BGM/sounds/ItemDrop.wav");
+    std::shared_ptr<MyBGM> m_BossSFX = std::make_shared<MyBGM>(RESOURCE_DIR"/BGM/sounds/BOSS.wav");
 };
 
 #endif //MAP_HPP

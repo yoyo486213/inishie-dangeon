@@ -5,6 +5,7 @@
 #include "IClickable.hpp"
 #include "Weapon/Projectile.hpp"
 #include "Items/Item.hpp"
+#include "MyBGM.hpp"
 #include <iostream>
 #include <time.h>
 #include <chrono>
@@ -30,6 +31,8 @@ public:
 
     bool IfPressed() override;
 
+    void PlayWaveSFX() { m_WaveSFX->Play(0); }
+
     virtual void Skill(std::shared_ptr<Map> m_map, std::shared_ptr<Player> &m_Player, Util::Renderer *m_Root) = 0;
 
     int GetSkillCost() { return m_SkillCost; }
@@ -47,6 +50,7 @@ protected:
     std::shared_ptr<Map> m_map;
     std::shared_ptr<Player> m_Player;
     Util::Renderer *m_Root;
+    std::shared_ptr<MyBGM> m_WaveSFX = std::make_shared<MyBGM>(RESOURCE_DIR"/BGM/sounds/WaveWeapon.wav");
 };
 
 #endif // WEAPON_HPP

@@ -39,7 +39,9 @@ public:
     bool IsEquip() { return SelectedSlot != -1; }
 
     void DropItem();
-    
+    std::shared_ptr<Item> GetDropItem() { return m_DropItem; }
+    void DeletDropItem() { m_DropItem = nullptr; }
+
     void SwapItem(int from, int to);
 
     void DraggingItem();
@@ -52,10 +54,12 @@ private:
     std::shared_ptr<Map> map;
     std::shared_ptr<Player> player;
     std::chrono::time_point<std::chrono::high_resolution_clock> Click_time;
+    float deltaTime_Sum = 0;
     bool Click_Btn = 0;
 
     MouseActionState m_MouseState = MouseActionState::Idle;
     std::shared_ptr<Item> m_DraggingItem = nullptr;
+    std::shared_ptr<Item> m_DropItem = nullptr;
     int m_DraggingFromSlot = -1;
     int m_CurrentPressingIndex;
     bool m_Pressing = false;
@@ -76,6 +80,7 @@ private:
     std::shared_ptr<AnimatedCharacter> m_HP;
     std::shared_ptr<AnimatedCharacter> m_MP;
     std::shared_ptr<AnimatedCharacter> m_EXP;
+    std::shared_ptr<AnimatedCharacter> m_CD;
 
     std::shared_ptr<Button> m_Backpack;
     std::shared_ptr<Character> m_BackpackBackGround;

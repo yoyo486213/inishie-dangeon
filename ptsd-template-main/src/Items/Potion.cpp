@@ -22,6 +22,7 @@ Potion::Potion(std::shared_ptr<Player> &m_Player) : Item(RESOURCE_DIR"/Potion/Hp
 }
 
 bool Potion::Use() {
+    m_DrinkSFX->Play(0);
     switch (this->type) {
         case Type::Hp:
             std::cout << m_Player->GetHP() << std::endl;

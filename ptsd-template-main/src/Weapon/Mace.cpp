@@ -21,6 +21,7 @@ void Mace::UnEquip(std::shared_ptr<Player> &m_Player) {
 }
 
 void Mace::Skill(std::shared_ptr<Map> m_map, std::shared_ptr<Player> &m_Player, Util::Renderer *m_Root) {
+    PlayWaveSFX();
     auto res = m_Player->GetResistance();
     int extra = std::min(50, (int)((m_Player->GetAttack().x + m_Player->GetAttack().y) / 4) + 20);
     res[4] += extra;

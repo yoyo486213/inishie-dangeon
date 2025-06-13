@@ -13,12 +13,14 @@
 #include "Map/Map.hpp"
 #include "Player.hpp"
 #include "Character.hpp"
+#include "MyBGM.hpp"
 
 
 Util::Renderer App::m_Root;
 void App::Start() {
     LOG_TRACE("Start");
 
+    m_DiedSFX = std::make_shared<MyBGM>(RESOURCE_DIR"/BGM/sounds/PlayerDie.wav");
     // 開門畫面
     std::vector<std::string> StartAnimeImages; 
     StartAnimeImages.reserve(63);
@@ -139,6 +141,21 @@ void App::Update() {
             m_Player->SetAttack({1, 4});
         }
     }
+    
+    if (m_GameState == GameState::ENTER_MAP) {
+        if (m_Player->GetHP() <= 0 || !m_Player->GetVisibility()) {
+            m_YouDied = std::make_shared<Character>(RESOURCE_DIR"/Player/YouDied.png");
+            m_YouDied->SetPosition({0, 0});
+            m_YouDied->SetVisible(true);
+            m_YouDied->SetZIndex(70);
+            m_Root.AddChild(m_YouDied);
+            if(!Died) {
+                m_DiedSFX->Play(0);
+                Died = true;
+            }
+        }
+    }
+    
     
     if (Util::Input::IsKeyUp(Util::Keycode::ESCAPE) ||
         Util::Input::IfExit()) {

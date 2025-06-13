@@ -19,6 +19,7 @@ void SortSword::UnEquip(std::shared_ptr<Player> &m_Player) {
 }
 
 void SortSword::Skill(std::shared_ptr<Map> m_map, std::shared_ptr<Player> &m_Player, Util::Renderer *m_Root) {
+    PlayWaveSFX();
     auto projectile = std::make_shared<Projectile>(RESOURCE_DIR"/Weapon/SortSword/Projectile.png", Util::Input::GetCursorPosition(), 3, m_Player->GetAttack() * m_SkillMultiplier, m_FlightDistance);
     m_map->AddAllObjects(projectile);
     m_map->AddProjectile(projectile);

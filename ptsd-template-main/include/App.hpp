@@ -7,12 +7,14 @@
 
 class AnimatedCharacter;
 class CreateCharacterMenu;
+class Character;
 class StartMenu;
 class NewGameButton;
 class NameKeyBoard;
 class Map;
 class Player;
 class PlayerUI;
+class MyBGM;
 
 class App {
 public:
@@ -49,6 +51,7 @@ private:
 
     std::shared_ptr<NewGameButton> m_NewGameButton;
     std::shared_ptr<CreateCharacterMenu> m_CreateCharacterMenu;
+    std::shared_ptr<Character> m_YouDied;
 
     std::shared_ptr<Map> m_map;
     std::shared_ptr<PlayerUI> m_UI;
@@ -56,6 +59,8 @@ private:
     std::shared_ptr<Player> m_Player;
 
     static Util::Renderer m_Root;
+    std::shared_ptr<MyBGM> m_DiedSFX;
+    bool Died = 0;
 };
 
 #endif

@@ -19,6 +19,7 @@ void Club::UnEquip(std::shared_ptr<Player> &m_Player) {
 }
 
 void Club::Skill(std::shared_ptr<Map> m_map, std::shared_ptr<Player> &m_Player, Util::Renderer *m_Root) {
+    PlayWaveSFX();
     m_Player->Restore_HP((int)(m_Player->GetAttack().x + m_Player->GetAttack().y) / 2 + 10);
     auto projectile = std::make_shared<Projectile>(RESOURCE_DIR"/Weapon/Club/Effects.png", Util::Input::GetCursorPosition(), 0, glm::vec2(0, 0), m_FlightDistance, 0, 0.4f, Util::Input::GetCursorPosition(), ProjectileBehaviorType::HealingCircle, false);
     m_map->AddAllObjects(projectile);

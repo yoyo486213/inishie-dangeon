@@ -19,6 +19,7 @@ void IceRod::UnEquip(std::shared_ptr<Player> &m_Player) {
 }
 
 void IceRod::Skill(std::shared_ptr<Map> m_map, std::shared_ptr<Player> &m_Player, Util::Renderer *m_Root) {
+    PlayWaveSFX();
     auto projectile = std::make_shared<Projectile>(RESOURCE_DIR"/Weapon/IceRod/Projectile.png", Util::Input::GetCursorPosition(), 4, glm::vec2(((m_Player->GetAttack().x + m_Player->GetAttack().y) / 2 + (int)(m_Player->GetLevel() * 0.75f)) * 2 + 5), m_FlightDistance);
     m_map->AddAllObjects(projectile);
     m_map->AddProjectile(projectile);
