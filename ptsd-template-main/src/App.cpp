@@ -67,11 +67,22 @@ void App::Update() {
         {
             m_CreateCharacterMenu->Enter();
             m_GameState = GameState::ENTER_MAP;
-            m_Player = std::make_shared<Player>(RESOURCE_DIR"/Character/Butterfly.png", &m_Root);
+            auto images = std::vector<std::string>{
+                RESOURCE_DIR"/Player/Player-B-0.png",
+                RESOURCE_DIR"/Player/Player-B-1.png",
+                RESOURCE_DIR"/Player/Player-F-0.png",
+                RESOURCE_DIR"/Player/Player-F-1.png",
+                RESOURCE_DIR"/Player/Player-L-0.png",
+                RESOURCE_DIR"/Player/Player-L-1.png",
+                RESOURCE_DIR"/Player/Player-R-0.png",
+                RESOURCE_DIR"/Player/Player-R-1.png"
+            };
+            m_Player = std::make_shared<Player>(images, &m_Root);
+
             m_Root.AddChild(m_Player);
 
-            m_map = std::make_shared<Map>(&m_Root);
             m_UI = std::make_shared<PlayerUI>(m_map, m_Player, m_CreateCharacterMenu->GetName(), &m_Root);
+            m_map = std::make_shared<Map>(m_Player, m_UI, &m_Root);
         }
     
     if(m_CreateCharacterMenu->GetState() != Menu::State::Close) {
@@ -97,16 +108,24 @@ void App::Update() {
         float displacement = 2;
         for (int i = 0; i < displacement; i++) {
             if (Util::Input::IsKeyPressed(Util::Keycode::W)) {
-                    m_map->Move({0, -1}, m_Player, &m_Root);
+                m_map->Move({0, -1}, m_Player, &m_Root);
+                m_Player->SetDisplacement({0, 1});
+                m_Player->Update();
             }
             if (Util::Input::IsKeyPressed(Util::Keycode::A)) {
-                    m_map->Move({1, 0}, m_Player, &m_Root);
+                m_map->Move({1, 0}, m_Player, &m_Root);
+                m_Player->SetDisplacement({-1, 0});
+                m_Player->Update();
             }
             if (Util::Input::IsKeyPressed(Util::Keycode::S)) {
-                    m_map->Move({0, 1}, m_Player, &m_Root);
+                m_map->Move({0, 1}, m_Player, &m_Root);
+                m_Player->SetDisplacement({0, -1});
+                m_Player->Update();
             }
             if (Util::Input::IsKeyPressed(Util::Keycode::D)) {
-                    m_map->Move({-1, 0}, m_Player, &m_Root);
+                m_map->Move({-1, 0}, m_Player, &m_Root);
+                m_Player->SetDisplacement({1, 0});
+                m_Player->Update();
             }
         }
 

@@ -359,8 +359,8 @@ void PlayerUI::Update(std::shared_ptr<Player> &m_Player, Util::Renderer *m_Root)
     Click_Btn = 0;
     float deltaTime = Util::Time::GetDeltaTimeMs() / 1000.f; // 獲取每幀時間差
     m_SkillCD -= deltaTime; // 減少技能冷卻時間
-    m_Player->Restore_HP(5 * deltaTime);
-    m_Player->Restore_MP(2 * deltaTime);
+    m_Player->Restore_HP(0.5 * deltaTime);
+    m_Player->Restore_MP(0.2 * deltaTime);
 
     int HPRate=float(player->GetHP())/float(player->GetMaxHP())*100;
     if (HPRate >= 1)

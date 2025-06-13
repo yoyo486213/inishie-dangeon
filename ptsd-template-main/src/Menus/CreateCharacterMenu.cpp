@@ -54,7 +54,7 @@ CreateCharacterMenu::CreateCharacterMenu(Util::Renderer *m_Root) {
     m_Root->AddChild(m_WarriorDoorText);
 
     //初始化戰士角色
-    m_WarriorCharacter = std::make_shared<Menu>(RESOURCE_DIR"/Character/Butterfly.png");
+    m_WarriorCharacter = std::make_shared<Menu>(RESOURCE_DIR"/Player/Player-F-0.png");
     m_WarriorCharacter->SetZIndex(8);
     m_WarriorCharacter->SetVisible(false);
     m_WarriorCharacter->SetPosition({-3.5, 114.5});
