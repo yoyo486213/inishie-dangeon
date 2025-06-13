@@ -52,6 +52,7 @@ private:
     std::shared_ptr<Map> map;
     std::shared_ptr<Player> player;
     std::chrono::time_point<std::chrono::high_resolution_clock> Click_time;
+    bool Click_Btn = 0;
 
     MouseActionState m_MouseState = MouseActionState::Idle;
     std::shared_ptr<Item> m_DraggingItem = nullptr;

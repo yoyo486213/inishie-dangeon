@@ -234,7 +234,11 @@ void PlayerUI::DraggingItem() {
                 }
             }
         }
-
+        if (Click_Btn == 1)
+        {
+            m_Pressing = false;
+        }
+        
         if (m_Pressing && Util::Input::IsKeyPressed(Util::Keycode::MOUSE_LB)) {
             auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(
                 std::chrono::high_resolution_clock::now() - Click_time
@@ -272,11 +276,23 @@ void PlayerUI::DraggingItem() {
             for (int i = 0; i < 12; ++i) {
                 bool isFocused = (i < 4) ? m_Shortcuts[i]->IfFocus() : m_Inventory[i - 4]->IfFocus();
                 if (isFocused) {
-                    // 將 m_DraggingItem 和目標格子物品交換
+                    // 👉 如果是放回原位，什麼都不做
+                    if (i == m_DraggingFromSlot) {
+                        if (m_DraggingFromSlot < 4)
+                            m_ShortcutsItems[m_DraggingFromSlot] = m_DraggingItem;
+                        else
+                            m_InventoryItems[m_DraggingFromSlot - 4] = m_DraggingItem;
+
+                        m_DraggingItem = nullptr;
+                        dropped = true;
+                        break;
+                    }
+
+                    // 交換邏輯
                     auto& targetItem = (i < 4) ? m_ShortcutsItems[i] : m_InventoryItems[i - 4];
                     std::swap(m_DraggingItem, targetItem);
 
-                    // 將拖曳回去的 item 塞回原本的格子（可能是 nullptr）
+                    // 將原位物品補回
                     if (m_DraggingFromSlot < 4)
                         m_ShortcutsItems[m_DraggingFromSlot] = m_DraggingItem;
                     else
@@ -297,6 +313,7 @@ void PlayerUI::DraggingItem() {
 
                 m_DraggingItem = nullptr;
             }
+            SelectedSlot = -1;
         }
     }
 }
@@ -338,7 +355,8 @@ void PlayerUI::RejoinRander(Util::Renderer *m_Root){
 
 void PlayerUI::Update(std::shared_ptr<Player> &m_Player, Util::Renderer *m_Root) {
     
-
+    
+    Click_Btn = 0;
     float deltaTime = Util::Time::GetDeltaTimeMs() / 1000.f; // 獲取每幀時間差
     m_SkillCD -= deltaTime; // 減少技能冷卻時間
     m_Player->Restore_HP(5 * deltaTime);
@@ -380,6 +398,7 @@ void PlayerUI::Update(std::shared_ptr<Player> &m_Player, Util::Renderer *m_Root)
     }
 
     if (m_Backpack->IfClick()) {
+        Click_Btn = true;
         if (m_Backpack->GetImageIndex() == 3) {
             m_Backpack->ChangeImage(2);
             m_CloseButton->SetVisible(false);
@@ -429,6 +448,7 @@ void PlayerUI::Update(std::shared_ptr<Player> &m_Player, Util::Renderer *m_Root)
     }
 
     if (m_CloseButton->IfClick()) {
+        Click_Btn = true;
         m_Backpack->ChangeImage(1);
         m_CloseButton->SetVisible(false);
         m_BackpackBackGround->SetVisible(false);
@@ -453,6 +473,7 @@ void PlayerUI::Update(std::shared_ptr<Player> &m_Player, Util::Renderer *m_Root)
 
     for (int i = 0; i < 8; i++) {
         if (!m_DraggingItem && m_Inventory[i]->IfClick() && m_InventoryItems[i]) {
+            Click_Btn = true;
             for (int j = 0; j < 4; j++) {
                 if (!m_ShortcutsItems[j]) {
                     if (auto e = std::dynamic_pointer_cast<IEquipable>(m_InventoryItems[i])) {
@@ -499,18 +520,22 @@ void PlayerUI::Update(std::shared_ptr<Player> &m_Player, Util::Renderer *m_Root)
 
     for (int i = 0; i < 4; ++i) {
         if (!m_DraggingItem && (Util::Input::IsKeyDown(keycodes[i]) || m_Shortcuts[i]->IfClick()) && m_ShortcutsItems[i]) {
+            Click_Btn = true;
             if (auto e = std::dynamic_pointer_cast<IEquipable>(m_ShortcutsItems[i])) {
                 if (SelectedSlot != -1) {
                     std::dynamic_pointer_cast<IEquipable>(m_ShortcutsItems[SelectedSlot])->UnEquip(m_Player);
                 }
-                e->Equip(m_Player);
+                if (SelectedSlot != i) {
+                    e->Equip(m_Player);
+                }
+                
 
                 if (m_Shortcuts[i]->GetImageIndex() == 2 || m_Shortcuts[i]->GetImageIndex() == 5) {
                     m_Shortcuts[i]->ChangeImage(1);
                     SelectedSlot = -1;
                 }
                 else {
-                    m_Shortcuts[i]->ChangeImage(5);
+                    // m_Shortcuts[i]->ChangeImage(5);
                     SelectedSlot = i;
                 }
 
@@ -533,6 +558,22 @@ void PlayerUI::Update(std::shared_ptr<Player> &m_Player, Util::Renderer *m_Root)
         }
         else if (m_Shortcuts[i]->GetImageIndex() > 3) {
             m_Shortcuts[i]->ChangeImage(m_Shortcuts[i]->GetImageIndex() - 3);
+        }
+        if (SelectedSlot != -1) {
+            m_Shortcuts[SelectedSlot]->ChangeImage(2);
+            if (m_Shortcuts[SelectedSlot]->IfFocus()) {
+                if (m_Shortcuts[SelectedSlot]->GetImageIndex() <= 3) {
+                    m_Shortcuts[SelectedSlot]->ChangeImage(m_Shortcuts[SelectedSlot]->GetImageIndex() + 3);
+                }
+            }
+        }
+        else {
+            m_Shortcuts[i]->ChangeImage(1);
+        }
+        if (m_Shortcuts[i]->IfFocus()) {
+            if (m_Shortcuts[i]->GetImageIndex() <= 3) {
+                m_Shortcuts[i]->ChangeImage(m_Shortcuts[i]->GetImageIndex() + 3);
+            }
         }
     }
 
