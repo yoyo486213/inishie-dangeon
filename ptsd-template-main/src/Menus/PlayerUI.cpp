@@ -369,7 +369,7 @@ void PlayerUI::Update(std::shared_ptr<Player> &m_Player, Util::Renderer *m_Root)
     float deltaTime = Util::Time::GetDeltaTimeMs() / 1000.f; // 獲取每幀時間差
     deltaTime_Sum += deltaTime;
     m_SkillCD -= deltaTime; // 減少技能冷卻時間
-    if (deltaTime_Sum >= 0.5) {
+    if (deltaTime_Sum >= 1) {
         m_Player->Restore_HP(2);
         m_Player->Restore_MP(1);
         deltaTime_Sum = 0;
@@ -395,21 +395,26 @@ void PlayerUI::Update(std::shared_ptr<Player> &m_Player, Util::Renderer *m_Root)
     int HPRate=float(player->GetHP())/float(player->GetMaxHP())*100;
     if (HPRate >= 1)
         m_HP->SetCurrentFrame(HPRate-1);
-    else
+    else if (HPRate >= 0)
         m_HP->SetCurrentFrame(HPRate);
+    else
+        m_HP->SetCurrentFrame(0);
 
     int MPRate=float(player->GetMP())/float(player->GetMaxMP())*100;
     if (MPRate != 0)
         m_MP->SetCurrentFrame(MPRate-1);
-    else
+    else if (MPRate >= 0)
         m_MP->SetCurrentFrame(MPRate);
+    else
+        m_MP->SetCurrentFrame(0);
 
     int expRate=float(player->GetExp())/float(player->GetMaxExp())*75;
     if (expRate != 0)
         m_EXP->SetCurrentFrame(expRate-1);
-    else {
+    else if (expRate >= 0)
         m_EXP->SetCurrentFrame(expRate);
-    }
+    else
+        m_EXP->SetCurrentFrame(0);
 
 
     // 更新玩家等級顯示

@@ -7,6 +7,7 @@
 
 class AnimatedCharacter;
 class CreateCharacterMenu;
+class Character;
 class StartMenu;
 class NewGameButton;
 class NameKeyBoard;
@@ -49,6 +50,7 @@ private:
 
     std::shared_ptr<NewGameButton> m_NewGameButton;
     std::shared_ptr<CreateCharacterMenu> m_CreateCharacterMenu;
+    std::shared_ptr<Character> m_YouDied;
 
     std::shared_ptr<Map> m_map;
     std::shared_ptr<PlayerUI> m_UI;
