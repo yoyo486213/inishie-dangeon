@@ -33,11 +33,6 @@ void App::Start() {
     m_StartAnime->Play();
     m_Root.AddChild(m_StartAnime);
 
-    m_YouDied = std::make_shared<Character>(RESOURCE_DIR"/Player/YouDied.png");
-    m_YouDied->SetPosition({0, 0});
-    m_YouDied->SetVisible(false);
-    m_YouDied->SetZIndex(61);
-    m_Root.AddChild(m_YouDied);
     // 建構開始畫面
     m_StartMenu = std::make_shared<StartMenu>(&m_Root);
     m_NewGameButton = std::make_shared<NewGameButton>(&m_Root);
@@ -146,8 +141,12 @@ void App::Update() {
     }
     
     if (m_GameState == GameState::ENTER_MAP) {
-        if (m_Player->GetHP() <= 0) {
+        if (m_Player->GetHP() <= 0 || !m_Player->GetVisibility()) {
+            m_YouDied = std::make_shared<Character>(RESOURCE_DIR"/Player/YouDied.png");
+            m_YouDied->SetPosition({0, 0});
             m_YouDied->SetVisible(true);
+            m_YouDied->SetZIndex(70);
+            m_Root.AddChild(m_YouDied);
         }
     }
     
