@@ -51,22 +51,22 @@
 </data>
  </layer>
  <objectgroup id="2" name="Object">
-  <object id="1" gid="19" x="812" y="756" width="28" height="28"/>
-  <object id="2" gid="19" x="728" y="840" width="28" height="28"/>
-  <object id="3" gid="19" x="644" y="756" width="28" height="28"/>
-  <object id="4" gid="19" x="504" y="756" width="28" height="28"/>
-  <object id="5" gid="19" x="420" y="840" width="28" height="28"/>
-  <object id="6" gid="19" x="336" y="756" width="28" height="28"/>
-  <object id="7" gid="19" x="420" y="672" width="28" height="28"/>
-  <object id="8" gid="19" x="336" y="448" width="28" height="28"/>
-  <object id="9" gid="19" x="420" y="364" width="28" height="28"/>
-  <object id="10" gid="19" x="504" y="448" width="28" height="28"/>
-  <object id="11" gid="19" x="644" y="448" width="28" height="28"/>
-  <object id="12" gid="19" x="728" y="364" width="28" height="28"/>
-  <object id="13" gid="19" x="812" y="448" width="28" height="28"/>
-  <object id="14" gid="19" x="728" y="532" width="28" height="28"/>
-  <object id="15" gid="9" x="644" y="644" width="28" height="28"/>
-  <object id="16" gid="10" x="644" y="532" width="28" height="28"/>
+  <object id="1" name="IronDoor" gid="19" x="812" y="756" width="28" height="28"/>
+  <object id="2" name="IronDoor" gid="19" x="728" y="840" width="28" height="28"/>
+  <object id="3" name="IronDoor" gid="19" x="644" y="756" width="28" height="28"/>
+  <object id="4" name="IronDoor" gid="19" x="504" y="756" width="28" height="28"/>
+  <object id="5" name="IronDoor" gid="19" x="420" y="840" width="28" height="28"/>
+  <object id="6" name="IronDoor" gid="19" x="336" y="756" width="28" height="28"/>
+  <object id="7" name="IronDoor" gid="19" x="420" y="672" width="28" height="28"/>
+  <object id="8" name="IronDoor" gid="19" x="336" y="448" width="28" height="28"/>
+  <object id="9" name="IronDoor" gid="19" x="420" y="364" width="28" height="28"/>
+  <object id="10" name="IronDoor" gid="19" x="504" y="448" width="28" height="28"/>
+  <object id="11" name="IronDoor" gid="19" x="644" y="448" width="28" height="28"/>
+  <object id="12" name="IronDoor" gid="19" x="728" y="364" width="28" height="28"/>
+  <object id="13" name="IronDoor" gid="19" x="812" y="448" width="28" height="28"/>
+  <object id="14" name="IronDoor" gid="19" x="728" y="532" width="28" height="28"/>
+  <object id="15" name="UpStairs" gid="9" x="644" y="644" width="28" height="28"/>
+  <object id="16" name="DownStairs" gid="10" x="644" y="532" width="28" height="28"/>
  </objectgroup>
  <objectgroup id="3" name="Unexplored"/>
  <objectgroup id="4" name="InvisibleWall">
