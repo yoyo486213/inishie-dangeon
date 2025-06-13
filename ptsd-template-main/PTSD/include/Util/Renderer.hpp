@@ -45,16 +45,14 @@ public:
      */
     void RemoveChild(std::shared_ptr<GameObject> child);
 
+    void ClearChildren() { m_Children.clear(); }
+
     /**
      * @brief Draw children according to their z-index.
      *
      * @note The user is not recommended to modify this function.
      */
     void Update();
-    
-    void ClearChildren() {
-        m_Children.clear();
-    };
 
 private:
     std::vector<std::shared_ptr<GameObject>> m_Children;
