@@ -369,8 +369,28 @@ void PlayerUI::Update(std::shared_ptr<Player> &m_Player, Util::Renderer *m_Root)
     float deltaTime = Util::Time::GetDeltaTimeMs() / 1000.f; // 獲取每幀時間差
     deltaTime_Sum += deltaTime;
     m_SkillCD -= deltaTime; // 減少技能冷卻時間
-    m_Player->Restore_HP(0.5 * deltaTime);
-    m_Player->Restore_MP(0.2 * deltaTime);
+    if (deltaTime_Sum >= 0.5) {
+        m_Player->Restore_HP(2);
+        m_Player->Restore_MP(1);
+        deltaTime_Sum = 0;
+    }
+    
+    
+
+    if (SelectedSlot != -1) {
+        m_CD->SetVisible(true);
+        m_CD->SetPosition(m_Shortcuts[SelectedSlot]->GetPosition());
+        int CDRate=float(m_SkillCD)/float(GetWeapon()->GetSkillCD())*28;
+        if (CDRate >= 1)
+            m_CD->SetCurrentFrame(CDRate-1);
+        else if (CDRate <=0)
+            m_CD->SetCurrentFrame(0);
+        else
+            m_CD->SetCurrentFrame(CDRate);
+    }
+    else {
+        m_CD->SetVisible(false);
+    }
 
     int HPRate=float(player->GetHP())/float(player->GetMaxHP())*100;
     if (HPRate >= 1)
