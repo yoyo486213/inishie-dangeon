@@ -8,19 +8,19 @@ cmake_policy(SET CMP0135 NEW)
 include(FetchContent)
 set(FETCHCONTENT_QUIET FALSE)
 
-# FetchContent_Declare(
-#     ptsd
+FetchContent_Declare(
+    ptsd
 
-#     URL        https://github.com/ntut-open-source-club/practical-tools-for-simple-design/archive/refs/tags/v0.2.zip
+    URL        https://github.com/ntut-open-source-club/practical-tools-for-simple-design/archive/refs/tags/v0.2.zip
 
-#     # Or alternatively if you want to use a specific git commit instead of a release:
-#     # GIT_REPOSITORY  https://github.com/ntut-open-source-club/practical-tools-for-simple-design.git
-#     # GIT_TAG         <git_tag>
+    # Or alternatively if you want to use a specific git commit instead of a release:
+    # GIT_REPOSITORY  https://github.com/ntut-open-source-club/practical-tools-for-simple-design.git
+    # GIT_TAG         <git_tag>
 
-#     SOURCE_DIR  ${CMAKE_CURRENT_SOURCE_DIR}/PTSD
-# )
+    SOURCE_DIR  ${CMAKE_CURRENT_SOURCE_DIR}/PTSD
+)
 
-# FetchContent_MakeAvailable(ptsd)
+FetchContent_MakeAvailable(ptsd)
 
 include(files.cmake)
 set(SRC_DIR ${CMAKE_SOURCE_DIR}/src)
