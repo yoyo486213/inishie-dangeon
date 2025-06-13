@@ -13,12 +13,14 @@
 #include "Map/Map.hpp"
 #include "Player.hpp"
 #include "Character.hpp"
+#include "MyBGM.hpp"
 
 
 Util::Renderer App::m_Root;
 void App::Start() {
     LOG_TRACE("Start");
 
+    m_DiedSFX = std::make_shared<MyBGM>(RESOURCE_DIR"/BGM/sounds/PlayerDie.wav");
     // 開門畫面
     std::vector<std::string> StartAnimeImages; 
     StartAnimeImages.reserve(63);
@@ -147,6 +149,10 @@ void App::Update() {
             m_YouDied->SetVisible(true);
             m_YouDied->SetZIndex(70);
             m_Root.AddChild(m_YouDied);
+            if(!Died) {
+                m_DiedSFX->Play(0);
+                Died = true;
+            }
         }
     }
     

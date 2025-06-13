@@ -7,6 +7,7 @@
 #include "Item.hpp"
 
 class Player;
+class MyBGM;
 
 class Potion : public IUsable, public IClickable, public Item {
 public:
@@ -31,6 +32,7 @@ private:
 
     Type type;
     std::vector<std::string> m_ImagePaths;
+    std::shared_ptr<MyBGM> m_DrinkSFX = std::make_shared<MyBGM>(RESOURCE_DIR"/BGM/sounds/DrinkPotion.wav");
 };
 
 #endif //POTION_HPP

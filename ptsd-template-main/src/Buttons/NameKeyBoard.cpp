@@ -84,9 +84,6 @@ NameKeyBoard::NameKeyBoard(Util::Renderer *m_Root) {
     m_ControlBtn.emplace_back(Cancel);
     m_Root->AddChild(Cancel);
 
-    //初始化BGM
-    m_ButtonBGM = std::make_shared<MyBGM>(RESOURCE_DIR"/BGM/MenuOpenSnd.wav");
-
     m_Name = std::make_shared<Text>(RESOURCE_DIR"/Text/space.png");
     m_Name->SetZIndex(8);
     m_Name->SetPosition({-3.5, 50});

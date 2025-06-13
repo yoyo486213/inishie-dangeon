@@ -39,7 +39,9 @@ public:
     bool IsEquip() { return SelectedSlot != -1; }
 
     void DropItem();
-    
+    std::shared_ptr<Item> GetDropItem() { return m_DropItem; }
+    void DeletDropItem() { m_DropItem = nullptr; }
+
     void SwapItem(int from, int to);
 
     void DraggingItem();
@@ -57,6 +59,7 @@ private:
 
     MouseActionState m_MouseState = MouseActionState::Idle;
     std::shared_ptr<Item> m_DraggingItem = nullptr;
+    std::shared_ptr<Item> m_DropItem = nullptr;
     int m_DraggingFromSlot = -1;
     int m_CurrentPressingIndex;
     bool m_Pressing = false;

@@ -7,6 +7,7 @@
 #include "IClickable.hpp"
 
 class Player;
+class MyBGM;
 
 class Orb : public IClickable, public ICollidable, public Character {
 public:
@@ -41,6 +42,7 @@ private:
 
     Type type;
     std::vector<std::string> ImagePaths;
+    std::shared_ptr<MyBGM> m_DrinkSFX = std::make_shared<MyBGM>(RESOURCE_DIR"/BGM/sounds/DrinkPotion.wav");
 };
 
 #endif // ORB_HPP

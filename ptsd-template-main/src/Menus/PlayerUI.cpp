@@ -216,7 +216,11 @@ bool PlayerUI::PeekItem(std::shared_ptr<Item> item) {
 }
 
 void PlayerUI::DropItem() {
-
+    if (m_DraggingItem) {
+        m_DropItem = m_DraggingItem;
+        // map->DropItems(Util::Input::GetCursorPosition(), m_DraggingItem);
+        m_DraggingItem = nullptr;
+    }
 }
 
 void PlayerUI::SwapItem(int from, int to) {
@@ -314,12 +318,7 @@ void PlayerUI::DraggingItem() {
             }
 
             if (!dropped && m_DraggingItem) {
-                if (m_DraggingFromSlot < 4)
-                    m_ShortcutsItems[m_DraggingFromSlot] = m_DraggingItem;
-                else
-                    m_InventoryItems[m_DraggingFromSlot - 4] = m_DraggingItem;
-
-                m_DraggingItem = nullptr;
+                DropItem();
             }
             SelectedSlot = -1;
         }

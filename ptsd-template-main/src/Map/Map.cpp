@@ -6,6 +6,7 @@
 #include "ICollidable.hpp"
 #include "Calculation.hpp"
 #include "Character.hpp"
+#include "MyBGM.hpp"
 
 #include "Map/InvisibleWall.hpp"
 #include "Map/Unexplored.hpp"
@@ -53,6 +54,9 @@
 #include <set>
 
 Map::Map(std::shared_ptr<Player> &m_Player, std::shared_ptr<PlayerUI> &m_UI, Util::Renderer *m_Root) {
+    m_StairsSFX = std::make_shared<MyBGM>(RESOURCE_DIR"/BGM/sounds/Stair.wav");
+    m_ChestSFX = std::make_shared<MyBGM>(RESOURCE_DIR"/BGM/sounds/OpenChest.wav");
+
     CreateMap(m_Root);
     auto sortSword = std::make_shared<SortSword>();
     sortSword->SetPosition({80, -194});
@@ -305,6 +309,7 @@ void Map::CreateMap(Util::Renderer *m_Root) {
                 // 第 10 層為 BOSS 房間
                 if (floor == 10) {
                     if (!BossSpawned) {
+                        m_BossSFX->Play(0);
                         BossSpawned = true;
                         auto boss = std::make_shared<Ghoul>();
 
@@ -455,7 +460,7 @@ void Map::CreateItems(glm::vec2 pos, std::shared_ptr<Player> &m_Player, Util::Re
     }
 }
 
-void Map::DropItems(glm::vec2 Mouse_pos, std::shared_ptr<Item> &Item) {
+void Map::DropItems(glm::vec2 Mouse_pos, std::shared_ptr<Item> Item) {
     glm::vec2 pos = Calculation::GetRelativeCoordinates(m_UpStairs->GetPosition(), Mouse_pos);
     Item->SetPosition(pos);
     Item->SetVisible(true);
@@ -474,6 +479,7 @@ void Map::Update(std::shared_ptr<Player> &m_Player, std::shared_ptr<PlayerUI> &m
         auto chest = std::dynamic_pointer_cast<Chest>(m_CurrentInteracting);
         if (chest && chest->GetOpened() == Chest::OpenType::Normal) {
             chest->SetOpened(Chest::OpenType::Trash);
+            m_ChestSFX->Play(0);
             const std::vector<glm::vec2> directions = {
                 {0, 1}, {0, -1}, {-1, 0}, {1, 0}, {1, 1}, {1, -1}, {-1, 1}, {-1, -1}
             };
@@ -528,6 +534,7 @@ void Map::Update(std::shared_ptr<Player> &m_Player, std::shared_ptr<PlayerUI> &m
     m_UpStairs->ChangeImage(m_UpStairs->IfFouse() ? 2 : 1);
     m_DownStairs->ChangeImage(m_DownStairs->IfFouse() ? 2 : 1);
     if (m_DownStairs->IfClick()) {
+        m_StairsSFX->Play(0);
         m_Root->ClearChildren();
         floor += 1;
         m_UI->RejoinRander(m_Root);
@@ -536,6 +543,7 @@ void Map::Update(std::shared_ptr<Player> &m_Player, std::shared_ptr<PlayerUI> &m
         m_Player->Restore_MP(m_Player->GetMaxMP());
     }
     else if (m_UpStairs->IfClick()) {
+        m_StairsSFX->Play(0);
         m_Root->ClearChildren();
         if (floor > 1) {
             floor -= 1;
@@ -571,6 +579,14 @@ void Map::Update(std::shared_ptr<Player> &m_Player, std::shared_ptr<PlayerUI> &m
         }
     }
     
+    if (auto I = m_UI->GetDropItem())
+    {
+        this->DropItems(Util::Input::GetCursorPosition(), I);
+        m_ItemDropSFX->Play(0);
+        m_UI->DeletDropItem();
+    }
+    
+
     // 判斷武器碰撞
     for (auto it = m_Projectiles.begin(); it != m_Projectiles.end(); ) {
         auto& projectile = *it;

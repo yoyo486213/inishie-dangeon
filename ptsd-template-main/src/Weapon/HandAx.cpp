@@ -19,6 +19,7 @@ void HandAx::UnEquip(std::shared_ptr<Player> &m_Player) {
 }
 
 void HandAx::Skill(std::shared_ptr<Map> m_map, std::shared_ptr<Player> &m_Player, Util::Renderer *m_Root) {
+    PlayWaveSFX();
     auto projectile = std::make_shared<Projectile>(RESOURCE_DIR"/Weapon/HandAx.png", Util::Input::GetCursorPosition(), 3, m_Player->GetAttack() * m_SkillMultiplier, m_FlightDistance, 0, 1.0f, glm::vec2({0, 0}), ProjectileBehaviorType::AxeSpin, true, false);
     m_map->AddAllObjects(projectile);
     m_map->AddProjectile(projectile);

@@ -4,6 +4,7 @@
 
 #include "pch.hpp"
 #include "Character.hpp"
+#include "MyBGM.hpp"
 
 namespace Util {
     class Renderer;
@@ -104,6 +105,7 @@ public:
     }
     int GetMaxExp() { return m_MaxExp; }
 
+    void PlayBlockSFX() { m_BlockSFX->Play(0); }
     int GetLevel() const { return m_level; }
     void RestoreLever() { m_level += 1; }
 
@@ -146,6 +148,8 @@ private:
         2560000, 2657205, 2756840, 2858935, 2963520, 3070625, 3180280, 3292515, 3407360, 3524845,
         3645000, 3767855, 3893440, 4021785, 4152920, 4286875, 4423680, 4563365, 4705960, 4851495
     };
+
+    std::shared_ptr<MyBGM> m_BlockSFX = std::make_shared<MyBGM>(RESOURCE_DIR"/BGM/sounds/Block.wav");
 };
 
 #endif //PLAYER_HPP

@@ -148,6 +148,7 @@ void Skeleton::Update(std::shared_ptr<Player> &m_Player, std::vector<std::shared
                     int rate = hitrate(engine);
                     if (rate < m_Player->GetBlockrate()) {
                         // std::cout << "Block!" << std::endl;
+                        m_Player->PlayBlockSFX();
                         break;
                     }
                     if (rate > m_Hitrate / ((m_Player->GetDodgerate() + 100) / 100.0)) {

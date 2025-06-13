@@ -20,6 +20,7 @@ void Dark::UnEquip(std::shared_ptr<Player> &m_Player) {
 }
 
 void Dark::Skill(std::shared_ptr<Map> m_map, std::shared_ptr<Player> &m_Player, Util::Renderer *m_Root) {
+    PlayWaveSFX();
     glm::vec2 center = m_Player->GetPosition();
 
     for (int i = 0; i < 3; ++i) {

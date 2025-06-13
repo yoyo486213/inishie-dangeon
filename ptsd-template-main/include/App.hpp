@@ -14,6 +14,7 @@ class NameKeyBoard;
 class Map;
 class Player;
 class PlayerUI;
+class MyBGM;
 
 class App {
 public:
@@ -58,6 +59,8 @@ private:
     std::shared_ptr<Player> m_Player;
 
     static Util::Renderer m_Root;
+    std::shared_ptr<MyBGM> m_DiedSFX;
+    bool Died = 0;
 };
 
 #endif

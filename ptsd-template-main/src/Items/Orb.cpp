@@ -2,6 +2,7 @@
 #include "Util/Input.hpp"
 #include <random>
 #include "Player.hpp"
+#include "MyBGM.hpp"
 
 #include <iostream>
 
@@ -43,6 +44,8 @@ bool Orb::IsCollision(const std::shared_ptr<Character> &other, glm::vec2 displac
 }
 
 void Orb::OnCollision(std::shared_ptr<Player> &m_Player) {
+    
+    m_DrinkSFX->Play(0);
     switch (this->type) {
         case Type::Hp:
             m_Player->Restore_HP(m_Player->GetMaxHP() * 0.2f);

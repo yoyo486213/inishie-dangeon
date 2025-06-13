@@ -26,6 +26,7 @@ void Bow::Attack(std::shared_ptr<Map> m_map, std::shared_ptr<Player> &m_Player, 
 }
 
 void Bow::Skill(std::shared_ptr<Map> m_map, std::shared_ptr<Player> &m_Player, Util::Renderer* m_Root) {
+    PlayWaveSFX();
     glm::vec2 cursorPos = Util::Input::GetCursorPosition();
 
     std::default_random_engine engine(std::random_device{}());

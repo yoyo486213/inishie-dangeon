@@ -65,7 +65,7 @@ private:
 
     bool EnterEnable = 0;
 
-    std::shared_ptr<MyBGM> m_ButtonBGM;
+    std::shared_ptr<MyBGM> m_ButtonBGM = std::make_shared<MyBGM>(RESOURCE_DIR"/BGM/sounds/ItemDrop.wav");
 };
 
 #endif //NAMEKEYBOARD_HPP
