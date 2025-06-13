@@ -52,8 +52,36 @@
 #include <memory>
 #include <set>
 
-Map::Map(Util::Renderer *m_Root) {
+Map::Map(std::shared_ptr<Player> &m_Player, std::shared_ptr<PlayerUI> &m_UI, Util::Renderer *m_Root) {
     CreateMap(m_Root);
+    auto sortSword = std::make_shared<SortSword>();
+    sortSword->SetPosition({80, -194});
+    sortSword->SetZIndex(60);
+    sortSword->SetVisible(true);
+    m_Root->AddChild(sortSword);
+
+    auto buckler = std::make_shared<Buckler>();
+    buckler->SetPosition({122, -194});
+    buckler->SetZIndex(60);
+    buckler->SetVisible(true);
+    m_Root->AddChild(buckler);
+
+    auto potion1 = std::make_shared<Potion>(m_Player);
+    potion1->SetPosition({164, -194});
+    potion1->SetZIndex(60);
+    potion1->SetVisible(true);
+    m_Root->AddChild(potion1);
+
+    auto potion2 = std::make_shared<Potion>(m_Player);
+    potion2->SetPosition({206, -194});
+    potion2->SetZIndex(60);
+    potion2->SetVisible(true);
+    m_Root->AddChild(potion2);
+
+    m_UI->PeekItem(std::dynamic_pointer_cast<Item>(sortSword));
+    m_UI->PeekItem(std::dynamic_pointer_cast<Item>(buckler));
+    m_UI->PeekItem(std::dynamic_pointer_cast<Item>(potion1));
+    m_UI->PeekItem(std::dynamic_pointer_cast<Item>(potion2));
 }
 
 void Map::CreateMap(Util::Renderer *m_Root) {
@@ -74,6 +102,7 @@ void Map::CreateMap(Util::Renderer *m_Root) {
     AllCollidableObjects.clear();
     AllObjects.clear();
     m_Monsters.clear();
+    m_Projectiles.clear();
 
     m_FloorText = std::make_shared<Text>(FloorImages[0]);
     m_FloorText->SetZIndex(60);
@@ -643,6 +672,9 @@ void Map::Move(glm::vec2 displacement, std::shared_ptr<Player> &m_Player, Util::
             
             m_CurrentInteracting = item;
             unconti = true;
+            // 普功回魔
+            float deltaTime = Util::Time::GetDeltaTimeMs() / 1000.f;
+            m_Player->Restore_MP(0.2 * deltaTime);
         }
     }
     for (const auto& orb : m_Orbs) {

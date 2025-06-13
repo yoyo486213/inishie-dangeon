@@ -6,10 +6,11 @@
 #include "pch.hpp"
 #include "Button.hpp"
 
-Player::Player(const std::string &ImagePath, Util::Renderer *m_Root) : Character(ImagePath) {
+Player::Player(const std::vector<std::string> &ImagePath, Util::Renderer *m_Root) : Character(ImagePath[0]) {
     this->SetPosition({0, 0});
     this->SetVisible(true);
     this->SetZIndex(15);
+    m_ImagePaths = ImagePath;
     (void)m_Root;
 
     // char buffer[200];
@@ -46,22 +47,63 @@ int Player::Attack() {
     return 0;
 }
 
-void Player::Update(std::shared_ptr<Character> &m_map) {
-    (void)m_map;
-    // for (int i = 0; i < 4; i++)
-    // {
-    //     if (m_Shortcuts[i]->IfFocus()) {
-    //         m_Shortcuts[i]->SetImage(RESOURCE_DIR"/UI/.png");
-    //     }
-    //     if (m_Shortcuts[i]->IfClick()) {
-    //         m_Shortcuts[i]->SetImage(RESOURCE_DIR"/UI/.png");
-    //         SelectedSlot = i;
-    //     }
-    // }
-    // for (int i = 0; i < 8; i++)
-    // {
-    //     m_Inventory[i]->IfClick();
-    // }
+void Player::Update() {
+    if (displacement == glm::vec2{0, 1}) {
+        if (m_ImageIndex == 0) { 
+            this->ChangeImage(1);
+            this->m_ImageIndex = 1;
+        }
+        else if (m_ImageIndex == 1) {
+            this->ChangeImage(0);
+            this->m_ImageIndex = 0;
+        }
+        else {
+            this->ChangeImage(0);
+            this->m_ImageIndex = 0;
+        }
+    }
+    else if (displacement == glm::vec2{0, -1}) {
+        if (m_ImageIndex == 2) { 
+            this->ChangeImage(3);
+            this->m_ImageIndex = 3;
+        }
+        else if (m_ImageIndex == 3) {
+            this->ChangeImage(2);
+            this->m_ImageIndex = 2;
+        }
+        else {
+            this->ChangeImage(2);
+            this->m_ImageIndex = 2;
+        }
+    }
+    else if (displacement == glm::vec2{-1, 0}) {
+        if (m_ImageIndex == 4) { 
+            this->ChangeImage(5);
+            this->m_ImageIndex = 5;
+        }
+        else if (m_ImageIndex == 5) {
+            this->ChangeImage(4);
+            this->m_ImageIndex = 4;
+        }
+        else {
+            this->ChangeImage(4);
+            this->m_ImageIndex = 4;
+        }
+    }
+    else if (displacement == glm::vec2{1, 0}) {
+        if (m_ImageIndex == 6) { 
+            this->ChangeImage(7);
+            this->m_ImageIndex = 7;
+        }
+        else if (m_ImageIndex == 7) {
+            this->ChangeImage(6);
+            this->m_ImageIndex = 6;
+        }
+        else {
+            this->ChangeImage(6);
+            this->m_ImageIndex = 6;
+        }
+    }
 }
 
 void Player::TakeDamage(int damage) {

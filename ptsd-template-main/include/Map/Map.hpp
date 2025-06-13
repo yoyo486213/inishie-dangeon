@@ -29,7 +29,7 @@ class Item;
 
 class Map : public Util::GameObject, public std::enable_shared_from_this<Map> {
 public:
-    Map(Util::Renderer *m_Root);
+    Map(std::shared_ptr<Player> &m_Player, std::shared_ptr<PlayerUI> &m_UI, Util::Renderer *m_Root);
 
     void CreateMap(Util::Renderer *m_Root);
 

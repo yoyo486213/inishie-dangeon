@@ -15,13 +15,13 @@ class Item;
 
 class Player : public Character {
 public:
-    Player(const std::string &ImagePath, Util::Renderer *m_Root);
+    Player(const std::vector<std::string> &ImagePath, Util::Renderer *m_Root);
 
     virtual ~Player() = default;
 
     int Attack();
 
-    void Update(std::shared_ptr<Character> &m_map);
+    void Update();
 
     void TakeDamage(int damage);
 
@@ -39,7 +39,7 @@ public:
 
     int GetMP() const { return m_MP; }
     int GetMaxMP() const {return m_MaxMP; }
-    void Restore_MP(int mp) { 
+    void Restore_MP(float mp) { 
         this->m_MP += mp; 
         if (this->GetMP() > this->GetMaxMP()) {
             this->m_MP = this->GetMaxMP();
@@ -106,11 +106,19 @@ public:
 
     int GetLevel() const { return m_level; }
     void RestoreLever() { m_level += 1; }
+
+    void SetDisplacement(const glm::vec2 &displacement) { this->displacement = displacement; }
+
+    void ChangeImage(int index) { this->SetImage(m_ImagePaths[index]); }
 private:
-    int m_HP = 50;
-    int m_MaxHP = m_HP;
-    int m_MP = 20;
-    int m_MaxMP = m_MP;
+    glm::vec2 displacement;
+    std::vector<std::string> m_ImagePaths;
+    int m_ImageIndex = 0;
+
+    float m_HP = 50;
+    float m_MaxHP = m_HP;
+    float m_MP = 20;
+    float m_MaxMP = m_MP;
     glm::vec2 m_Attack = {1, 4};
     int m_Defense = 0;
     int m_Hitrate = 100;
