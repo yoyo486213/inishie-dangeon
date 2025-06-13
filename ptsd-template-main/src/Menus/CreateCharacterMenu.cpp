@@ -93,6 +93,7 @@ void CreateCharacterMenu::CloseMenu(){
     m_CreateCharacter_X->SetVisible(false);
     m_MenuCloseBGM->Play(0);
     m_NameKeyBoard->Closing();
+    m_NameKeyBoard->DisableEnter();
 }
 
 void CreateCharacterMenu::Enter() {
@@ -163,6 +164,7 @@ void CreateCharacterMenu::Update(){
         m_WarriorDoorBGM->Play(0);
         m_WarriorDoorFrame->SetUsed(true);
         m_WarriorDoorText->SetUsed(true);
+        m_NameKeyBoard->EnableEnter();
     }
     
     if (state == State::Close && m_MenuBackGround->GetState() == Menu::State::Stop) {

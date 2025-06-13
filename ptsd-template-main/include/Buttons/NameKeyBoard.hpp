@@ -38,6 +38,9 @@ public:
     void ToNumberType();
     void ToEnglishType();
     
+    void EnableEnter() {EnterEnable = true;}
+    void DisableEnter() {EnterEnable = false;}
+
     int ClickContorlBtn();
 
     std::shared_ptr<Text> GetName() { return m_Name; }
@@ -59,6 +62,8 @@ private:
     int outputIndex = 0;
     std::shared_ptr<Text> m_Name;
     std::chrono::time_point<std::chrono::high_resolution_clock> Click_time;
+
+    bool EnterEnable = 0;
 
     std::shared_ptr<MyBGM> m_ButtonBGM;
 };

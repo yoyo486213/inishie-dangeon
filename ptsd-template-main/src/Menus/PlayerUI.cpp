@@ -101,6 +101,18 @@ PlayerUI::PlayerUI(std::shared_ptr<Map> MapRef, std::shared_ptr<Player> playerRe
     m_EXP->SetZIndex(40);
     m_Root->AddChild(m_EXP);
 
+    std::vector<std::string> CDImages;
+    CDImages.reserve(10);
+    for (int i = 1; i < 29; i++) {
+        snprintf(buffer, sizeof(buffer), RESOURCE_DIR"/UI/CDBar/CDBar-%02d.png", i);
+        CDImages.emplace_back(buffer);
+    }
+    m_CD = std::make_shared<AnimatedCharacter>(CDImages);
+    m_CD->SetVisible(false);
+    m_CD->SetLooping(false);
+    m_CD->SetZIndex(40);
+    m_Root->AddChild(m_CD);
+
     m_SelectedBlockBox = std::make_shared<Character>(RESOURCE_DIR"/UI/SelectedBlock.png");
     m_SelectedBlockBox->SetVisible(false);
     m_SelectedBlockBox->SetZIndex(39);
@@ -184,7 +196,7 @@ bool PlayerUI::PeekItem(std::shared_ptr<Item> item) {
         if (!m_ShortcutsItems[i]) {
             m_ShortcutsItems[i] = item;
             item->SetPosition(m_Shortcuts[i]->GetPosition());
-            item->SetZIndex(40);
+            item->SetZIndex(41);
             return true;
         }
     }
@@ -193,7 +205,7 @@ bool PlayerUI::PeekItem(std::shared_ptr<Item> item) {
         if (!m_InventoryItems[i]) {
             m_InventoryItems[i] = item;
             item->SetPosition(m_Inventory[i]->GetPosition());
-            item->SetZIndex(40);
+            item->SetZIndex(41);
             if (m_Backpack->GetImageIndex() != 3) {
                 item->SetVisible(false);
             }
@@ -276,7 +288,6 @@ void PlayerUI::DraggingItem() {
             for (int i = 0; i < 12; ++i) {
                 bool isFocused = (i < 4) ? m_Shortcuts[i]->IfFocus() : m_Inventory[i - 4]->IfFocus();
                 if (isFocused) {
-                    // 👉 如果是放回原位，什麼都不做
                     if (i == m_DraggingFromSlot) {
                         if (m_DraggingFromSlot < 4)
                             m_ShortcutsItems[m_DraggingFromSlot] = m_DraggingItem;
@@ -288,11 +299,9 @@ void PlayerUI::DraggingItem() {
                         break;
                     }
 
-                    // 交換邏輯
                     auto& targetItem = (i < 4) ? m_ShortcutsItems[i] : m_InventoryItems[i - 4];
                     std::swap(m_DraggingItem, targetItem);
 
-                    // 將原位物品補回
                     if (m_DraggingFromSlot < 4)
                         m_ShortcutsItems[m_DraggingFromSlot] = m_DraggingItem;
                     else
@@ -304,7 +313,6 @@ void PlayerUI::DraggingItem() {
                 }
             }
 
-            // 如果沒有放到任何格子，放回原位
             if (!dropped && m_DraggingItem) {
                 if (m_DraggingFromSlot < 4)
                     m_ShortcutsItems[m_DraggingFromSlot] = m_DraggingItem;
@@ -328,6 +336,7 @@ void PlayerUI::RejoinRander(Util::Renderer *m_Root){
     m_Root->AddChild(m_EXPBox);
     m_Root->AddChild(m_EXP);
     m_Root->AddChild(m_EXPText);
+    m_Root->AddChild(m_CD);
     m_Root->AddChild(m_LevelTensDigits);
     m_Root->AddChild(m_LevelSingleDigits);
     for (int i = 0; i < 4; i++) {
@@ -358,9 +367,30 @@ void PlayerUI::Update(std::shared_ptr<Player> &m_Player, Util::Renderer *m_Root)
     
     Click_Btn = 0;
     float deltaTime = Util::Time::GetDeltaTimeMs() / 1000.f; // 獲取每幀時間差
+    deltaTime_Sum += deltaTime;
     m_SkillCD -= deltaTime; // 減少技能冷卻時間
-    m_Player->Restore_HP(5 * deltaTime);
-    m_Player->Restore_MP(2 * deltaTime);
+    if (deltaTime_Sum >= 0.5) {
+        m_Player->Restore_HP(2);
+        m_Player->Restore_MP(1);
+        deltaTime_Sum = 0;
+    }
+    
+    
+
+    if (SelectedSlot != -1) {
+        m_CD->SetVisible(true);
+        m_CD->SetPosition(m_Shortcuts[SelectedSlot]->GetPosition());
+        int CDRate=float(m_SkillCD)/float(GetWeapon()->GetSkillCD())*28;
+        if (CDRate >= 1)
+            m_CD->SetCurrentFrame(CDRate-1);
+        else if (CDRate <=0)
+            m_CD->SetCurrentFrame(0);
+        else
+            m_CD->SetCurrentFrame(CDRate);
+    }
+    else {
+        m_CD->SetVisible(false);
+    }
 
     int HPRate=float(player->GetHP())/float(player->GetMaxHP())*100;
     if (HPRate >= 1)

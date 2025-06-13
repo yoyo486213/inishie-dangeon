@@ -113,7 +113,6 @@ void NameKeyBoard::Open(){
     }
     Back->SetVisible(true);
     Cancel->SetVisible(true);
-    Enter->SetVisible(true);
     m_Name->SetVisible(true);
 }
 void NameKeyBoard::Closing() {
@@ -276,7 +275,7 @@ void NameKeyBoard::Update() {
     {
         if (m_ControlBtn[i]->IfFocus()) {
             m_ControlBtn[i]->ChangeImage(2);
-            m_ControlBtn[i]->SetVisible(true);
+            // m_ControlBtn[i]->SetVisible(true);
         }
         else {
             m_ControlBtn[i]->ChangeImage(1);
@@ -309,6 +308,13 @@ void NameKeyBoard::Update() {
         
     }
 
+    if (output.size() > 0 && state == State::Open && EnterEnable) {
+        Enter->SetVisible(true);
+    }
+    else if (output.size() <= 0 || !EnterEnable) {
+        Enter->SetVisible(false);
+    }
+    
     if (Type == KeyBoardType::Eng) {
         if (ToNum->IfFocus()) {
             ToNum->ChangeImage(2);

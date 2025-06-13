@@ -52,6 +52,7 @@ private:
     std::shared_ptr<Map> map;
     std::shared_ptr<Player> player;
     std::chrono::time_point<std::chrono::high_resolution_clock> Click_time;
+    float deltaTime_Sum = 0;
     bool Click_Btn = 0;
 
     MouseActionState m_MouseState = MouseActionState::Idle;
@@ -76,6 +77,7 @@ private:
     std::shared_ptr<AnimatedCharacter> m_HP;
     std::shared_ptr<AnimatedCharacter> m_MP;
     std::shared_ptr<AnimatedCharacter> m_EXP;
+    std::shared_ptr<AnimatedCharacter> m_CD;
 
     std::shared_ptr<Button> m_Backpack;
     std::shared_ptr<Character> m_BackpackBackGround;
