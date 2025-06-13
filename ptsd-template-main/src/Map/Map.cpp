@@ -175,19 +175,21 @@ void Map::CreateMap(Util::Renderer *m_Root) {
     m_Root->AddChild(m_map);
 
     for (const auto& object : mapData["layers"][2]["objects"]) {
-        float newX = object["x"].get<float>() - centerX;
-        float newY = -(object["y"].get<float>() - centerY);
+        if(object != "") {
+            float newX = object["x"].get<float>() - centerX;
+            float newY = -(object["y"].get<float>() - centerY);
 
-        // 創建物件並設置屬性
-        auto unexplored = std::make_shared<Unexplored>(RESOURCE_DIR"/Map/TiledProject/Area1_Resources/" + object["name"].get<std::string>() + ".png");
-        AllObjects.push_back(unexplored);
+            // 創建物件並設置屬性
+            auto unexplored = std::make_shared<Unexplored>(RESOURCE_DIR"/Map/TiledProject/Area1_Resources/" + object["name"].get<std::string>() + ".png");
+            AllObjects.push_back(unexplored);
 
-        unexplored->SetPosition({newX - respawnpointX, newY - respawnpointY + 28});
-        unexplored->SetVisible(true);
-        unexplored->SetZIndex(16);
+            unexplored->SetPosition({newX - respawnpointX, newY - respawnpointY + 28});
+            unexplored->SetVisible(true);
+            unexplored->SetZIndex(16);
 
-        m_Root->AddChild(unexplored);
-        m_Unexploreds.push_back(unexplored);
+            m_Root->AddChild(unexplored);
+            m_Unexploreds.push_back(unexplored);
+        }
     }
 
     for (const auto& object : mapData["layers"][3]["objects"]) {
@@ -205,51 +207,53 @@ void Map::CreateMap(Util::Renderer *m_Root) {
 
     // 遍歷所有物件並調整位置
     for (const auto& object : mapData["layers"][1]["objects"]) {
-        float newX = object["x"].get<float>() - centerX;
-        float newY = -(object["y"].get<float>() - centerY);
+        if (object["name"].get<std::string>().size() > 0) {
+            float newX = object["x"].get<float>() - centerX;
+            float newY = -(object["y"].get<float>() - centerY);
 
-        // 創建物件並設置屬性
-        std::shared_ptr<Character> obj;
-        if (object["name"].get<std::string>() == "Door" || object["name"].get<std::string>() == "IronDoor" || object["name"].get<std::string>() == "IronDoor2" ||
-            object["name"].get<std::string>() == "BossDoor-L" || object["name"].get<std::string>() == "BossDoor-M" || object["name"].get<std::string>() == "BossDoor-R") {
-            obj = std::make_shared<Door>(RESOURCE_DIR"/Map/TiledProject/Area1_Resources/" + object["name"].get<std::string>() + ".png", m_Unexploreds);
-            m_Doors.push_back(std::dynamic_pointer_cast<Door>(obj));
-            AllObjects.push_back(std::dynamic_pointer_cast<Door>(obj));
-            AllCollidableObjects.push_back(std::dynamic_pointer_cast<Door>(obj));
-        }
-        else if (object["name"].get<std::string>() == "CloseChest") {
-            obj = std::make_shared<Chest>(RESOURCE_DIR"/Map/TiledProject/Area1_Resources/" + object["name"].get<std::string>() + ".png", m_Root);
-            m_Chests.push_back(std::dynamic_pointer_cast<Chest>(obj));
-            AllObjects.push_back(std::dynamic_pointer_cast<Chest>(obj));
-            AllCollidableObjects.push_back(std::dynamic_pointer_cast<Chest>(obj));
-        }
-        else if (object["name"].get<std::string>() == "UpStairs") {
-            obj = std::make_shared<UpStairs>(RESOURCE_DIR"/Map/TiledProject/Area1_Resources/" + object["name"].get<std::string>() + ".png", m_Root);
-            m_UpStairs = std::dynamic_pointer_cast<UpStairs>(obj);
-            AllObjects.push_back(std::dynamic_pointer_cast<UpStairs>(obj));
-        }
-        else if (object["name"].get<std::string>() == "DownStairs") {
-            obj = std::make_shared<DownStairs>(RESOURCE_DIR"/Map/TiledProject/Area1_Resources/" + object["name"].get<std::string>() + ".png", m_Root);
-            m_DownStairs = std::dynamic_pointer_cast<DownStairs>(obj);
-            AllObjects.push_back(std::dynamic_pointer_cast<DownStairs>(obj));
-        }
-        else if (object["name"].get<std::string>() == "Railing") {
-            obj = std::make_shared<Character>(RESOURCE_DIR"/Map/TiledProject/Area1_Resources/" + object["name"].get<std::string>() + ".png");
-            AllObjects.push_back(obj);
-        }
-        else {
-            obj = std::make_shared<DestructibleObject>(RESOURCE_DIR"/Map/TiledProject/Area1_Resources/" + object["name"].get<std::string>() + ".png");
-            m_DestructibleObjects.push_back(std::dynamic_pointer_cast<DestructibleObject>(obj));
-            AllObjects.push_back(std::dynamic_pointer_cast<DestructibleObject>(obj));
-            AllCollidableObjects.push_back(std::dynamic_pointer_cast<DestructibleObject>(obj));
-        }
+            // 創建物件並設置屬性
+            std::shared_ptr<Character> obj;
+            if (object["name"].get<std::string>() == "Door" || object["name"].get<std::string>() == "IronDoor" || object["name"].get<std::string>() == "IronDoor2" ||
+                object["name"].get<std::string>() == "BossDoor-L" || object["name"].get<std::string>() == "BossDoor-M" || object["name"].get<std::string>() == "BossDoor-R") {
+                obj = std::make_shared<Door>(RESOURCE_DIR"/Map/TiledProject/Area1_Resources/" + object["name"].get<std::string>() + ".png", m_Unexploreds);
+                m_Doors.push_back(std::dynamic_pointer_cast<Door>(obj));
+                AllObjects.push_back(std::dynamic_pointer_cast<Door>(obj));
+                AllCollidableObjects.push_back(std::dynamic_pointer_cast<Door>(obj));
+            }
+            else if (object["name"].get<std::string>() == "CloseChest") {
+                obj = std::make_shared<Chest>(RESOURCE_DIR"/Map/TiledProject/Area1_Resources/" + object["name"].get<std::string>() + ".png", m_Root);
+                m_Chests.push_back(std::dynamic_pointer_cast<Chest>(obj));
+                AllObjects.push_back(std::dynamic_pointer_cast<Chest>(obj));
+                AllCollidableObjects.push_back(std::dynamic_pointer_cast<Chest>(obj));
+            }
+            else if (object["name"].get<std::string>() == "UpStairs") {
+                obj = std::make_shared<UpStairs>(RESOURCE_DIR"/Map/TiledProject/Area1_Resources/" + object["name"].get<std::string>() + ".png", m_Root);
+                m_UpStairs = std::dynamic_pointer_cast<UpStairs>(obj);
+                AllObjects.push_back(std::dynamic_pointer_cast<UpStairs>(obj));
+            }
+            else if (object["name"].get<std::string>() == "DownStairs") {
+                obj = std::make_shared<DownStairs>(RESOURCE_DIR"/Map/TiledProject/Area1_Resources/" + object["name"].get<std::string>() + ".png", m_Root);
+                m_DownStairs = std::dynamic_pointer_cast<DownStairs>(obj);
+                AllObjects.push_back(std::dynamic_pointer_cast<DownStairs>(obj));
+            }
+            else if (object["name"].get<std::string>() == "Railing") {
+                obj = std::make_shared<Character>(RESOURCE_DIR"/Map/TiledProject/Area1_Resources/" + object["name"].get<std::string>() + ".png");
+                AllObjects.push_back(obj);
+            }
+            else {
+                obj = std::make_shared<DestructibleObject>(RESOURCE_DIR"/Map/TiledProject/Area1_Resources/" + object["name"].get<std::string>() + ".png");
+                m_DestructibleObjects.push_back(std::dynamic_pointer_cast<DestructibleObject>(obj));
+                AllObjects.push_back(std::dynamic_pointer_cast<DestructibleObject>(obj));
+                AllCollidableObjects.push_back(std::dynamic_pointer_cast<DestructibleObject>(obj));
+            }
 
-        obj->SetPosition({newX - respawnpointX, newY - respawnpointY + 28});
-        obj->SetVisible(true);
-        obj->SetZIndex(11);
+            obj->SetPosition({newX - respawnpointX, newY - respawnpointY + 28});
+            obj->SetVisible(true);
+            obj->SetZIndex(11);
 
-        m_Root->AddChild(obj);
-        occupiedTiles.insert({static_cast<int>(newX - respawnpointX), static_cast<int>(newY - respawnpointY + 28)}); // 儲存 tile 座標
+            m_Root->AddChild(obj);
+            occupiedTiles.insert({static_cast<int>(newX - respawnpointX), static_cast<int>(newY - respawnpointY + 28)}); // 儲存 tile 座標
+        }
     }
 
     std::uniform_int_distribution<int> chanceDist(0, 99);
