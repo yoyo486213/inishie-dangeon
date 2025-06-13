@@ -20,7 +20,7 @@ set(FETCHCONTENT_QUIET FALSE)
 #     SOURCE_DIR  ${CMAKE_CURRENT_SOURCE_DIR}/PTSD
 # )
 
-FetchContent_MakeAvailable(ptsd)
+# FetchContent_MakeAvailable(ptsd)
 
 include(files.cmake)
 set(SRC_DIR ${CMAKE_SOURCE_DIR}/src)
