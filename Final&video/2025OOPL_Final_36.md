@@ -22,11 +22,11 @@
 ### 遊戲規則
 WASD可以讓角色進行移動，上方數字鍵1~4或用滑鼠點擊快捷欄裝備武器、喝藥水，撞擊怪物會對其發動普通攻擊，點擊左鍵會對鼠標位置發動武器技能，長按背包、快捷欄中的物品可以拖曳，拖曳至其他格可以交換，拖曳至地圖上可以丟棄物品(丟在地上)。到樓梯處點按鈕可以下樓。  
 ### 遊戲畫面
-![image](https://github.com/yoyo486213/2025-OOPL/blob/main/ptsd-template-main/Resources/PlayScreen/01.png)
-![image](https://github.com/yoyo486213/2025-OOPL/blob/main/ptsd-template-main/Resources/PlayScreen/02.png)
-![image](https://github.com/yoyo486213/2025-OOPL/blob/main/ptsd-template-main/Resources/PlayScreen/03.png)
-![image](https://github.com/yoyo486213/2025-OOPL/blob/main/ptsd-template-main/Resources/PlayScreen/04.png)
-![image](https://github.com/yoyo486213/2025-OOPL/blob/main/ptsd-template-main/Resources/PlayScreen/05.png)
+![image](https://github.com/yoyo486213/inishie-dangeon/blob/main/ptsd-template-main/Resources/PlayScreen/01.png)
+![image](https://github.com/yoyo486213/inishie-dangeon/blob/main/ptsd-template-main/Resources/PlayScreen/02.png)
+![image](https://github.com/yoyo486213/inishie-dangeon/blob/main/ptsd-template-main/Resources/PlayScreen/03.png)
+![image](https://github.com/yoyo486213/inishie-dangeon/blob/main/ptsd-template-main/Resources/PlayScreen/04.png)
+![image](https://github.com/yoyo486213/inishie-dangeon/blob/main/ptsd-template-main/Resources/PlayScreen/05.png)
 ## 程式設計
 
 ### 程式架構
